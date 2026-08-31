@@ -44,7 +44,7 @@ MedWay AI brings these experiences together in **one simple platform**.
 **[Open MedWay AI →](med-way-ai.vercel.app)**
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4550765b-5e77-4142-bb59-63734b6b0f8a" width="620" alt="MedWay AI Live Demo QR Code">
+  <img src="https://github.com/user-attachments/assets/f2ab2889-0dae-4ca6-9219-8330109cca82" width="620" alt="MedWay AI Live Demo QR Code">
 </p>
 
 <p align="center">
