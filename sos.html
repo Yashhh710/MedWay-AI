@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>(function(){try{var t=localStorage.getItem('medway-theme')||'light';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.backgroundColor=t==='light'?'#eef0f3':'#0a0b0e';}catch(e){}})();</script>
+    <meta charset="utf-8">
+    <title>MEDWAY AI - SOS Emergency Tracking</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=NLkRKDKbVo1v&format=png&color=000000">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <link href="css/page-transitions.css" rel="stylesheet">
+    <script src="js/page-transitions.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+
+    <style>
+        :root, [data-theme="dark"] {
+            --card-bg: #0b0b0bd0;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --panel-bg: rgba(11, 11, 11, 0.85);
+            --panel-bg-solid: #0b0b0b;
+            --panel-text: #ffffff;
+            --panel-muted: #9a9a9a;
+            --panel-border: rgba(255, 255, 255, 0.12);
+            --input-bg: rgba(255, 255, 255, 0.06);
+            --input-border: rgba(255, 255, 255, 0.12);
+            --panel-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --accent: #eb1616;
+            --accent2: #2563eb;
+            --success: #22c55e;
+            --warn: #f59e0b;
+        }
+
+        [data-theme="light"] {
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.08);
+            --panel-bg: rgba(255, 255, 255, 0.92);
+            --panel-bg-solid: #ffffff;
+            --panel-text: #101418;
+            --panel-muted: #5b6572;
+            --panel-border: rgba(0, 0, 0, 0.1);
+            --input-bg: rgba(0, 0, 0, 0.04);
+            --input-border: rgba(0, 0, 0, 0.12);
+            --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --accent: #eb1616;
+            --accent2: #2563eb;
+            --success: #16a34a;
+            --warn: #b45309;
+        }
+
+        body { background-color: #0d0f12 !important; }
+        .sidebar { background-color: #0b0b0bd0 !important; display: flex; flex-direction: column; height: 100vh; }
+        .sidebar .navbar { background-color: transparent !important; display: flex; flex-direction: column; height: 100%; justify-content: space-between; }
+        .content .navbar { background-color: #0b0b0bd0 !important; }
+        .dropdown-menu.bg-secondary { background: #0b0b0bd0 !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; }
+        .form-control.bg-dark { background: rgba(255, 255, 255, 0.07) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: #fff !important; }
+        .sidebar-brand-logo { width: 32px; height: 32px; margin-right: 8px; filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%); }
+        .sidebar .navbar-nav .nav-link { transition: all 0.3s ease-in-out; border-left: 3px solid transparent; padding-left: 24px; display: flex; align-items: center; color: #888888 !important; }
+        .nav-icon-img { width: 20px; height: 20px; margin-right: 10px; filter: invert(58%) sepia(0%) saturate(0%) hue-rotate(185deg) brightness(95%) contrast(87%); }
+        .sidebar-section-title { color: #666; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; padding: 12px 24px 4px 24px; }
+        .sidebar .navbar-nav .nav-link:hover, .sidebar .navbar-nav .nav-link.active { color: #eb1616 !important; background-color: rgba(235, 22, 22, 0.1) !important; border-left: 3px solid #eb1616; padding-left: 28px; }
+        .sidebar-divider { border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 15px 20px 10px 20px; }
+        .sidebar-bottom-section { margin-top: auto; width: 100%; padding: 14px 20px; }
+        .btn-back-emergency { display: inline-flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px; border-radius: 9px; font-size: 13px; font-weight: 700; background: var(--input-bg, rgba(255, 255, 255, 0.06)); border: 1px solid var(--panel-border, rgba(255, 255, 255, 0.12)); color: var(--panel-text, #ffffff); text-decoration: none; transition: all 0.2s; }
+        .btn-back-emergency:hover { background: #eb1616; color: #ffffff; border-color: #eb1616; text-decoration: none; }
+
+        .sos-demo-banner { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); color: var(--warn); font-size: 12.5px; font-weight: 600; padding: 10px 16px; border-radius: 10px; display: flex; align-items: center; gap: 8px; margin: 16px 16px 0 16px; }
+        .sos-header-row { margin: 14px 16px 0 16px; background-color: var(--card-bg) !important; border: 1px solid var(--card-border) !important; border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+        .sos-title { color: var(--accent); font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        .sos-sub { font-size: 11.5px; color: var(--panel-muted); margin-top: 2px; }
+
+        .badge-x { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 700; border: 1px solid transparent; white-space: nowrap; }
+        .badge-dot-x { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+        .badge-success-x { background: rgba(34,197,94,.12); color: var(--success); border-color: rgba(34,197,94,.3); }
+        .badge-success-x .badge-dot-x { background: var(--success); animation: pulse-dot 1.5s infinite; }
+        .badge-warn-x { background: rgba(245,158,11,.12); color: var(--warn); border-color: rgba(245,158,11,.3); }
+
+        .map-section-card { background-color: transparent !important; border: none !important; border-radius: 12px; position: relative; overflow: hidden; padding: 0 !important; }
+        #map { width: 100%; height: 52vh; min-height: 260px; border-radius: 10px; border: 1px solid var(--card-border); z-index: 1; }
+
+        .nav-panel { position: absolute; top: 20px; left: 20px; z-index: 1000; width: 320px; max-width: calc(100vw - 40px); background: var(--panel-bg); backdrop-filter: blur(12px); padding: 20px; border-radius: 14px; border: 1px solid var(--panel-border); box-shadow: var(--panel-shadow); color: var(--panel-text); transition: transform 0.3s ease, opacity 0.3s ease; }
+        .nav-panel.collapsed { transform: translateX(-360px); opacity: 0; pointer-events: none; }
+        .nav-panel-toggle { position: absolute; top: 20px; left: 20px; z-index: 1001; background: var(--panel-bg); backdrop-filter: blur(12px); color: var(--panel-text); border: 1px solid var(--panel-border); padding: 10px 14px; border-radius: 10px; cursor: pointer; font-size: 14px; box-shadow: var(--panel-shadow); display: flex; align-items: center; gap: 8px; }
+        .nav-panel-toggle:hover { background: #eb1616; color: #ffffff; border-color: #eb1616; }
+        .nav-panel h3 { font-size: 16px; margin-bottom: 14px; color: #eb1616; font-weight: 700; display: flex; align-items: center; justify-content: space-between; }
+        .btn-close-panel { background: transparent; border: none; color: var(--panel-muted); cursor: pointer; font-size: 16px; }
+        .input-group-custom { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+        .input-group-custom input { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 8px; padding: 9px 12px; color: var(--panel-text); font-size: 13px; outline: none; width: 100%; }
+        .btn-group-custom { display: flex; gap: 8px; }
+        .btn-map { flex: 1; background: #eb1616; color: #ffffff; border: none; padding: 9px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
+        .btn-map-secondary { background: var(--input-bg); color: var(--panel-text); border: 1px solid var(--input-border); }
+
+        .sos-map-toolbar { position: absolute; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+        .sos-map-panel { pointer-events: auto; background: var(--panel-bg); backdrop-filter: blur(12px); border: 1px solid var(--panel-border); border-radius: 10px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--panel-text); box-shadow: var(--panel-shadow); }
+        .sos-map-panel select { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 7px; padding: 5px 8px; font-size: 12px; color: var(--panel-text); }
+        .map-btn-x { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 7px; padding: 5px 10px; font-size: 12px; font-weight: 600; color: var(--panel-text); display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+        .map-btn-x:hover { background: var(--panel-border); }
+        .map-btn-x.danger { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .map-btn-x.info { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+
+        .leaflet-control-layers, .leaflet-bar { background: var(--panel-bg) !important; border: 1px solid var(--panel-border) !important; border-radius: 12px !important; color: var(--panel-text) !important; box-shadow: var(--panel-shadow) !important; }
+        .leaflet-bar a { background-color: transparent !important; color: var(--panel-text) !important; border-bottom: 1px solid var(--panel-border) !important; }
+
+        .ml-vehicle { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 19px; border: 3px solid #fff; box-shadow: 0 3px 12px rgba(0,0,0,.5); cursor: pointer; }
+        .veh-amb { background: var(--accent); color: #fff; }
+        .veh-pol { background: var(--accent2); color: #fff; }
+        .ml-user { width: 16px; height: 16px; border-radius: 50%; background: #60a5fa; border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(96,165,250,.25); }
+
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--panel-bg-solid) !important; color: var(--panel-text) !important; border: 1px solid var(--panel-border); border-radius: 10px; box-shadow: var(--panel-shadow); }
+
+        .sos-response-row { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin: 14px 16px 0 16px; }
+        .sos-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+        .sos-card { background-color: var(--card-bg) !important; border: 1px solid var(--card-border) !important; border-radius: 12px; padding: 14px; }
+
+        .sim-banner-x { background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.25); border-radius: 12px; padding: 11px 14px; }
+        .sim-row1-x { display: flex; align-items: center; gap: 8px; font-weight: 800; color: var(--success); font-size: 13px; }
+        .live-dot-x { width: 9px; height: 9px; border-radius: 50%; background: var(--success); animation: pulse-green 1.6s infinite; }
+        @keyframes pulse-green { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5)} 60%{box-shadow:0 0 0 7px transparent} }
+
+        .fac-grid-x { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .fac-h3-x { font-size: 12.5px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .fac-h3-x.hosp { color: var(--accent); }
+        .fac-h3-x.pol { color: #60a5fa; }
+        .fac-name-x { font-weight: 800; font-size: 14px; margin-bottom: 4px; color: var(--panel-text); }
+        .fac-meta-x { font-size: 11.5px; color: var(--panel-muted); margin-bottom: 8px; }
+        .btn-row-x { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-sm-x { flex: 1; min-width: 80px; text-align: center; font-size: 11.5px; font-weight: 700; padding: 7px 6px; border-radius: 8px; border: 1px solid var(--panel-border); background: var(--input-bg); color: var(--panel-text); cursor: pointer; }
+        .btn-sm-x.red { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .btn-sm-x.blue { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+
+        .veh-head-x { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .veh-name-x { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 5px; color: var(--panel-text); }
+        .sim-tag-x { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px; background: rgba(245,158,11,.15); color: var(--warn); }
+        .veh-status-x { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; color: var(--success); }
+        .veh-status-x .dot-x { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+        .veh-meta-x { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--panel-muted); margin-bottom: 6px; }
+        .progress-track-x { height: 7px; border-radius: 6px; background: var(--input-bg); overflow: hidden; margin-bottom: 10px; }
+        .progress-fill-x { height: 100%; border-radius: 6px; transition: width .4s linear; }
+        .pf-amb-x { background: linear-gradient(90deg, var(--accent), #f87171); }
+        .pf-pol-x { background: linear-gradient(90deg, var(--accent2), #60a5fa); }
+        .track-btn-x { width: 100%; padding: 8px; border-radius: 8px; font-weight: 700; font-size: 12px; border: 1px solid var(--panel-border); background: var(--input-bg); color: var(--panel-text); cursor: pointer; }
+
+        .action-grid-x { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+        .action-btn-x { border-radius: 12px; border: 1px solid var(--panel-border); background: var(--input-bg); padding: 11px 9px; text-align: left; display: flex; flex-direction: column; gap: 3px; width: 100%; cursor: pointer; }
+        .action-btn-x .a-title-x { font-weight: 800; font-size: 12px; display: flex; align-items: center; gap: 5px; }
+        .action-btn-x .a-sub-x { font-size: 10.5px; color: var(--panel-muted); }
+        .action-btn-x.call .a-title-x { color: var(--accent); }
+        .action-btn-x.share .a-title-x { color: #60a5fa; }
+        .action-btn-x.nav .a-title-x { color: var(--success); }
+
+        .tl-title-x { font-size: 13.5px; font-weight: 800; margin-bottom: 14px; color: var(--panel-text); }
+        .tl-item-x { display: flex; gap: 10px; position: relative; padding-bottom: 18px; }
+        .tl-item-x:last-child { padding-bottom: 0; }
+        .tl-item-x::before { content:""; position:absolute; left:9px; top:22px; bottom:0; width:2px; background:var(--panel-border); }
+        .tl-item-x:last-child::before { display:none; }
+        .tl-dot-x { width:20px; height:20px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#fff; background:var(--panel-border); z-index:1; }
+        .tl-item-x.done .tl-dot-x { background: var(--success); }
+        .tl-item-x.active .tl-dot-x { background: var(--accent2); animation: pulse-blue 1.4s infinite; }
+        @keyframes pulse-blue { 0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.5)} 60%{box-shadow:0 0 0 6px transparent} }
+        .tl-label-x { font-size: 12px; font-weight: 700; color: var(--panel-text); }
+        .tl-time-x { font-size: 10.5px; color: var(--panel-muted); margin-top: 1px; }
+
+        .sos-bottom-banner { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--warn); font-size: 11.5px; text-align: center; padding: 10px 16px; margin: 14px 16px 24px 16px; border-radius: 10px; }
+        .sos-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(16px); background: var(--panel-bg-solid); color: var(--panel-text); padding: 9px 16px; border-radius: 9px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--panel-border); box-shadow: var(--panel-shadow); z-index: 9999; opacity: 0; transition: opacity .22s ease, transform .22s ease; pointer-events: none; }
+        .sos-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+    <link href="css/theme.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <div id="spinner" class="show bg-page-spinner position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="sidebar pe-3 pb-3">
+            <nav class="navbar navbar-dark">
+                <div class="w-100">
+                    <a href="index.html" class="navbar-brand mx-4 mb-1 d-flex align-items-center">
+                        <img src="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=000000" alt="Logo" class="sidebar-brand-logo">
+                        <h3 class="text-primary mb-0">MEDWAY AI</h3>
+                    </a>
+                    <p class="text-muted small mx-4 mb-3" style="font-size: 0.75rem;">Healthcare, wherever you travel.</p>
+                    <div class="navbar-nav w-100">
+                        <div class="sidebar-section-title">MAIN</div>
+                        <a href="index.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=1iF9PyJ2Thzo&format=png&color=000000" alt="Home Icon" class="nav-icon-img"><span class="nav-label">Home</span>
+                        </a>
+                        <a href="explore.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=85961&format=png&color=000000" alt="Explore Icon" class="nav-icon-img"><span class="nav-label">Explore Healthcare</span>
+                        </a>
+                        <a href="assistant.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=FSHNDH2JxIqv&format=png&color=000000" alt="AI Icon" class="nav-icon-img"><span class="nav-label">AI Assistant</span>
+                        </a>
+
+                        <div class="sidebar-section-title">TOOLS</div>
+                        <a href="prescription.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=112400&format=png&color=000000" alt="Prescription Icon" class="nav-icon-img"><span class="nav-label">Prescription Reader</span>
+                        </a>
+                        <a href="translator.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=OsD06LrQr6NQ&format=png&color=000000" alt="Translator Icon" class="nav-icon-img"><span class="nav-label">Live Translator</span>
+                        </a>
+                        <a href="pharmacy.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=M7wxHhzIYL1S&format=png&color=000000" alt="Pharmacy Icon" class="nav-icon-img"><span class="nav-label">Pharmacy Finder</span>
+                        </a>
+
+                        <div class="sidebar-section-title">EMERGENCY</div>
+                        <a href="emergency.html" class="nav-item nav-link active fw-bold">
+                            <img src="https://img.icons8.com/?size=100&id=kRmlY0QWDXDB&format=png&color=000000" alt="Emergency Icon" class="nav-icon-img"><span class="nav-label">Emergency Help</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="sidebar-bottom-section">
+                    <a href="emergency.html" class="btn-back-emergency">
+                        <i class="fa fa-arrow-left"></i> Back to Emergency
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <div class="location-info-box">
+                        <span class="pulse-dot" id="location-dot"></span>
+                        <span id="current-location" class="location-text">Detecting Location...</span>
+                    </div>
+
+                    <a href="settings.html" class="nav-item nav-link">
+                        <img src="https://img.icons8.com/?size=100&id=2969&format=png&color=000000" alt="Settings Icon" class="nav-icon-img"><span class="nav-label">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <div class="content">
+            <div class="sos-demo-banner">
+                <i class="fa fa-exclamation-triangle"></i> SIMULATION NOTICE: This is a standalone interactive prototype simulation. No real dispatch occurs.
+            </div>
+
+            <div class="sos-header-row">
+                <div>
+                    <div class="sos-title"><i class="fa fa-broadcast-tower"></i> SOS ACTIVE</div>
+                    <div class="sos-sub">Emergency tracking simulation is running.</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="badge-x badge-success-x" id="locationBadge"><span class="badge-dot-x"></span>LOCATING…</span>
+                    <span class="badge-x badge-warn-x">DEMO MODE</span>
+                </div>
+            </div>
+
+            <div class="container-fluid p-0">
+                <div class="map-section-card" style="margin: 14px 16px 0 16px;">
+                    <button class="nav-panel-toggle" id="navPanelToggle" onclick="toggleNavPanel()">
+                        <i class="fa fa-route"></i> <span id="toggleBtnText">Show Planner</span>
+                    </button>
+                    <div class="nav-panel collapsed" id="navPanel">
+                        <h3><span><i class="fa fa-route"></i> Route Planner</span> <button class="btn-close-panel" onclick="toggleNavPanel()"><i class="fa fa-times"></i></button></h3>
+                        <div class="input-group-custom">
+                            <input type="text" id="startInput" value="Current Location">
+                            <input type="text" id="viaInput" placeholder="Via / Stopover (Optional)">
+                            <input type="text" id="endInput" placeholder="Destination Hospital...">
+                        </div>
+                        <div class="btn-group-custom">
+                            <button class="btn-map" onclick="calculateRoute()">Find Route</button>
+                            <button class="btn-map btn-map-secondary" onclick="clearRoute()">Clear</button>
+                        </div>
+                    </div>
+                    <div class="sos-map-toolbar">
+                        <div class="sos-map-panel">
+                            <span style="font-weight:700;">Show</span>
+                            <select id="filterSelect">
+                                <option value="all">All</option>
+                                <option value="hospital">Hospitals</option>
+                                <option value="police">Police</option>
+                                <option value="vehicles">Vehicles</option>
+                            </select>
+                            <button class="map-btn-x" id="fitAllBtn"><i class="fa fa-expand"></i> Fit All</button>
+                            <button class="map-btn-x" id="locateBtn"><i class="fa fa-crosshairs"></i> My Location</button>
+                        </div>
+                        <div class="sos-map-panel">
+                            <button class="map-btn-x info" id="trackAmbBtn"><i class="fa fa-ambulance"></i> Track Ambulance</button>
+                            <button class="map-btn-x danger" id="trackPolBtn"><i class="fa fa-shield-alt"></i> Track Police</button>
+                        </div>
+                    </div>
+                    <div id="map"></div>
+                </div>
+            </div>
+
+            <div class="sos-response-row">
+                <div class="sos-col">
+                    <div class="sim-banner-x">
+                        <div class="sim-row1-x"><span class="live-dot-x"></span> SOS SIMULATION ACTIVE</div>
+                        <div class="sim-row2-x" id="locStatusLine">Detecting your location…</div>
+                    </div>
+                    <div class="sos-card">
+                        <div class="fac-grid-x">
+                            <div>
+                                <div class="fac-h3-x hosp"><i class="fa fa-hospital"></i> Nearest Hospital</div>
+                                <div class="fac-name-x" id="hospName">Loading…</div>
+                                <div class="fac-meta-x" id="hospDist">-- away</div>
+                                <div class="btn-row-x">
+                                    <button class="btn-sm-x red" id="hospRouteBtn">Directions</button>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="fac-h3-x pol"><span class="fa fa-shield-alt"></span> Nearest Police</div>
+                                <div class="fac-name-x" id="polName">Loading…</div>
+                                <div class="fac-meta-x" id="polDistFac">-- away</div>
+                                <div class="btn-row-x">
+                                    <button class="btn-sm-x blue" id="polRouteBtn">Directions</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sos-card">
+                        <div class="veh-head-x">
+                            <div class="veh-name-x"><i class="fa fa-ambulance" style="color:var(--accent);"></i> Ambulance A102</div>
+                            <span class="sim-tag-x">SIMULATED</span>
+                        </div>
+                        <div class="veh-status-x" id="ambStatus"><span class="dot-x"></span> Dispatched & routing on road</div>
+                        <div class="veh-meta-x"><span>ETA: <b id="ambEta">--</b></span><span id="ambDist">--</span></div>
+                        <div class="progress-track-x"><div class="progress-fill-x pf-amb-x" id="ambProgress" style="width:0%"></div></div>
+                        <button class="track-btn-x" id="trackAmbBtn2">Track Ambulance</button>
+                    </div>
+
+                    <div class="sos-card">
+                        <div class="veh-head-x">
+                            <div class="veh-name-x"><i class="fa fa-shield-alt" style="color:var(--accent2);"></i> Police P204</div>
+                            <span class="sim-tag-x">SIMULATED</span>
+                        </div>
+                        <div class="veh-status-x" id="polStatus"><span class="dot-x"></span> Dispatched & routing on road</div>
+                        <div class="veh-meta-x"><span>ETA: <b id="polEta">--</b></span><span id="polDist">--</span></div>
+                        <div class="progress-track-x"><div class="progress-fill-x pf-pol-x" id="polProgress" style="width:0%"></div></div>
+                        <button class="track-btn-x" id="trackPolBtn2">Track Police</button>
+                    </div>
+
+                    <div class="action-grid-x">
+                        <button class="action-btn-x call" id="callBtn"><span class="a-title-x"><i class="fa fa-phone"></i> Emergency Call</span><span class="a-sub-x">Demo only</span></button>
+                        <button class="action-btn-x share" id="shareBtn"><span class="a-title-x"><i class="fa fa-map-marker-alt"></i> Share Location</span><span class="a-sub-x">Not transmitted</span></button>
+                        <button class="action-btn-x nav" id="navBtn"><span class="a-title-x"><i class="fa fa-route"></i> Navigate</span><span class="a-sub-x">To nearest hospital</span></button>
+                    </div>
+                </div>
+
+                <div class="sos-col">
+                    <div class="sos-card">
+                        <div class="tl-title-x">Response Timeline</div>
+                        <div id="timelineList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sos-bottom-banner">
+                MedWay AI SOS is a prototype. Map tiles &copy; OpenStreetMap contributors. All emergency vehicles and responses shown are simulated route data.
+            </div>
+        </div>
+    </div>
+
+    <div class="sos-toast" id="toast"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+    <script>
+        const DUMMY = {
+            userLocation: { lat: 19.0760, lng: 72.8777, address: "Bandra Kurla Complex, Mumbai" },
+            hospitals: [
+                { id: "h1", name: "Lilavati Hospital & Research Centre", lat: 19.0519, lng: 72.8318, address: "Bandra West, Mumbai", phone: "+91 22 2675 1000", dist: 4.2 },
+                { id: "h2", name: "Asian Heart Institute", lat: 19.0650, lng: 72.8680, address: "BKC, Mumbai", phone: "+91 22 6698 6666", dist: 1.8 }
+            ],
+            police: [
+                { id: "p1", name: "Bandra Police Station", lat: 19.0544, lng: 72.8351, address: "Bandra West, Mumbai", phone: "+91 22 2642 1550", dist: 3.9 },
+                { id: "p2", name: "BKC Police Station", lat: 19.0680, lng: 72.8640, address: "BKC, Mumbai", phone: "+91 22 2650 0111", dist: 1.2 }
+            ],
+            ambulance: { id: "A102", startLat: 19.0910, startLng: 72.8650, durationMs: 25000 },
+            police_vehicle: { id: "P204", startLat: 19.0480, startLng: 72.8970, durationMs: 22000 }
+        };
+
+        const S = {
+            map: null,
+            userLatLng: [DUMMY.userLocation.lat, DUMMY.userLocation.lng],
+            userMarker: null,
+            hospitalLayer: null,
+            policeLayer: null,
+            vehicleLayer: null,
+            ambMarker: null,
+            polMarker: null,
+            timeline: { sosActivated: 'done', locationDetected: 'pending', facilitiesLoaded: 'pending', ambulanceStarted: 'pending', policeStarted: 'pending', vehiclesApproaching: 'pending', simulationComplete: 'pending' }
+        };
+
+        const TL_LABELS = [
+            ['sosActivated', 'SOS activated'],
+            ['locationDetected', 'Location detected'],
+            ['facilitiesLoaded', 'Nearby facilities identified'],
+            ['ambulanceStarted', 'Ambulance A102 dispatched'],
+            ['policeStarted', 'Police P204 dispatched'],
+            ['vehiclesApproaching', 'Vehicles approaching on road'],
+            ['simulationComplete', 'Simulation complete']
+        ];
+
+        function haversineKm(lat1, lon1, lat2, lon2) {
+            const R = 6371, r = Math.PI/180;
+            const dL = (lat2-lat1)*r, dN = (lon2-lon1)*r;
+            const a = Math.sin(dL/2)**2 + Math.cos(lat1*r)*Math.cos(lat2*r)*Math.sin(dN/2)**2;
+            return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+
+        function fmtDist(km) { return km < 1 ? Math.round(km*1000)+'m' : km.toFixed(1)+' km'; }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function setTL(key, state) {
+            S.timeline[key] = state;
+            renderTimeline();
+        }
+
+        function renderTimeline() {
+            const container = document.getElementById('timelineList');
+            if (!container) return;
+            container.innerHTML = TL_LABELS.map(([key, label]) => {
+                const st = S.timeline[key];
+                const dotClass = st === 'done' ? 'done' : (st === 'active' ? 'active' : 'pending');
+                const iconSymbol = st === 'done' ? '✓' : (st === 'active' ? '•' : '');
+                return `
+                    <div class="tl-item-x ${st}">
+                        <div class="tl-dot-x">${iconSymbol}</div>
+                        <div>
+                            <div class="tl-label-x">${label}</div>
+                            <div class="tl-time-x">${st === 'done' ? 'Completed' : (st === 'active' ? 'In progress...' : 'Pending')}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function createFacilityIcon(faClass, bg) {
+            return L.divIcon({ className: '', html: `<div class="map-pin-icon" style="background:${bg};"><i class="${faClass}"></i></div>`, iconSize: [32, 32], iconAnchor: [16, 16] });
+        }
+        function createVehicleIcon(faClass, cls) {
+            return L.divIcon({ className: '', html: `<div class="ml-vehicle ${cls}"><i class="${faClass}"></i></div>`, iconSize: [38, 38], iconAnchor: [19, 19] });
+        }
+        const userIcon = L.divIcon({ className: '', html: '<div class="ml-user"></div>', iconSize: [16,16], iconAnchor: [8,8] });
+        const hospitalIcon = createFacilityIcon('fa fa-hospital', '#eb1616');
+        const policeIcon = createFacilityIcon('fa fa-shield-alt', '#2563eb');
+        const ambVehIcon = createVehicleIcon('fa fa-ambulance', 'veh-amb');
+        const polVehIcon = createVehicleIcon('fa fa-shield-alt', 'veh-pol');
+
+        async function getRoadWaypoints(startLat, startLng, endLat, endLng) {
+            try {
+                const url = `https://router.project-osrm.org/route/v1/driving/${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson`;
+                const res = await fetch(url);
+                const data = await res.json();
+                if (data.routes && data.routes.length > 0) {
+                    return data.routes[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
+                }
+            } catch (e) {
+                console.error("OSRM router error, fallback to straight line", e);
+            }
+            return [[startLat, startLng], [endLat, endLng]];
+        }
+
+        function initMap() {
+            S.map = L.map('map', { center: S.userLatLng, zoom: 13, zoomControl: false });
+            L.control.zoom({ position: 'bottomright' }).addTo(S.map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(S.map);
+
+            S.hospitalLayer = L.layerGroup().addTo(S.map);
+            S.policeLayer = L.layerGroup().addTo(S.map);
+            S.vehicleLayer = L.layerGroup().addTo(S.map);
+
+            S.userMarker = L.marker(S.userLatLng, { icon: userIcon }).addTo(S.map).bindPopup('<b>📍 Your Location</b>');
+            
+            DUMMY.hospitals.forEach(h => S.hospitalLayer.addLayer(L.marker([h.lat, h.lng], { icon: hospitalIcon }).bindPopup(`<b>🏥 ${h.name}</b><br>${h.address}`)));
+            DUMMY.police.forEach(p => S.policeLayer.addLayer(L.marker([p.lat, p.lng], { icon: policeIcon }).bindPopup(`<b>👮 ${p.name}</b><br>${p.address}`)));
+
+            document.getElementById('hospName').textContent = DUMMY.hospitals[0].name;
+            document.getElementById('hospDist').textContent = fmtDist(DUMMY.hospitals[0].dist) + ' away';
+            document.getElementById('polName').textContent = DUMMY.police[0].name;
+            document.getElementById('polDistFac').textContent = fmtDist(DUMMY.police[0].dist) + ' away';
+
+            setTL('facilitiesLoaded', 'done');
+            setupVehicles();
+        }
+
+        async function setupVehicles() {
+            const d = DUMMY;
+            const userLL = S.userLatLng;
+
+            S.ambMarker = L.marker([d.ambulance.startLat, d.ambulance.startLng], { icon: ambVehIcon }).bindPopup('<b>🚑 Ambulance A102</b>');
+            S.vehicleLayer.addLayer(S.ambMarker);
+            S.polMarker = L.marker([d.police_vehicle.startLat, d.police_vehicle.startLng], { icon: polVehIcon }).bindPopup('<b>🚓 Police P204</b>');
+            S.vehicleLayer.addLayer(S.polMarker);
+
+            const ambRoadCoords = await getRoadWaypoints(d.ambulance.startLat, d.ambulance.startLng, userLL[0], userLL[1]);
+            const ambLine = L.polyline(ambRoadCoords, { color: '#eb1616', weight: 3, opacity: 0.8 });
+            S.vehicleLayer.addLayer(ambLine);
+
+            const polRoadCoords = await getRoadWaypoints(d.police_vehicle.startLat, d.police_vehicle.startLng, userLL[0], userLL[1]);
+            const polLine = L.polyline(polRoadCoords, { color: '#2563eb', weight: 3, opacity: 0.8 });
+            S.vehicleLayer.addLayer(polLine);
+
+            document.getElementById('ambDist').textContent = fmtDist(haversineKm(d.ambulance.startLat, d.ambulance.startLng, userLL[0], userLL[1]));
+            document.getElementById('polDist').textContent = fmtDist(haversineKm(d.police_vehicle.startLat, d.police_vehicle.startLng, userLL[0], userLL[1]));
+
+            setTL('ambulanceStarted', 'done');
+            setTL('policeStarted', 'done');
+            setTL('vehiclesApproaching', 'active');
+
+            animateVehicleAlongPath({
+                marker: S.ambMarker,
+                path: ambRoadCoords,
+                durationMs: d.ambulance.durationMs,
+                etaEl: document.getElementById('ambEta'),
+                statusEl: document.getElementById('ambStatus'),
+                progressEl: document.getElementById('ambProgress'),
+                onDone: () => checkAllDone('amb')
+            });
+
+            animateVehicleAlongPath({
+                marker: S.polMarker,
+                path: polRoadCoords,
+                durationMs: d.police_vehicle.durationMs,
+                etaEl: document.getElementById('polEta'),
+                statusEl: document.getElementById('polStatus'),
+                progressEl: document.getElementById('polProgress'),
+                onDone: () => checkAllDone('pol')
+            });
+        }
+
+        let vehiclesFinished = 0;
+        function checkAllDone(type) {
+            vehiclesFinished++;
+            if (vehiclesFinished >= 2) {
+                setTL('vehiclesApproaching', 'done');
+                setTL('simulationComplete', 'done');
+            }
+        }
+
+        function animateVehicleAlongPath({ marker, path, durationMs, etaEl, statusEl, progressEl, onDone }) {
+            if (!path || path.length === 0) return;
+            const startTime = performance.now();
+
+            function frame(now) {
+                const elapsed = now - startTime;
+                let progress = Math.min(elapsed / durationMs, 1);
+                
+                if (progressEl) progressEl.style.width = (progress * 100) + '%';
+                
+                const totalSegments = path.length - 1;
+                const exactIndex = progress * totalSegments;
+                const segIndex = Math.floor(exactIndex);
+                const segPercent = exactIndex - segIndex;
+
+                if (segIndex < totalSegments) {
+                    const p1 = path[segIndex];
+                    const p2 = path[segIndex + 1];
+                    const currLat = p1[0] + (p2[0] - p1[0]) * segPercent;
+                    const currLng = p1[1] + (p2[1] - p1[1]) * segPercent;
+                    marker.setLatLng([currLat, currLng]);
+                    
+                    const remainingSec = Math.max(0, Math.round((durationMs - elapsed) / 1000));
+                    if (etaEl) etaEl.textContent = remainingSec > 0 ? remainingSec + 's' : 'Arrived';
+                } else {
+                    marker.setLatLng(path[path.length - 1]);
+                    if (etaEl) etaEl.textContent = 'Arrived';
+                    if (statusEl) statusEl.innerHTML = '<span class="dot-x" style="background:var(--success)"></span> Arrived at scene';
+                    if (onDone) onDone();
+                    return;
+                }
+
+                requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
+        }
+
+        function toggleNavPanel() {
+            const panel = document.getElementById('navPanel');
+            const btnText = document.getElementById('toggleBtnText');
+            panel.classList.toggle('collapsed');
+            btnText.innerText = panel.classList.contains('collapsed') ? "Show Planner" : "Hide Planner";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('spinner').classList.remove('show');
+                document.getElementById('locationBadge').className = 'badge-x badge-success-x';
+                document.getElementById('locationBadge').innerHTML = '<span class="badge-dot-x"></span>LOCATION ACTIVE';
+                document.getElementById('locStatusLine').textContent = 'Location locked: Bandra Kurla Complex, Mumbai';
+                setTL('locationDetected', 'done');
+                initMap();
+                renderTimeline();
+            }, 600);
+
+            document.getElementById('callBtn').addEventListener('click', () => showToast('Demo only — no call placed.'));
+            document.getElementById('shareBtn').addEventListener('click', () => showToast('Demo only — location not transmitted.'));
+            document.getElementById('fitAllBtn').addEventListener('click', () => {
+                if (!S.map) return;
+                S.map.setView(S.userLatLng, 14);
+            });
+            document.getElementById('trackAmbBtn').addEventListener('click', () => S.map?.flyTo(S.ambMarker.getLatLng(), 15));
+            document.getElementById('trackPolBtn').addEventListener('click', () => S.map?.flyTo(S.polMarker.getLatLng(), 15));
+            document.getElementById('trackAmbBtn2').addEventListener('click', () => S.map?.flyTo(S.ambMarker.getLatLng(), 15));
+            document.getElementById('trackPolBtn2').addEventListener('click', () => S.map?.flyTo(S.polMarker.getLatLng(), 15));
+        });
+    </script>
+</body>
+</html>

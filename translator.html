@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>(function(){try{var t=localStorage.getItem('medway-theme')||'light';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.backgroundColor=t==='light'?'#eef0f3':'#0a0b0e';}catch(e){}})();</script>
+    <meta charset="utf-8">
+    <title>MEDWAY AI - Live Voice Translator</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=9UTGkCfmP0Jv&format=png&color=000000">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <link href="img/favicon.ico" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="css/page-transitions.css" rel="stylesheet">
+    <script src="js/page-transitions.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+
+    <style>
+        /* Base Themes */
+        :root, html[data-theme="dark"] {
+            --bg-body: #0d0f12;
+            --bg-card: #0b0b0bd0;
+            --bg-subcard: #14171c;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-input: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --input-bg: rgba(255, 255, 255, 0.07);
+            --input-text: #ffffff;
+            --btn-quick-bg: rgba(255, 255, 255, 0.05);
+            --btn-quick-border: rgba(255, 255, 255, 0.1);
+            --btn-quick-text: #dddddd;
+            --nav-link-color: #888888;
+            --icon-filter: invert(58%) sepia(0%) saturate(0%) hue-rotate(185deg) brightness(95%) contrast(87%);
+        }
+
+        html[data-theme="light"] {
+            --bg-body: #eef0f3;
+            --bg-card: #ffffff;
+            --bg-subcard: #f8f9fa;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --border-input: rgba(0, 0, 0, 0.15);
+            --text-main: #1a1d20;
+            --text-muted: #6c757d;
+            --input-bg: #ffffff;
+            --input-text: #212529;
+            --btn-quick-bg: #f0f2f5;
+            --btn-quick-border: rgba(0, 0, 0, 0.1);
+            --btn-quick-text: #333333;
+            --nav-link-color: #495057;
+            --icon-filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);
+        }
+
+        body {
+            background-color: var(--bg-body) !important;
+            color: var(--text-main);
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar {
+            background-color: var(--bg-card) !important;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            border-right: 1px solid var(--border-color);
+        }
+        .sidebar .navbar {
+            background-color: transparent !important;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+        .content .navbar {
+            background-color: var(--bg-card) !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .dropdown-menu.bg-secondary {
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border-color) !important;
+        }
+        .dropdown-item {
+            color: var(--text-main) !important;
+        }
+        .dropdown-item:hover {
+            background-color: var(--btn-quick-bg) !important;
+        }
+
+        .form-control.bg-dark, .form-select.bg-dark,
+        html[data-theme="light"] .form-control.bg-dark, 
+        html[data-theme="light"] .form-select.bg-dark {
+            background: var(--input-bg) !important;
+            border: 1px solid var(--border-input) !important;
+            color: var(--input-text) !important;
+        }
+        .form-control.bg-dark:focus, .form-select.bg-dark:focus {
+            background: var(--input-bg) !important;
+            border-color: #eb1616 !important;
+            box-shadow: 0 0 10px rgba(235, 22, 22, 0.2);
+        }
+
+        .sidebar-brand-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+        }
+        .sidebar .navbar-nav .nav-link {
+            transition: all 0.3s ease-in-out;
+            border-left: 3px solid transparent;
+            padding-left: 24px;
+            display: flex;
+            align-items: center;
+            color: var(--nav-link-color) !important;
+        }
+        .nav-icon-img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            filter: var(--icon-filter);
+            transition: all 0.3s ease-in-out;
+        }
+        .sidebar-section-title {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 12px 24px 4px 24px;
+        }
+        .sidebar .navbar-nav .nav-link:hover,
+        .sidebar .navbar-nav .nav-link.active,
+        .sidebar-bottom-section .nav-link:hover,
+        .sidebar-bottom-section .nav-link.active {
+            color: #eb1616 !important;
+            background-color: rgba(235, 22, 22, 0.1) !important;
+            border-left: 3px solid #eb1616;
+            padding-left: 28px;
+        }
+        .sidebar .navbar-nav .nav-link:hover .nav-icon-img,
+        .sidebar .navbar-nav .nav-link.active .nav-icon-img,
+        .sidebar-bottom-section .nav-link:hover .nav-icon-img,
+        .sidebar-bottom-section .nav-link.active .nav-icon-img {
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+        }
+        .sidebar-divider {
+            border-top: 1px solid var(--border-color);
+            margin: 15px 20px 10px 20px;
+        }
+        .sidebar-bottom-section {
+            margin-top: auto;
+            width: 100%;
+        }
+        .pulse-dot {
+            height: 8px;
+            width: 8px;
+                background-color: #eb1616;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+                box-shadow: 0 0 8px #eb1616;
+            animation: pulse-animation 1.5s infinite;
+        }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(235, 22, 22, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0); }
+        }
+        .location-info-box {
+            padding: 8px 24px;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+        }
+        .location-text {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        .translator-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+        .status-badge {
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .mic-btn-large {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+        .mic-btn-large.recording {
+            animation: pulse-red 1.2s infinite;
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(220, 53, 69, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+        .interim-text {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .quick-phrase-btn {
+            background: var(--btn-quick-bg);
+            border: 1px solid var(--btn-quick-border);
+            color: var(--btn-quick-text);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            margin: 4px;
+        }
+        .quick-phrase-btn:hover {
+            background: rgba(235, 22, 22, 0.15);
+            border-color: #eb1616;
+            color: #eb1616;
+        }
+        .swap-lang-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--btn-quick-bg);
+            border: 1px solid var(--border-input);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .swap-lang-btn:hover {
+            background: #eb1616;
+            border-color: #eb1616;
+            color: #fff;
+        }
+        .history-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Dynamic Theme Specific Containers */
+        .card-inner-box {
+            background-color: var(--bg-subcard) !important;
+            border: 1px solid var(--border-color) !important;
+        }
+
+        /* Dynamic Text Helpers */
+        .dynamic-text {
+            color: var(--text-main) !important;
+        }
+        .dynamic-muted {
+            color: var(--text-muted) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <div id="spinner" class="show bg-page-spinner position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar navbar-dark">
+                <div class="w-100">
+                    <a href="index.html" class="navbar-brand mx-4 mb-1 d-flex align-items-center">
+                        <img src="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=000000" alt="MEDWAY AI Logo" class="sidebar-brand-logo">
+                        <h3 class="text-primary mb-0">MEDWAY AI</h3>
+                    </a>
+                    <p class="text-muted small mx-4 mb-3" style="font-size: 0.75rem;">Healthcare, wherever you travel.</p>
+
+                    <div class="d-flex align-items-center ms-4 mb-4">
+                        <div class="position-relative">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 dynamic-text">Jhon Doe</h6>
+                            <span class="text-muted">Admin</span>
+                        </div>
+                    </div>
+
+                    <div class="navbar-nav w-100">
+                        <div class="sidebar-section-title">MAIN</div>
+                        <a href="index.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=1iF9PyJ2Thzo&format=png&color=000000" alt="Home Icon" class="nav-icon-img">Home
+                        </a>
+                        <a href="explore.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=85961&format=png&color=000000" alt="Explore Icon" class="nav-icon-img">Explore Healthcare
+                        </a>
+                        <a href="assistant.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=FSHNDH2JxIqv&format=png&color=000000" alt="AI Icon" class="nav-icon-img">AI Assistant
+                        </a>
+
+                        <div class="sidebar-section-title">TOOLS</div>
+                        <a href="prescription.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=112400&format=png&color=000000" alt="Prescription Icon" class="nav-icon-img">Prescription Reader
+                        </a>
+                        <a href="live-translator.html" class="nav-item nav-link active">
+                            <img src="https://img.icons8.com/?size=100&id=OsD06LrQr6NQ&format=png&color=000000" alt="Translator Icon" class="nav-icon-img">Live Translator
+                        </a>
+                        <a href="pharmacy.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=M7wxHhzIYL1S&format=png&color=000000" alt="Pharmacy Icon" class="nav-icon-img">Pharmacy Finder
+                        </a>
+
+                        <div class="sidebar-section-title">EMERGENCY</div>
+                        <a href="emergency.html" class="nav-item nav-link fw-bold">
+                            <img src="https://img.icons8.com/?size=100&id=kRmlY0QWDXDB&format=png&color=000000" alt="Emergency Icon" class="nav-icon-img">Emergency Help
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-bottom-section">
+                    <div class="sidebar-divider"></div>
+                    <div class="location-info-box">
+                        <span class="pulse-dot" id="location-dot"></span>
+                        <span id="current-location" class="location-text">Detecting Location...</span>
+                    </div>
+                    <a href="settings.html" class="nav-item nav-link">
+                        <img src="https://img.icons8.com/?size=100&id=2969&format=png&color=000000" alt="Settings Icon" class="nav-icon-img">Settings
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+        <!-- Content Area Start -->
+        <div class="content">
+            <nav class="navbar navbar-expand navbar-dark sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <div class="d-flex align-items-center ms-3">
+                    <a href="index.html" class="btn btn-outline-secondary btn-sm me-3 dynamic-text"><i class="fa fa-arrow-left me-1"></i> Back</a>
+                    <span class="badge bg-success text-uppercase px-2 py-1">LIVE ACTIVE ENGINE</span>
+                </div>
+
+                <div class="navbar-nav align-items-center ms-auto">
+                    <button type="button" class="theme-toggle-btn me-3" id="themeToggleBtn" aria-label="Toggle light / dark theme">
+                        <i class="fa fa-sun icon-sun"></i>
+                        <i class="fa fa-moon icon-moon"></i>
+                    </button>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex dynamic-text">John Doe</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <a href="#" class="dropdown-item">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid pt-4 px-4 pb-5">
+                <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                    <div>
+                        <h3 class="dynamic-text fw-bold mb-1"><i class="fa fa-globe text-primary me-2"></i>Live Voice Translator</h3>
+                        <p class="text-muted mb-0">Real-time medical voice &amp; text translator for traveler-to-doctor communication.</p>
+                    </div>
+                    <div class="mt-2 mt-md-0">
+                        <span id="app-status" class="status-badge bg-success text-white">🟢 Ready</span>
+                    </div>
+                </div>
+
+                <div id="error-banner" class="alert alert-warning d-none align-items-center justify-content-between" role="alert">
+                    <span id="error-message"></span>
+                    <button id="retry-mic-btn" class="btn btn-warning btn-sm d-none">Try Again</button>
+                </div>
+
+                <!-- Language Selector Bar -->
+                <div class="translator-card p-3 mb-4">
+                    <div class="row align-items-center g-2 text-center text-md-start">
+                        <div class="col-md-5">
+                            <label class="form-label text-muted small mb-1 fw-bold">SOURCE LANGUAGE</label>
+                            <select id="source-lang" class="form-select bg-dark border-secondary">
+                                <option value="en-US" data-code="en" selected>🇬🇧 English</option>
+                                <option value="hi-IN" data-code="hi">🇮🇳 Hindi</option>
+                                <option value="mr-IN" data-code="mr">🇮🇳 Marathi</option>
+                                <option value="es-ES" data-code="es">🇪🇸 Spanish</option>
+                                <option value="fr-FR" data-code="fr">🇫🇷 French</option>
+                                <option value="de-DE" data-code="de">🇩🇪 German</option>
+                                <option value="ar-SA" data-code="ar">🇸🇦 Arabic</option>
+                                <option value="ja-JP" data-code="ja">🇯🇵 Japanese</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex justify-content-center my-2 my-md-0">
+                            <button id="swap-lang-btn" class="swap-lang-btn" title="Swap Languages">
+                                <i class="fa fa-exchange-alt"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label text-muted small mb-1 fw-bold">TARGET LANGUAGE</label>
+                            <select id="target-lang" class="form-select bg-dark border-secondary">
+                                <option value="en-US" data-code="en">🇬🇧 English</option>
+                                <option value="hi-IN" data-code="hi" selected>🇮🇳 Hindi</option>
+                                <option value="mr-IN" data-code="mr">🇮🇳 Marathi</option>
+                                <option value="es-ES" data-code="es">🇪🇸 Spanish</option>
+                                <option value="fr-FR" data-code="fr">🇫🇷 French</option>
+                                <option value="de-DE" data-code="de">🇩🇪 German</option>
+                                <option value="ar-SA" data-code="ar">🇸🇦 Arabic</option>
+                                <option value="ja-JP" data-code="ja">🇯🇵 Japanese</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Translator Card -->
+                <div class="translator-card p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="dynamic-text mb-0"><i class="fa fa-microphone text-danger me-2"></i>Live Conversation Workspace</h5>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="mode-toggle">
+                            <label class="form-check-label dynamic-text small fw-bold" for="mode-toggle">🔄 Two-Way Conversation Mode</label>
+                        </div>
+                    </div>
+
+                    <div id="speaker-selector-bar" class="d-none card-inner-box p-2 rounded mb-3 text-center">
+                        <span class="text-muted small me-3">Currently Speaking:</span>
+                        <div class="btn-group" role="group">
+                            <button type="button" id="speak-person-a" class="btn btn-sm btn-primary active">Person A (<span id="person-a-label">English</span>)</button>
+                            <button type="button" id="speak-person-b" class="btn btn-sm btn-outline-primary">Person B (<span id="person-b-label">Hindi</span>)</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center py-3">
+                        <button id="mic-toggle-btn" class="btn btn-primary mic-btn-large mb-2 shadow">
+                            <i class="fa fa-microphone"></i>
+                        </button>
+                        <div>
+                            <span id="mic-action-label" class="dynamic-text fw-bold display-6 d-block fs-5">Press button to start speaking</span>
+                            <small class="text-muted">Speak clearly into your microphone</small>
+                        </div>
+                    </div>
+
+                    <hr class="border-secondary my-4">
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card-inner-box p-3 rounded h-100 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-uppercase small fw-bold text-muted"><i class="fa fa-user me-1"></i> You Said (<span id="source-lang-name">English</span>)</span>
+                                </div>
+                                <div id="source-transcript" class="dynamic-text flex-grow-1 fs-5" style="min-height: 100px;">
+                                    "Press the microphone and start speaking."
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card-inner-box p-3 rounded h-100 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-uppercase small fw-bold text-muted"><i class="fa fa-globe me-1"></i> Live Translation (<span id="target-lang-name">Hindi</span>)</span>
+                                    <div>
+                                        <button id="copy-btn" class="btn btn-sm btn-outline-secondary py-0 px-2" title="Copy Translation"><i class="fa fa-copy me-1"></i>Copy</button>
+                                        <button id="share-btn" class="btn btn-sm btn-outline-secondary py-0 px-2" title="Share Translation"><i class="fa fa-share-alt me-1"></i>Share</button>
+                                    </div>
+                                </div>
+                                <div id="target-translation" class="text-success flex-grow-1 fs-5 font-weight-bold" style="min-height: 100px;">
+                                    "निकटतम अस्पताल कहाँ है?"
+                                </div>
+                                <div class="d-flex align-items-center justify-content-end mt-3 gap-2">
+                                    <button id="play-audio-btn" class="btn btn-sm btn-outline-primary"><i class="fa fa-volume-up me-1"></i> Play Translation</button>
+                                    <button id="stop-audio-btn" class="btn btn-sm btn-outline-danger d-none"><i class="fa fa-stop me-1"></i> Stop</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="form-label text-muted small fw-bold">OR TYPE ANY TEXT TO TRANSLATE LIVE</label>
+                        <div class="input-group">
+                            <input type="text" id="text-input" class="form-control bg-dark border-secondary" placeholder="Type anything to translate in real time...">
+                            <button id="translate-text-btn" class="btn btn-primary px-4"><i class="fa fa-language me-1"></i> Translate</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Phrases Section -->
+                <div class="translator-card p-4 mb-4">
+                    <h5 class="dynamic-text mb-3"><i class="fa fa-bolt text-warning me-2"></i>⚡ Quick Medical Phrases</h5>
+                    <div class="d-flex flex-wrap" id="quick-phrases-container">
+                        <button class="quick-phrase-btn" data-phrase="Where is the nearest hospital?">🏥 Find nearest hospital</button>
+                        <button class="quick-phrase-btn" data-phrase="I need to see a doctor immediately.">👨‍⚕️ I need a doctor</button>
+                        <button class="quick-phrase-btn" data-phrase="Where is the nearest 24-hour pharmacy?">💊 Where is the pharmacy?</button>
+                        <button class="quick-phrase-btn" data-phrase="I need an emergency ambulance right now.">🚨 I need emergency help</button>
+                        <button class="quick-phrase-btn" data-phrase="Do you speak English?">🌐 Do you speak English?</button>
+                        <button class="quick-phrase-btn" data-phrase="I have a doctor's appointment today.">📅 I have an appointment</button>
+                        <button class="quick-phrase-btn" data-phrase="I am feeling very dizzy and nauseous.">🤒 Dizziness & Nausea</button>
+                        <button class="quick-phrase-btn" data-phrase="I have severe chest pain.">🫀 Chest pain</button>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="translator-card p-4 border-danger h-100">
+                            <h5 class="text-danger mb-2"><i class="fa fa-exclamation-triangle me-2"></i>🚨 Emergency Translation</h5>
+                            <div class="d-grid gap-2 mb-3">
+                                <button class="btn btn-outline-danger text-start btn-sm quick-phrase-btn m-0" data-phrase="Call an ambulance immediately!">🚨 "Call an ambulance immediately!"</button>
+                                <button class="btn btn-outline-danger text-start btn-sm quick-phrase-btn m-0" data-phrase="I am having an allergic reaction!">🚨 "Severe allergic reaction!"</button>
+                            </div>
+                            <a href="sos.html" class="btn btn-danger w-100 fw-bold"><i class="fa fa-phone-alt me-2"></i>Open SOS Direct</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="translator-card p-4 h-100">
+                            <h5 class="text-primary mb-2"><i class="fa fa-robot me-2"></i>🤖 MedWay AI Assistant</h5>
+                            <p class="text-muted small mb-2">Need comprehensive help communicating symptoms or understanding local medical procedures?</p>
+                            <a href="assistant.html" class="btn btn-outline-primary w-100"><i class="fa fa-comments me-2"></i>Ask MedWay AI</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History -->
+                <div class="translator-card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="dynamic-text mb-0"><i class="fa fa-history me-2"></i>🕘 Conversation History</h5>
+                        <button id="clear-history-btn" class="btn btn-sm btn-outline-danger py-0 px-2">Clear History</button>
+                    </div>
+                    <div id="history-container" class="text-muted small">
+                        <em>No conversation history yet. Start speaking or typing above.</em>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer class="site-footer">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="index.html">MEDWAY AI</a>, All Rights Reserved.
+                    </div>
+                    <div class="col-12 col-sm-6 text-center text-sm-end">
+                        Designed By <a href="https://myprojects-yash.vercel.app/">Yash</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const locationElem = document.getElementById('current-location');
+            const dotElem = document.getElementById('location-dot');
+            if (locationElem) locationElem.innerText = 'Default Location';
+            if (dotElem) dotElem.style.backgroundColor = '#eb1616';
+        });
+
+        /* ==========================================================================
+           REAL-TIME WORKING VOICE TRANSLATOR (DYNAMIC CLOUD ENGINE)
+           ========================================================================== */
+
+        let recognition = null;
+        let isListening = false;
+        let currentSpeaker = 'A';
+        let history = JSON.parse(localStorage.getItem('medway-translator-history') || '[]');
+
+        const micToggleBtn = document.getElementById('mic-toggle-btn');
+        const micActionLabel = document.getElementById('mic-action-label');
+        const appStatus = document.getElementById('app-status');
+        const sourceLangSelect = document.getElementById('source-lang');
+        const targetLangSelect = document.getElementById('target-lang');
+        const swapLangBtn = document.getElementById('swap-lang-btn');
+        const sourceTranscript = document.getElementById('source-transcript');
+        const targetTranslation = document.getElementById('target-translation');
+        const sourceLangName = document.getElementById('source-lang-name');
+        const targetLangName = document.getElementById('target-lang-name');
+        const textInput = document.getElementById('text-input');
+        const translateTextBtn = document.getElementById('translate-text-btn');
+        const playAudioBtn = document.getElementById('play-audio-btn');
+        const stopAudioBtn = document.getElementById('stop-audio-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const shareBtn = document.getElementById('share-btn');
+        const historyContainer = document.getElementById('history-container');
+        const clearHistoryBtn = document.getElementById('clear-history-btn');
+        const errorBanner = document.getElementById('error-banner');
+        const errorMessage = document.getElementById('error-message');
+        const retryMicBtn = document.getElementById('retry-mic-btn');
+        const modeToggle = document.getElementById('mode-toggle');
+        const speakerSelectorBar = document.getElementById('speaker-selector-bar');
+        const speakPersonABtn = document.getElementById('speak-person-a');
+        const speakPersonBBtn = document.getElementById('speak-person-b');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initSpeechRecognition();
+            updateLanguageNames();
+            renderHistory();
+
+            sourceLangSelect.addEventListener('change', updateLanguageNames);
+            targetLangSelect.addEventListener('change', updateLanguageNames);
+            swapLangBtn.addEventListener('click', swapLanguages);
+
+            micToggleBtn.addEventListener('click', toggleListening);
+            translateTextBtn.addEventListener('click', handleManualTranslate);
+            textInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleManualTranslate();
+            });
+
+            playAudioBtn.addEventListener('click', playTranslationAudio);
+            stopAudioBtn.addEventListener('click', stopAudioPlayback);
+            copyBtn.addEventListener('click', copyTranslation);
+            shareBtn.addEventListener('click', shareTranslation);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+
+            modeToggle.addEventListener('change', toggleConversationMode);
+            speakPersonABtn.addEventListener('click', () => setSpeaker('A'));
+            speakPersonBBtn.addEventListener('click', () => setSpeaker('B'));
+
+            document.querySelectorAll('.quick-phrase-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const phrase = btn.getAttribute('data-phrase');
+                    if (phrase) {
+                        textInput.value = phrase;
+                        sourceTranscript.innerText = phrase;
+                        fetchLiveTranslation(phrase);
+                    }
+                });
+            });
+
+            retryMicBtn.addEventListener('click', () => {
+                errorBanner.classList.add('d-none');
+                initSpeechRecognition();
+            });
+        });
+
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                showError("⚠️ Live speech recognition is not supported by this browser. Please use Chrome/Edge.", false);
+                micToggleBtn.disabled = true;
+                micToggleBtn.classList.add('btn-secondary');
+                appStatus.className = 'status-badge bg-warning text-dark';
+                appStatus.innerText = '⚠️ Browser Unsupported';
+                return;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.onstart = () => {
+                isListening = true;
+                micToggleBtn.classList.add('recording');
+                micActionLabel.innerText = '🔴 Stop Listening';
+                appStatus.className = 'status-badge bg-danger text-white';
+                appStatus.innerText = '🔴 Listening';
+            };
+
+            recognition.onresult = (event) => {
+                let interim = '';
+                let final = '';
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        final += event.results[i][0].transcript;
+                    } else {
+                        interim += event.results[i][0].transcript;
+                    }
+                }
+
+                if (final !== '') {
+                    sourceTranscript.innerHTML = `<span>${final}</span>`;
+                    fetchLiveTranslation(final);
+                } else if (interim !== '') {
+                    sourceTranscript.innerHTML = `<span class="interim-text">${interim}</span>`;
+                    appStatus.className = 'status-badge bg-info text-dark';
+                    appStatus.innerText = '🎤 Listening...';
+                }
+            };
+
+            recognition.onerror = (event) => {
+                if (event.error === 'not-allowed') {
+                    showError("🎤 Microphone access is required. Please allow microphone access.", true);
+                } else {
+                    showError("Speech recognition error: " + event.error, false);
+                }
+                stopListeningState();
+            };
+
+            recognition.onend = () => {
+                if (isListening) {
+                    try { recognition.start(); } catch (e) { stopListeningState(); }
+                } else {
+                    stopListeningState();
+                }
+            };
+        }
+
+        function toggleListening() {
+            if (!recognition) return;
+            if (isListening) {
+                isListening = false;
+                recognition.stop();
+                stopListeningState();
+            } else {
+                try {
+                    errorBanner.classList.add('d-none');
+                    const langCode = (modeToggle.checked && currentSpeaker === 'B') 
+                        ? targetLangSelect.value 
+                        : sourceLangSelect.value;
+                    recognition.lang = langCode;
+                    recognition.start();
+                } catch (err) {
+                    console.error("Mic start failed", err);
+                }
+            }
+        }
+
+        function stopListeningState() {
+            isListening = false;
+            micToggleBtn.classList.remove('recording');
+            micActionLabel.innerText = '🎤 Start Listening';
+            appStatus.className = 'status-badge bg-success text-white';
+            appStatus.innerText = '🟢 Ready';
+        }
+
+        function updateLanguageNames() {
+            const srcText = sourceLangSelect.options[sourceLangSelect.selectedIndex].text;
+            const tgtText = targetLangSelect.options[targetLangSelect.selectedIndex].text;
+            sourceLangName.innerText = srcText.split(' ').slice(1).join(' ');
+            targetLangName.innerText = tgtText.split(' ').slice(1).join(' ');
+            document.getElementById('person-a-label').innerText = srcText.split(' ').slice(1).join(' ');
+            document.getElementById('person-b-label').innerText = tgtText.split(' ').slice(1).join(' ');
+        }
+
+        function swapLanguages() {
+            const tempVal = sourceLangSelect.value;
+            sourceLangSelect.value = targetLangSelect.value;
+            targetLangSelect.value = tempVal;
+            updateLanguageNames();
+        }
+
+        function toggleConversationMode() {
+            if (modeToggle.checked) {
+                speakerSelectorBar.classList.remove('d-none');
+            } else {
+                speakerSelectorBar.classList.add('d-none');
+                setSpeaker('A');
+            }
+        }
+
+        function setSpeaker(speaker) {
+            currentSpeaker = speaker;
+            if (speaker === 'A') {
+                speakPersonABtn.className = 'btn btn-sm btn-primary active';
+                speakPersonBBtn.className = 'btn btn-sm btn-outline-primary';
+            } else {
+                speakPersonBBtn.className = 'btn btn-sm btn-primary active';
+                speakPersonABtn.className = 'btn btn-sm btn-outline-primary';
+            }
+            if (isListening) {
+                recognition.stop();
+                setTimeout(toggleListening, 200);
+            }
+        }
+
+        /* LIVE REAL-TIME TRANSLATION API CALL */
+        async function fetchLiveTranslation(text) {
+            if (!text || text.trim() === '') return;
+
+            appStatus.className = 'status-badge bg-warning text-dark';
+            appStatus.innerText = '🟡 Translating...';
+            targetTranslation.innerHTML = '<span class="text-muted"><i class="fa fa-spinner fa-spin me-2"></i>Translating text...</span>';
+
+            const srcCode = (modeToggle.checked && currentSpeaker === 'B')
+                ? targetLangSelect.options[targetLangSelect.selectedIndex].dataset.code
+                : sourceLangSelect.options[sourceLangSelect.selectedIndex].dataset.code;
+
+            const tgtCode = (modeToggle.checked && currentSpeaker === 'B')
+                ? sourceLangSelect.options[sourceLangSelect.selectedIndex].dataset.code
+                : targetLangSelect.options[targetLangSelect.selectedIndex].dataset.code;
+
+            try {
+                // Fetch dynamic real-time translation from public MyMemory engine
+                const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcCode}|${tgtCode}`);
+                const data = await response.json();
+
+                if (data && data.responseData && data.responseData.translatedText) {
+                    const translated = data.responseData.translatedText;
+                    targetTranslation.innerText = translated;
+                    addToHistory(text, translated);
+
+                    // Speak out translation automatically
+                    const targetLangCode = (modeToggle.checked && currentSpeaker === 'B') ? sourceLangSelect.value : targetLangSelect.value;
+                    playAudio(translated, targetLangCode);
+                } else {
+                    targetTranslation.innerText = "Error completing translation.";
+                }
+            } catch (err) {
+                console.error("Translation API error:", err);
+                targetTranslation.innerText = "Network error while translating.";
+            }
+
+            setTimeout(() => {
+                if (!isListening) {
+                    appStatus.className = 'status-badge bg-success text-white';
+                    appStatus.innerText = '🟢 Ready';
+                }
+            }, 500);
+        }
+
+        function handleManualTranslate() {
+            const text = textInput.value.trim();
+            if (text) {
+                sourceTranscript.innerText = text;
+                fetchLiveTranslation(text);
+            }
+        }
+
+        function playTranslationAudio() {
+            const text = targetTranslation.innerText;
+            if (text && !text.includes('Translating text...')) {
+                const targetLangCode = (modeToggle.checked && currentSpeaker === 'B') ? sourceLangSelect.value : targetLangSelect.value;
+                playAudio(text, targetLangCode);
+            }
+        }
+
+        function playAudio(text, langCode) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = langCode;
+
+            utterance.onstart = () => {
+                playAudioBtn.classList.add('d-none');
+                stopAudioBtn.classList.remove('d-none');
+                appStatus.className = 'status-badge bg-info text-dark';
+                appStatus.innerText = '🔵 Speaking...';
+            };
+
+            utterance.onend = () => stopAudioPlayback();
+            utterance.onerror = () => stopAudioPlayback();
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function stopAudioPlayback() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            stopAudioBtn.classList.add('d-none');
+            playAudioBtn.classList.remove('d-none');
+            appStatus.className = 'status-badge bg-success text-white';
+            appStatus.innerText = '🟢 Ready';
+        }
+
+        function addToHistory(source, translation) {
+            const entry = { source, translation, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+            history.unshift(entry);
+            if (history.length > 20) history.pop();
+            localStorage.setItem('medway-translator-history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            if (history.length === 0) {
+                historyContainer.innerHTML = '<em>No conversation history yet. Start speaking or typing above.</em>';
+                return;
+            }
+            historyContainer.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <div class="d-flex justify-content-between dynamic-text">
+                        <strong>${escapeHtml(item.source)}</strong>
+                        <small class="text-muted">${item.time}</small>
+                    </div>
+                    <div class="text-success mt-1">${escapeHtml(item.translation)}</div>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            history = [];
+            localStorage.removeItem('medway-translator-history');
+            renderHistory();
+        }
+
+        function copyTranslation() {
+            const text = targetTranslation.innerText;
+            if (text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const origText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fa fa-check me-1 text-success"></i>Copied';
+                    setTimeout(() => copyBtn.innerHTML = origText, 2000);
+                });
+            }
+        }
+
+        function shareTranslation() {
+            const text = targetTranslation.innerText;
+            if (navigator.share && text) {
+                navigator.share({ title: 'MedWay Medical Translation', text: text }).catch(() => {});
+            } else {
+                copyTranslation();
+            }
+        }
+
+        function showError(msg, showRetry) {
+            errorMessage.innerText = msg;
+            errorBanner.classList.remove('d-none');
+            if (showRetry) retryMicBtn.classList.remove('d-none');
+            else retryMicBtn.classList.add('d-none');
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+    </script>
+</body>
+
+</html>

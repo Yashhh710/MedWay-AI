@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>(function(){try{var t=localStorage.getItem('medway-theme')||'light';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.backgroundColor=t==='light'?'#eef0f3':'#0a0b0e';}catch(e){}})();</script>
+    <meta charset="utf-8">
+    <title>MEDWAY AI - Pharmacy & Medical Finder</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=14773&format=png&color=000000">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <link href="css/page-transitions.css" rel="stylesheet">
+    <script src="js/page-transitions.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+
+    <style>
+        :root, [data-theme="dark"] {
+            --card-bg: #0b0b0bd0;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --panel-bg: rgba(11, 11, 11, 0.85);
+            --panel-bg-solid: #0b0b0b;
+            --panel-text: #ffffff;
+            --panel-muted: #9a9a9a;
+            --panel-border: rgba(255, 255, 255, 0.12);
+            --input-bg: rgba(255, 255, 255, 0.06);
+            --input-border: rgba(255, 255, 255, 0.12);
+            --panel-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --accent: #eb1616;
+            --accent2: #2563eb;
+            --success: #22c55e;
+            --warn: #f59e0b;
+            --chip-bg: rgba(255, 255, 255, 0.08);
+            --chip-hover: rgba(235, 22, 22, 0.2);
+            --chip-border: rgba(255, 255, 255, 0.15);
+        }
+
+        [data-theme="light"] {
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.08);
+            --panel-bg: rgba(255, 255, 255, 0.92);
+            --panel-bg-solid: #ffffff;
+            --panel-text: #101418;
+            --panel-muted: #5b6572;
+            --panel-border: rgba(0, 0, 0, 0.1);
+            --input-bg: rgba(0, 0, 0, 0.04);
+            --input-border: rgba(0, 0, 0, 0.12);
+            --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --accent: #eb1616;
+            --accent2: #2563eb;
+            --success: #16a34a;
+            --warn: #b45309;
+            --chip-bg: rgba(0, 0, 0, 0.05);
+            --chip-hover: rgba(235, 22, 22, 0.1);
+            --chip-border: rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            background-color: #0d0f12 !important;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Collapsible Sliding Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #0b0b0bd0 !important;
+            display: flex;
+            flex-direction: column;
+            z-index: 999;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .content {
+            margin-left: 250px;
+            min-height: 100vh;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Open/Closed toggle modifiers */
+        .container-fluid.open .sidebar {
+            margin-left: 0;
+        }
+        .container-fluid.open .content {
+            margin-left: 250px;
+        }
+
+        .container-fluid:not(.open) .sidebar {
+            margin-left: -250px;
+        }
+        .container-fluid:not(.open) .content {
+            margin-left: 0;
+        }
+
+        .sidebar .navbar {
+            background-color: transparent !important;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        /* Top navbar background styling */
+        .content .navbar {
+            background-color: #0b0b0bd0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 70px;
+        }
+
+        /* Top Header Action Buttons & Icons */
+        .top-header-icon-btn {
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .top-header-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--accent);
+        }
+
+        /* Dropdown Menus */
+        .dropdown-menu.bg-secondary {
+            background: #0b0b0bd0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* Inputs & Form Controls */
+        .form-control.bg-dark, .form-select.bg-dark {
+            background: rgba(255, 255, 255, 0.07) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+        }
+
+        .form-control.bg-dark:focus, .form-select.bg-dark:focus {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Main Header Logo Style */
+        .sidebar-brand-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+        }
+
+        /* Navigation Links Default Styles */
+        .sidebar .navbar-nav .nav-link {
+            transition: all 0.3s ease-in-out;
+            border-left: 3px solid transparent;
+            padding-left: 24px;
+            display: flex;
+            align-items: center;
+            color: #888888 !important;
+        }
+
+        /* Visible Light Gray Icons for Unselected State */
+        .nav-icon-img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            filter: invert(58%) sepia(0%) saturate(0%) hue-rotate(185deg) brightness(95%) contrast(87%);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Section header titles in sidebar */
+        .sidebar-section-title {
+            color: #666;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 12px 24px 4px 24px;
+        }
+
+        /* Selected (Active) & Hover States */
+        .sidebar .navbar-nav .nav-link:hover,
+        .sidebar .navbar-nav .nav-link.active,
+        .sidebar-bottom-section .nav-link:hover,
+        .sidebar-bottom-section .nav-link.active {
+            color: #eb1616 !important;
+            background-color: rgba(235, 22, 22, 0.1) !important;
+            border-left: 3px solid #eb1616;
+            padding-left: 28px;
+        }
+
+        .sidebar .navbar-nav .nav-link:hover .nav-icon-img,
+        .sidebar .navbar-nav .nav-link.active .nav-icon-img,
+        .sidebar-bottom-section .nav-link:hover .nav-icon-img,
+        .sidebar-bottom-section .nav-link.active .nav-icon-img {
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+        }
+
+        /* Bottom Sidebar Divider Line */
+        .sidebar-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 15px 20px 10px 20px;
+        }
+
+        /* Sidebar Bottom Container */
+        .sidebar-bottom-section {
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* Pulsing Dot for Live Location Status */
+        .pulse-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #eb1616;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 8px #eb1616;
+            animation: pulse-animation 1.5s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(235, 22, 22, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0); }
+        }
+
+        /* Inline Location Info Box */
+        .location-info-box {
+            padding: 8px 24px;
+            color: #aaa;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+        }
+        .location-text {
+            color: #fff;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* Pharmacy Card Layout */
+        .pharmacy-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .pharmacy-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(235, 22, 22, 0.4);
+        }
+
+        /* Interactive Map Container Styles */
+        .map-section-card {
+            background-color: transparent !important;
+            border: none !important;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            padding: 0 !important;
+        }
+        #pharmacyMap {
+            width: 100%;
+            height: 520px;
+            min-height: 400px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            z-index: 1;
+        }
+
+        /* Map Toolbar Controls (Top Right) */
+        .pharmacy-map-toolbar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+        }
+        .pharmacy-map-panel {
+            pointer-events: auto;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--panel-border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--panel-text);
+            box-shadow: var(--panel-shadow);
+        }
+        .map-btn-x {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 7px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--panel-text);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .map-btn-x:hover {
+            background: var(--panel-border);
+        }
+        .map-btn-x.accent {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* Leaflet Controls Styling & Hide Routing Instructions Box */
+        .leaflet-control-layers, .leaflet-bar {
+            background: var(--panel-bg) !important;
+            border: 1px solid var(--panel-border) !important;
+            border-radius: 12px !important;
+            color: var(--panel-text) !important;
+            box-shadow: var(--panel-shadow) !important;
+        }
+        .leaflet-bar a {
+            background-color: transparent !important;
+            color: var(--panel-text) !important;
+            border-bottom: 1px solid var(--panel-border) !important;
+        }
+        
+        .leaflet-routing-container {
+            display: none !important;
+        }
+
+        /* Custom Map Pins for Pharmacies */
+        .ml-pharmacy-pin {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            background: var(--accent);
+            color: #fff;
+            border: 3px solid #fff;
+            box-shadow: 0 3px 12px rgba(0,0,0,.4);
+            cursor: pointer;
+        }
+        .ml-user-pin {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #60a5fa;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 6px rgba(96,165,250,.25);
+        }
+
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+            background: var(--panel-bg-solid) !important;
+            color: var(--panel-text) !important;
+            border: 1px solid var(--panel-border);
+            border-radius: 10px;
+            box-shadow: var(--panel-shadow);
+        }
+
+        /* Modal Custom Styles for Check Availability */
+        .modal-content {
+            background: var(--panel-bg-solid) !important;
+            color: var(--panel-text) !important;
+            border: 1px solid var(--panel-border) !important;
+            border-radius: 14px !important;
+            box-shadow: var(--panel-shadow) !important;
+        }
+        .modal-header {
+            border-bottom: 1px solid var(--panel-border) !important;
+        }
+        .modal-footer {
+            border-top: 1px solid var(--panel-border) !important;
+        }
+        .medical-preview-box {
+            background: var(--input-bg);
+            border: 1px dashed var(--panel-border);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .medical-thumb-img {
+            width: 100%;
+            height: 140px;
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid var(--panel-border);
+            padding: 4px;
+        }
+
+        /* Toast notification */
+        .pharmacy-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            background: var(--panel-bg-solid);
+            color: var(--panel-text);
+            padding: 9px 16px;
+            border-radius: 9px;
+            font-size: 12.5px;
+            font-weight: 600;
+            border: 1px solid var(--panel-border);
+            box-shadow: var(--panel-shadow);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity .22s ease, transform .22s ease;
+            pointer-events: none;
+        }
+        .pharmacy-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Interactive Medicine Search Elements Styles */
+        .med-chip {
+            background: var(--chip-bg);
+            border: 1px solid var(--chip-border);
+            color: var(--panel-text);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+        .med-chip:hover {
+            background: var(--chip-hover);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-1px);
+        }
+        .med-chip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .live-suggestion-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--panel-border);
+            color: var(--panel-text);
+            transition: background 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .live-suggestion-item:last-child {
+            border-bottom: none;
+        }
+        .live-suggestion-item:hover {
+            background: var(--chip-hover);
+            color: var(--accent);
+        }
+        .stat-card-mini {
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        .badge-demo {
+            background: rgba(235, 22, 22, 0.15);
+            color: var(--accent);
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(235, 22, 22, 0.3);
+        }
+
+        .ui-svg-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: middle;
+            fill: currentColor;
+        }
+    </style>
+    <link href="css/theme.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid open position-relative d-flex p-0" id="mainContainer">
+        <div id="spinner" class="show bg-page-spinner position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="sidebar pe-3 pb-3">
+            <nav class="navbar navbar-dark">
+                <div class="w-100">
+                    <a href="index.html" class="navbar-brand mx-4 mb-1 d-flex align-items-center">
+                        <img src="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=000000" alt="MEDWAY AI Logo" class="sidebar-brand-logo">
+                        <h3 class="text-primary mb-0">MEDWAY AI</h3>
+                    </a>
+                    <p class="text-muted small mx-4 mb-3" style="font-size: 0.75rem;">Healthcare, wherever you travel.</p>
+
+                    <div class="d-flex align-items-center ms-4 mb-4">
+                        <div class="position-relative">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 text-white">Jhon Doe</h6>
+                            <span class="text-muted">Admin</span>
+                        </div>
+                    </div>
+
+                    <div class="navbar-nav w-100">
+                        <div class="sidebar-section-title">MAIN</div>
+                        <a href="index.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=1iF9PyJ2Thzo&format=png&color=000000" alt="Home Icon" class="nav-icon-img"><span class="nav-label">Home</span>
+                        </a>
+                        <a href="explore.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=85961&format=png&color=000000" alt="Explore Icon" class="nav-icon-img"><span class="nav-label">Explore Healthcare</span>
+                        </a>
+                        <a href="assistant.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=FSHNDH2JxIqv&format=png&color=000000" alt="AI Icon" class="nav-icon-img"><span class="nav-label">AI Assistant</span>
+                        </a>
+
+                        <div class="sidebar-section-title">TOOLS</div>
+                        <a href="prescription.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=112400&format=png&color=000000" alt="Prescription Icon" class="nav-icon-img"><span class="nav-label">Prescription Reader</span>
+                        </a>
+                        <a href="translator.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=OsD06LrQr6NQ&format=png&color=000000" alt="Translator Icon" class="nav-icon-img"><span class="nav-label">Live Translator</span>
+                        </a>
+                        <a href="pharmacy.html" class="nav-item nav-link active">
+                            <img src="https://img.icons8.com/?size=100&id=M7wxHhzIYL1S&format=png&color=000000" alt="Pharmacy Icon" class="nav-icon-img"><span class="nav-label">Pharmacy Finder</span>
+                        </a>
+
+                        <div class="sidebar-section-title">EMERGENCY</div>
+                        <a href="emergency.html" class="nav-item nav-link fw-bold">
+                            <img src="https://img.icons8.com/?size=100&id=kRmlY0QWDXDB&format=png&color=000000" alt="Emergency Icon" class="nav-icon-img"><span class="nav-label">Emergency Help</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-bottom-section">
+                    <div class="sidebar-divider"></div>
+
+                    <div class="location-info-box">
+                        <span class="pulse-dot" id="location-dot"></span>
+                        <span id="current-location" class="location-text">Detecting Location...</span>
+                    </div>
+
+                    <a href="settings.html" class="nav-item nav-link">
+                        <img src="https://img.icons8.com/?size=100&id=2969&format=png&color=000000" alt="Settings Icon" class="nav-icon-img"><span class="nav-label">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <div class="content w-100">
+            <nav class="navbar navbar-expand navbar-dark sticky-top px-4 py-0">
+                <a href="#" class="sidebar-toggler flex-shrink-0 top-header-icon-btn me-3 text-decoration-none" id="sidebarTogglerBtn">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex my-2">
+                    <input class="form-control bg-dark border-0 rounded-pill px-4" type="search" placeholder="Search medicines, pharmacies..." style="min-width: 280px;">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto gap-3">
+                    <button type="button" class="theme-toggle-btn top-header-icon-btn border-0" id="themeToggleBtn" aria-label="Toggle light / dark theme" aria-pressed="false">
+                        <i class="fa fa-sun icon-sun"></i>
+                        <i class="fa fa-moon icon-moon"></i>
+                    </button>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle top-header-icon-btn p-0 text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-bell"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-3 m-0 shadow">
+                            <a href="#" class="dropdown-item py-2 text-white small">Profile updated</a>
+                            <a href="#" class="dropdown-item py-2 text-white small">New user added</a>
+                            <a href="#" class="dropdown-item py-2 text-white small">Password changed</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle top-header-icon-btn p-0 text-decoration-none d-flex align-items-center justify-content-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 32px; height: 32px; object-fit: cover;">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-3 m-0 shadow">
+                            <a href="#" class="dropdown-item py-2 text-white small">My Profile</a>
+                            <a href="settings.html" class="dropdown-item py-2 text-white small">Settings</a>
+                            <a href="#" class="dropdown-item py-2 text-white small">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid pt-4 px-4 pb-5">
+                <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <h3 class="text-white fw-bold">Pharmacy Finder</h3>
+                        <p class="text-muted mb-0">Find verified medical stores and pharmacies near your real-time location.</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <!-- Find Medicine Trigger Button -->
+                        <button class="btn btn-danger text-white fw-bold shadow-sm d-flex align-items-center gap-2" id="openFindMedicineBtn">
+                            <svg class="ui-svg-icon" viewBox="0 0 24 24"><path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15zM10.5 4.5C10.5 3.67 11.17 3 12 3s1.5.67 1.5 1.5v15c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-15z"/></svg>
+                            Find Medicine
+                        </button>
+                        <button class="btn btn-primary" id="gpsBtn"><i class="fa fa-crosshairs me-2"></i>Use Precise GPS</button>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="d-flex gap-2 mb-3">
+                            <input type="text" id="medicineFilterInput" class="form-control bg-dark border-0" placeholder="Filter by medicine name...">
+                            <select id="pharmacyFilterSelect" class="form-select bg-dark border-0 w-auto">
+                                <option value="all">All Pharmacies</option>
+                                <option value="24/7">24/7 Open</option>
+                                <option value="delivery">Delivery Available</option>
+                            </select>
+                        </div>
+
+                        <div id="pharmacyListContainer">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="map-section-card">
+                            <div class="pharmacy-map-toolbar">
+                                <div class="pharmacy-map-panel">
+                                    <button class="map-btn-x" id="fitAllBtn"><i class="fa fa-expand"></i> Fit All</button>
+                                    <button class="map-btn-x accent" id="locateBtn"><i class="fa fa-crosshairs"></i> My Location</button>
+                                </div>
+                            </div>
+                            <div id="pharmacyMap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Find Medicine Large Interactive Search Modal Panel -->
+            <div class="modal fade" id="findMedicineModal" tabindex="-1" aria-labelledby="findMedicineModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="modal-title fw-bold text-white d-flex align-items-center gap-2" id="findMedicineModalLabel">
+                                    <svg class="ui-svg-icon text-danger" style="width:20px; height:20px;" viewBox="0 0 24 24"><path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15zM10.5 4.5C10.5 3.67 11.17 3 12 3s1.5.67 1.5 1.5v15c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-15z"/></svg>
+                                    Find Your Medicine
+                                </h5>
+                                <p class="text-muted small mb-0">Search for a medicine and compare availability and prices at nearby medical stores.</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge-demo">DEMO DATA ONLY</span>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body p-4">
+                            <!-- Search & Action Bar -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-9 position-relative">
+                                    <label class="form-label text-muted small fw-bold mb-1">Search Medicine</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-dark border-0" id="medSearchInput" placeholder="Enter medicine name... (e.g. Paracetamol, ORS, Ibuprofen)" autocomplete="off">
+                                        <button class="btn btn-primary px-4 d-flex align-items-center gap-1" id="medSearchBtn">
+                                            <i class="fa fa-search"></i> Search
+                                        </button>
+                                    </div>
+                                    <!-- Live Smart Suggestion Popup Dropdown -->
+                                    <div id="liveSuggestionsBox" class="position-absolute w-100 mt-1 rounded-3 shadow-lg d-none" style="z-index: 1050; background: var(--panel-bg-solid); border: 1px solid var(--panel-border); max-height: 200px; overflow-y: auto;"></div>
+                                </div>
+                                <div class="col-md-3 d-flex align-items-end">
+                                    <button class="btn btn-outline-info w-100 py-2 d-flex align-items-center justify-content-center gap-2" id="scanPrescriptionBtn">
+                                        <i class="fa fa-camera"></i> Search from scanned prescription
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Popular / Suggested Medicine Section -->
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <h6 class="text-white mb-0 fw-bold d-flex align-items-center gap-2">
+                                        <svg class="ui-svg-icon text-primary" viewBox="0 0 24 24"><path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15zM10.5 4.5C10.5 3.67 11.17 3 12 3s1.5.67 1.5 1.5v15c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-15z"/></svg>
+                                        Suggested Medicines
+                                    </h6>
+                                    <span class="text-muted" style="font-size: 0.72rem;">Popular Demo Searches • Provided for prototype demonstration only</span>
+                                </div>
+                                <p class="text-muted small mb-2">Quickly search commonly requested medicines</p>
+                                <div class="med-chip-list" id="suggestedChipsContainer">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+
+                            <!-- Recent Searches Section -->
+                            <div class="mb-4" id="recentSearchesSection">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <h6 class="text-white mb-0 fw-bold"><i class="far fa-clock me-1"></i> Recent Searches</h6>
+                                    <button class="btn btn-link btn-sm text-muted p-0 text-decoration-none" id="clearHistoryBtn" style="font-size: 0.75rem;">Clear History</button>
+                                </div>
+                                <div class="med-chip-list" id="recentChipsContainer">
+                                    <!-- Populated dynamically via localStorage -->
+                                </div>
+                            </div>
+
+                            <hr style="border-color: var(--panel-border);" class="my-3">
+
+                            <!-- Loading Spinner Simulation -->
+                            <div id="medSearchLoading" class="text-center py-4 d-none">
+                                <div class="spinner-border text-primary mb-2" role="status"></div>
+                                <p class="text-white fw-bold mb-0">MedWay AI is checking nearby medicine availability...</p>
+                                <span class="text-muted small">Querying nearby demo pharmacy database...</span>
+                            </div>
+
+                            <!-- Search Container / Results / No Results Area -->
+                            <div id="medSearchResultsArea">
+                                <div class="text-center text-muted py-4">
+                                    <i class="fa fa-pills fa-3x mb-3 text-secondary opacity-50"></i>
+                                    <p class="mb-0">Type a medicine name above or click on suggested chips to find nearby store prices.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Store Detail Modal -->
+            <div class="modal fade" id="pharmacyDetailModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-white fw-bold" id="detailPharmacyName">Pharmacy Details</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="medical-preview-box mb-3">
+                                <h5 class="text-primary fw-bold mb-1" id="detailMedicineName">Paracetamol 500mg</h5>
+                                <p class="text-muted small mb-0" id="detailGenericName">Generic: Paracetamol</p>
+                            </div>
+                            <ul class="list-group list-group-flush bg-transparent rounded border border-secondary mb-3">
+                                <li class="list-group-item bg-transparent text-white d-flex justify-content-between"><span><i class="fa fa-clinic-medical me-1 text-primary"></i> Pharmacy:</span> <strong id="detailStoreName">-</strong></li>
+                                <li class="list-group-item bg-transparent text-white d-flex justify-content-between"><span><i class="fa fa-map-marker-alt me-1 text-danger"></i> Area:</span> <strong id="detailStoreArea">-</strong></li>
+                                <li class="list-group-item bg-transparent text-white d-flex justify-content-between"><span><i class="fa fa-ruler me-1 text-info"></i> Distance:</span> <strong id="detailStoreDistance">-</strong></li>
+                                <li class="list-group-item bg-transparent text-white d-flex justify-content-between"><span><i class="fa fa-star me-1 text-warning"></i> Rating:</span> <strong id="detailStoreRating">-</strong></li>
+                                <li class="list-group-item bg-transparent text-white d-flex justify-content-between"><span><i class="fa fa-box me-1 text-secondary"></i> Quantity:</span> <strong id="detailQuantity">-</strong></li>
+                                <li class="list-group-item bg-transparent text-white d-flex justify-content-between"><span><i class="fa fa-tag me-1 text-success"></i> Price:</span> <strong class="text-success" id="detailStorePrice">-</strong></li>
+                                <li class="list-group-item bg-transparent text-white d-flex justify-content-between"><span><i class="fa fa-check-circle me-1 text-success"></i> Availability:</span> <strong id="detailStoreStock">-</strong></li>
+                            </ul>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary w-50" id="detailViewMapBtn"><i class="fa fa-map-marked-alt me-1"></i> View on Map</button>
+                                <button class="btn btn-primary w-50" id="detailGetDirectionsBtn"><i class="fa fa-directions me-1"></i> Get Directions</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Existing Availability Checking Modal -->
+            <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold text-white" id="availabilityModalLabel"><i class="fa fa-prescription-bottle-alt text-primary me-2"></i>Check Medicine Availability</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="medical-preview-box">
+                                <img id="modalPharmacyImg" src="" alt="Medical Store Thumbnail" class="medical-thumb-img">
+                                <h6 id="modalPharmacyName" class="text-white fw-bold mb-1">Pharmacy Name</h6>
+                                <p id="modalPharmacyAddress" class="text-muted small mb-0"><i class="fa fa-map-marker-alt text-danger me-1"></i>Location Address</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted small fw-bold">Attach / Send Prescription or Medicine List</label>
+                                <input type="file" class="form-control bg-dark border-0" id="prescriptionFileInput" accept="image/*,.pdf">
+                                <div class="form-text text-muted" style="font-size: 0.75rem;">Upload photo of your prescription to verify stock instantly with the chemist store.</div>
+                            </div>
+                            <div id="availabilityStatusResult" class="alert alert-secondary d-none py-2 px-3 small text-center mb-0" role="alert">
+                                Checking availability with pharmacist...
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-sm btn-primary" id="sendPrescriptionBtn"><i class="fa fa-paper-plane me-1"></i> Send Prescription & Check</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="site-footer">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="#">MEDWAY AI</a>, All Rights Reserved.
+                    </div>
+                    <div class="col-12 col-sm-6 text-center text-sm-end">
+                        Designed By <a href="https://myprojects-yash.vercel.app/">Yash</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <div class="pharmacy-toast" id="toast"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        const DEFAULT_LAT = 18.985178375836586;
+        const DEFAULT_LON = 73.10990836680176;
+
+        // Base Pharmacy Dataset
+        const PHARMACIES = [
+            { id: "p1", name: "CarePlus Pharmacy", lat: 18.9912, lng: 73.1150, area: "Panvel East", distanceKm: 1.2, rating: 4.6, details: "Open 24 Hours • Ibuprofen, Paracetamol", type: "24/7", image: "img/medicals/carePluse.png" },
+            { id: "p2", name: "Apollo Chemist & Wellness", lat: 18.9780, lng: 73.1020, area: "Panvel West", distanceKm: 2.1, rating: 4.5, details: "Closes 11:00 PM • Home Delivery", type: "delivery", image: "img/medicals/Apollo.png" },
+            { id: "p3", name: "Lifeline Medical & General Stores", lat: 18.9890, lng: 73.1110, area: "New Panvel", distanceKm: 0.8, rating: 4.8, details: "Open 24 Hours • Antibiotics, First Aid", type: "24/7", image: "img/medicals/LifeLine.png" },
+            { id: "p4", name: "Wellness Forever Chemist", lat: 18.9820, lng: 73.1200, area: "Khanda Colony, Panvel", distanceKm: 3.4, rating: 4.4, details: "Home Delivery Available • General Meds", type: "delivery", image: "img/medicals/Wellness.png" },
+            { id: "p5", name: "Shree Swami Samarth Medical", lat: 18.9730, lng: 73.0950, area: "Old Panvel", distanceKm: 2.7, rating: 4.2, details: "Open till 10:30 PM • Ayurvedic & Allopathic", type: "regular", image: "img/medicals/SSMedical.png" },
+            { id: "p6", name: "Lifecare Medical & Surgicals", lat: 18.9865, lng: 73.1075, area: "Panvel Central", distanceKm: 1.5, rating: 4.7, details: "Open 24 Hours • Surgical Items, Emergency Drugs", type: "24/7", image: "img/medicals/LifeCare.png" },
+            { id: "p7", name: "City Medical & General Stores", lat: 18.9805, lng: 73.1160, area: "Panvel East", distanceKm: 1.9, rating: 4.1, details: "Open till 11:30 PM • Pediatric & Adult Meds", type: "regular", image: "img/medicals/City.png" },
+            { id: "p8", name: "Medico Pharmacy", lat: 18.9950, lng: 73.0800, area: "Kharghar", distanceKm: 4.8, rating: 4.3, details: "Open till 10:00 PM", type: "regular", image: "img/medicals/City.png" }
+        ];
+
+        // Comprehensive Demo Medicine Stock Inventory
+        const DEMO_MEDICINE_STOCK = [
+            // Paracetamol
+            { medicineName: "Paracetamol 500mg", genericName: "Paracetamol", form: "Tablet", quantity: "10 tablets", pharmacyName: "CarePlus Pharmacy", area: "Panvel East", distanceKm: 1.2, rating: 4.6, price: 25, availability: "In Stock", lat: 18.9912, lng: 73.1150 },
+            { medicineName: "Paracetamol 500mg", genericName: "Paracetamol", form: "Tablet", quantity: "10 tablets", pharmacyName: "Apollo Chemist & Wellness", area: "Panvel West", distanceKm: 2.1, rating: 4.5, price: 28, availability: "In Stock", lat: 18.9780, lng: 73.1020 },
+            { medicineName: "Paracetamol 500mg", genericName: "Paracetamol", form: "Tablet", quantity: "10 tablets", pharmacyName: "Medico Pharmacy", area: "Kharghar", distanceKm: 4.8, rating: 4.3, price: 24, availability: "Limited Stock", lat: 18.9950, lng: 73.0800 },
+            { medicineName: "Paracetamol 650mg", genericName: "Paracetamol", form: "Tablet", quantity: "15 tablets", pharmacyName: "Lifeline Medical & General Stores", area: "New Panvel", distanceKm: 0.8, rating: 4.8, price: 32, availability: "In Stock", lat: 18.9890, lng: 73.1110 },
+            { medicineName: "Paracetamol 650mg", genericName: "Paracetamol", form: "Tablet", quantity: "15 tablets", pharmacyName: "Lifecare Medical & Surgicals", area: "Panvel Central", distanceKm: 1.5, rating: 4.7, price: 30, availability: "In Stock", lat: 18.9865, lng: 73.1075 },
+
+            // Ibuprofen
+            { medicineName: "Ibuprofen 400mg", genericName: "Ibuprofen", form: "Tablet", quantity: "10 tablets", pharmacyName: "CarePlus Pharmacy", area: "Panvel East", distanceKm: 1.2, rating: 4.6, price: 38, availability: "In Stock", lat: 18.9912, lng: 73.1150 },
+            { medicineName: "Ibuprofen 400mg", genericName: "Ibuprofen", form: "Tablet", quantity: "10 tablets", pharmacyName: "Wellness Forever Chemist", area: "Khanda Colony, Panvel", distanceKm: 3.4, rating: 4.4, price: 42, availability: "In Stock", lat: 18.9820, lng: 73.1200 },
+
+            // Cetirizine
+            { medicineName: "Cetirizine 10mg", genericName: "Cetirizine", form: "Tablet", quantity: "10 tablets", pharmacyName: "Apollo Chemist & Wellness", area: "Panvel West", distanceKm: 2.1, rating: 4.5, price: 18, availability: "In Stock", lat: 18.9780, lng: 73.1020 },
+            { medicineName: "Cetirizine 10mg", genericName: "Cetirizine", form: "Tablet", quantity: "10 tablets", pharmacyName: "City Medical & General Stores", area: "Panvel East", distanceKm: 1.9, rating: 4.1, price: 15, availability: "Limited Stock", lat: 18.9805, lng: 73.1160 },
+
+            // Pantoprazole
+            { medicineName: "Pantoprazole 40mg", genericName: "Pantoprazole", form: "Tablet", quantity: "10 tablets", pharmacyName: "Shree Swami Samarth Medical", area: "Old Panvel", distanceKm: 2.7, rating: 4.2, price: 75, availability: "In Stock", lat: 18.9730, lng: 73.0950 },
+            { medicineName: "Pantoprazole 40mg", genericName: "Pantoprazole", form: "Tablet", quantity: "10 tablets", pharmacyName: "Lifeline Medical & General Stores", area: "New Panvel", distanceKm: 0.8, rating: 4.8, price: 70, availability: "In Stock", lat: 18.9890, lng: 73.1110 },
+
+            // ORS
+            { medicineName: "ORS", genericName: "Oral Rehydration Salts", form: "Powder", quantity: "1 sachet", pharmacyName: "CarePlus Pharmacy", area: "Panvel East", distanceKm: 1.2, rating: 4.6, price: 21, availability: "In Stock", lat: 18.9912, lng: 73.1150 },
+            { medicineName: "ORS", genericName: "Oral Rehydration Salts", form: "Powder", quantity: "1 sachet", pharmacyName: "Shree Swami Samarth Medical", area: "Old Panvel", distanceKm: 2.7, rating: 4.2, price: 20, availability: "In Stock", lat: 18.9730, lng: 73.0950 },
+
+            // Azithromycin
+            { medicineName: "Azithromycin 500mg", genericName: "Azithromycin", form: "Tablet", quantity: "3 tablets", pharmacyName: "Lifecare Medical & Surgicals", area: "Panvel Central", distanceKm: 1.5, rating: 4.7, price: 118, availability: "In Stock", lat: 18.9865, lng: 73.1075 },
+            { medicineName: "Azithromycin 500mg", genericName: "Azithromycin", form: "Tablet", quantity: "3 tablets", pharmacyName: "Apollo Chemist & Wellness", area: "Panvel West", distanceKm: 2.1, rating: 4.5, price: 125, availability: "In Stock", lat: 18.9780, lng: 73.1020 },
+
+            // Amoxicillin
+            { medicineName: "Amoxicillin 500mg", genericName: "Amoxicillin", form: "Capsule", quantity: "10 capsules", pharmacyName: "CarePlus Pharmacy", area: "Panvel East", distanceKm: 1.2, rating: 4.6, price: 85, availability: "In Stock", lat: 18.9912, lng: 73.1150 },
+
+            // Antacid
+            { medicineName: "Antacid Syrup", genericName: "Dried Aluminium Hydroxide", form: "Syrup", quantity: "170 ml", pharmacyName: "City Medical & General Stores", area: "Panvel East", distanceKm: 1.9, rating: 4.1, price: 110, availability: "In Stock", lat: 18.9805, lng: 73.1160 },
+
+            // Vitamin C
+            { medicineName: "Vitamin C 500mg", genericName: "Ascorbic Acid", form: "Chewable", quantity: "15 tablets", pharmacyName: "Wellness Forever Chemist", area: "Khanda Colony, Panvel", distanceKm: 3.4, rating: 4.4, price: 45, availability: "In Stock", lat: 18.9820, lng: 73.1200 },
+
+            // Cough Syrup
+            { medicineName: "Cough Syrup", genericName: "Dextromethorphan", form: "Syrup", quantity: "100 ml", pharmacyName: "Lifeline Medical & General Stores", area: "New Panvel", distanceKm: 0.8, rating: 4.8, price: 95, availability: "In Stock", lat: 18.9890, lng: 73.1110 },
+
+            // Thermometer
+            { medicineName: "Digital Thermometer", genericName: "Medical Device", form: "Device", quantity: "1 unit", pharmacyName: "Lifecare Medical & Surgicals", area: "Panvel Central", distanceKm: 1.5, rating: 4.7, price: 220, availability: "In Stock", lat: 18.9865, lng: 73.1075 }
+        ];
+
+        const SUGGESTED_MEDICINES = [
+            "Paracetamol 500mg",
+            "Paracetamol 650mg",
+            "Ibuprofen 400mg",
+            "Cetirizine 10mg",
+            "Pantoprazole 40mg",
+            "ORS",
+            "Azithromycin 500mg",
+            "Amoxicillin 500mg",
+            "Antacid Syrup",
+            "Vitamin C 500mg",
+            "Cough Syrup",
+            "Digital Thermometer"
+        ];
+
+        let map = null;
+        let userLatLng = [DEFAULT_LAT, DEFAULT_LON];
+        let userMarker = null;
+        let pharmacyMarkers = {};
+        let routingControl = null;
+        let selectedPharmacyForStock = null;
+        let currentActiveResults = [];
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // --- RECENT SEARCHES LOCALSTORAGE ---
+        function getRecentSearches() {
+            try {
+                return JSON.parse(localStorage.getItem('medway-recent-medicines')) || [];
+            } catch(e) {
+                return [];
+            }
+        }
+
+        function saveRecentSearch(query) {
+            if (!query || !query.trim()) return;
+            let list = getRecentSearches();
+            list = list.filter(item => item.toLowerCase() !== query.toLowerCase());
+            list.unshift(query.trim());
+            if (list.length > 5) list = list.slice(0, 5);
+            localStorage.setItem('medway-recent-medicines', JSON.stringify(list));
+            renderRecentSearches();
+        }
+
+        function renderRecentSearches() {
+            const container = document.getElementById('recentChipsContainer');
+            const section = document.getElementById('recentSearchesSection');
+            if (!container) return;
+
+            const list = getRecentSearches();
+            if (list.length === 0) {
+                if (section) section.style.display = 'none';
+                return;
+            }
+            if (section) section.style.display = 'block';
+
+            container.innerHTML = list.map(item => `
+                <div class="med-chip" onclick="executeAutoSearch('${item.replace(/'/g, "\\'")}')">
+                    <i class="far fa-clock text-muted"></i> ${item}
+                </div>
+            `).join('');
+        }
+
+        function renderSuggestedChips() {
+            const container = document.getElementById('suggestedChipsContainer');
+            if (!container) return;
+
+            container.innerHTML = SUGGESTED_MEDICINES.map(med => `
+                <div class="med-chip" onclick="executeAutoSearch('${med.replace(/'/g, "\\'")}')">
+                    <svg class="ui-svg-icon text-danger" viewBox="0 0 24 24"><path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15zM10.5 4.5C10.5 3.67 11.17 3 12 3s1.5.67 1.5 1.5v15c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-15z"/></svg>
+                    ${med}
+                </div>
+            `).join('');
+        }
+
+        // Dynamic search executor on suggestion chip click
+        function executeAutoSearch(medName) {
+            const input = document.getElementById('medSearchInput');
+            if (input) input.value = medName;
+            hideLiveSuggestions();
+            performMedicineSearch(medName);
+        }
+
+        // Live Partial Matching Dropdown while typing
+        function handleLiveTyping(query) {
+            const box = document.getElementById('liveSuggestionsBox');
+            if (!box) return;
+
+            const q = query.trim().toLowerCase();
+            if (!q) {
+                box.classList.add('d-none');
+                return;
+            }
+
+            const matches = DEMO_MEDICINE_STOCK.filter(item => 
+                item.medicineName.toLowerCase().includes(q) ||
+                item.genericName.toLowerCase().includes(q)
+            );
+
+            // Deduplicate matching names
+            const uniqueNames = [...new Set(matches.map(m => m.medicineName))];
+
+            if (uniqueNames.length === 0) {
+                box.classList.add('d-none');
+                return;
+            }
+
+            box.innerHTML = uniqueNames.slice(0, 5).map(name => `
+                <div class="live-suggestion-item" onclick="executeAutoSearch('${name.replace(/'/g, "\\'")}')">
+                    <svg class="ui-svg-icon text-danger" viewBox="0 0 24 24"><path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15zM10.5 4.5C10.5 3.67 11.17 3 12 3s1.5.67 1.5 1.5v15c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-15z"/></svg>
+                    <strong>${name}</strong>
+                </div>
+            `).join('');
+
+            box.classList.remove('d-none');
+        }
+
+        function hideLiveSuggestions() {
+            const box = document.getElementById('liveSuggestionsBox');
+            if (box) box.classList.add('d-none');
+        }
+
+        // Main Medicine Search Routine
+        function performMedicineSearch(rawQuery) {
+            const query = (rawQuery || document.getElementById('medSearchInput').value).trim();
+            if (!query) return;
+
+            saveRecentSearch(query);
+
+            const loader = document.getElementById('medSearchLoading');
+            const resultsArea = document.getElementById('medSearchResultsArea');
+
+            resultsArea.innerHTML = '';
+            loader.classList.remove('d-none');
+
+            setTimeout(() => {
+                loader.classList.add('d-none');
+                const matched = DEMO_MEDICINE_STOCK.filter(item => 
+                    item.medicineName.toLowerCase().includes(query.toLowerCase()) ||
+                    item.genericName.toLowerCase().includes(query.toLowerCase())
+                );
+
+                if (matched.length === 0) {
+                    renderNoResultsUI(query);
+                } else {
+                    currentActiveResults = matched;
+                    renderSearchResultsUI(query, matched);
+                }
+            }, 600);
+        }
+
+        function renderNoResultsUI(query) {
+            const resultsArea = document.getElementById('medSearchResultsArea');
+            resultsArea.innerHTML = `
+                <div class="text-center py-4">
+                    <h5 class="text-warning mb-2"><i class="fa fa-search me-1"></i> No medicine found</h5>
+                    <p class="text-muted small mb-3">We couldn't find a matching medicine for "<strong>${query}</strong>" in the current demo database.</p>
+                    <p class="text-white small fw-bold mb-2">Try searching for:</p>
+                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                        <span class="med-chip" onclick="executeAutoSearch('Paracetamol')">Paracetamol</span>
+                        <span class="med-chip" onclick="executeAutoSearch('Ibuprofen')">Ibuprofen</span>
+                        <span class="med-chip" onclick="executeAutoSearch('Cetirizine')">Cetirizine</span>
+                        <span class="med-chip" onclick="executeAutoSearch('ORS')">ORS</span>
+                        <span class="med-chip" onclick="executeAutoSearch('Pantoprazole')">Pantoprazole</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSearchResultsUI(query, items) {
+            const resultsArea = document.getElementById('medSearchResultsArea');
+
+            // Calculate Statistics
+            const prices = items.map(i => i.price);
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+            const avgPrice = (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(2);
+
+            // Highlights
+            const bestPriceItem = items.reduce((prev, curr) => prev.price < curr.price ? prev : curr);
+            const nearestItem = items.reduce((prev, curr) => prev.distanceKm < curr.distanceKm ? prev : curr);
+            const highestRatedItem = items.reduce((prev, curr) => prev.rating > curr.rating ? prev : curr);
+
+            resultsArea.innerHTML = `
+                <!-- Filter & Sorting Controls -->
+                <div class="row g-2 align-items-center mb-3 p-3 rounded" style="background: var(--input-bg); border: 1px solid var(--panel-border);">
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold mb-1">Sort by:</label>
+                        <select class="form-select bg-dark border-0 form-select-sm" id="sortOptionSelect" onchange="applyFiltersAndSort()">
+                            <option value="price_asc" selected>Lowest Price</option>
+                            <option value="distance_asc">Nearest</option>
+                            <option value="rating_desc">Highest Rated</option>
+                            <option value="availability">Availability</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold mb-1">Distance Filter:</label>
+                        <select class="form-select bg-dark border-0 form-select-sm" id="filterDistanceSelect" onchange="applyFiltersAndSort()">
+                            <option value="all" selected>All Distances</option>
+                            <option value="1">Within 1 km</option>
+                            <option value="3">Within 3 km</option>
+                            <option value="5">Within 5 km</option>
+                            <option value="10">Within 10 km</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold mb-1">Stock Status:</label>
+                        <select class="form-select bg-dark border-0 form-select-sm" id="filterStockSelect" onchange="applyFiltersAndSort()">
+                            <option value="all" selected>All</option>
+                            <option value="In Stock">In Stock Only</option>
+                            <option value="Limited Stock">Limited Stock</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Price Comparison Summary Card -->
+                <div class="p-3 mb-3 rounded" style="background: var(--card-bg); border: 1px solid var(--panel-border);">
+                    <h6 class="text-white fw-bold mb-2">Price Comparison</h6>
+                    <div class="row g-2 mb-3">
+                        <div class="col-4">
+                            <div class="stat-card-mini">
+                                <span class="text-muted d-block small">Lowest</span>
+                                <strong class="text-success fs-5">₹${minPrice}</strong>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-card-mini">
+                                <span class="text-muted d-block small">Average</span>
+                                <strong class="text-info fs-5">₹${avgPrice}</strong>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-card-mini">
+                                <span class="text-muted d-block small">Highest</span>
+                                <strong class="text-warning fs-5">₹${maxPrice}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Price Insight Section -->
+                    <div class="p-2 rounded mb-2" style="background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.25);">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-info fw-bold small">MedWay AI Price Insight</span>
+                            <span class="badge-demo">AI INSIGHT • DEMO</span>
+                        </div>
+                        <p class="text-white small mb-2">
+                            "${items[0].medicineName} is available at ${items.length} nearby demo pharmacies. The lowest listed price is ₹${minPrice}, while the average price is ₹${avgPrice}."
+                        </p>
+                        <div class="d-flex flex-wrap gap-2 text-white small">
+                            <span class="badge bg-dark border border-secondary"><i class="fa fa-trophy text-warning me-1"></i> Best Price: ${bestPriceItem.pharmacyName} (₹${bestPriceItem.price})</span>
+                            <span class="badge bg-dark border border-secondary"><i class="fa fa-map-marker-alt text-danger me-1"></i> Nearest: ${nearestItem.pharmacyName} (${nearestItem.distanceKm} km)</span>
+                            <span class="badge bg-dark border border-secondary"><i class="fa fa-star text-warning me-1"></i> Highest Rated: ${highestRatedItem.pharmacyName} (${highestRatedItem.rating} ★)</span>
+                        </div>
+                    </div>
+
+                    <!-- Safety Disclaimer -->
+                    <div class="text-muted small" style="font-size: 0.72rem;">
+                        <i class="fa fa-exclamation-triangle text-warning me-1"></i> <strong>Disclaimer:</strong> Medicine information shown here is for demonstration purposes only. Always confirm the medicine, dosage and prescription requirements with a qualified healthcare professional or pharmacist.
+                    </div>
+                </div>
+
+                <h6 class="text-white fw-bold mb-3">Search Results for "${query}" (${items.length} found):</h6>
+                
+                <div id="cardsListContainer" class="row g-3">
+                    <!-- Dynamic Store Cards Rendered Here -->
+                </div>
+            `;
+
+            renderCardsList(items);
+        }
+
+        function renderCardsList(items) {
+            const container = document.getElementById('cardsListContainer');
+            if (!container) return;
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="col-12 text-center text-muted py-3">No matching stores fit the selected filter options.</div>`;
+                return;
+            }
+
+            container.innerHTML = items.map((item, idx) => `
+                <div class="col-md-6">
+                    <div class="pharmacy-card p-3 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h6 class="text-primary fw-bold mb-0 d-flex align-items-center gap-1">
+                                        <svg class="ui-svg-icon text-danger" viewBox="0 0 24 24"><path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15zM10.5 4.5C10.5 3.67 11.17 3 12 3s1.5.67 1.5 1.5v15c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-15z"/></svg>
+                                        ${item.medicineName}
+                                    </h6>
+                                    <span class="text-muted small">${item.genericName} • ${item.quantity}</span>
+                                </div>
+                                <span class="badge ${item.availability === 'In Stock' ? 'bg-success' : 'bg-warning'}">
+                                    ${item.availability}
+                                </span>
+                            </div>
+                            <hr style="border-color: var(--card-border);" class="my-2">
+                            <p class="text-white fw-bold mb-1"><i class="fa fa-clinic-medical text-primary me-1"></i> ${item.pharmacyName}</p>
+                            <p class="text-muted small mb-1"><i class="fa fa-map-marker-alt text-danger me-1"></i> Area: ${item.area}</p>
+                            <p class="text-muted small mb-1"><i class="fa fa-ruler text-info me-1"></i> Distance: ${item.distanceKm} km | <i class="fa fa-star text-warning me-1"></i> Rating: ${item.rating}</p>
+                            <p class="text-success fw-bold fs-5 mb-2">₹${item.price}</p>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary w-100" onclick="openPharmacyDetailModal(${idx})">
+                            View Pharmacy
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function applyFiltersAndSort() {
+            if (!currentActiveResults || currentActiveResults.length === 0) return;
+
+            let filtered = [...currentActiveResults];
+
+            // Distance filter
+            const distVal = document.getElementById('filterDistanceSelect')?.value;
+            if (distVal && distVal !== 'all') {
+                const maxDist = parseFloat(distVal);
+                filtered = filtered.filter(item => item.distanceKm <= maxDist);
+            }
+
+            // Stock filter
+            const stockVal = document.getElementById('filterStockSelect')?.value;
+            if (stockVal && stockVal !== 'all') {
+                filtered = filtered.filter(item => item.availability === stockVal);
+            }
+
+            // Sort logic
+            const sortVal = document.getElementById('sortOptionSelect')?.value;
+            if (sortVal === 'price_asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortVal === 'distance_asc') {
+                filtered.sort((a, b) => a.distanceKm - b.distanceKm);
+            } else if (sortVal === 'rating_desc') {
+                filtered.sort((a, b) => b.rating - a.rating);
+            } else if (sortVal === 'availability') {
+                filtered.sort((a, b) => (a.availability === 'In Stock' ? -1 : 1));
+            }
+
+            renderCardsList(filtered);
+        }
+
+        function openPharmacyDetailModal(idx) {
+            const item = currentActiveResults[idx];
+            if (!item) return;
+
+            document.getElementById('detailPharmacyName').textContent = item.pharmacyName;
+            document.getElementById('detailMedicineName').textContent = item.medicineName;
+            document.getElementById('detailGenericName').textContent = `Generic: ${item.genericName}`;
+            document.getElementById('detailStoreName').textContent = item.pharmacyName;
+            document.getElementById('detailStoreArea').textContent = item.area;
+            document.getElementById('detailStoreDistance').textContent = `${item.distanceKm} km`;
+            document.getElementById('detailStoreRating').textContent = `${item.rating} ★`;
+            document.getElementById('detailQuantity').textContent = item.quantity;
+            document.getElementById('detailStorePrice').textContent = `₹${item.price}`;
+            document.getElementById('detailStoreStock').textContent = item.availability;
+
+            // Map and direction bindings
+            document.getElementById('detailViewMapBtn').onclick = () => {
+                const modalEl = document.getElementById('pharmacyDetailModal');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+
+                const findModalEl = document.getElementById('findMedicineModal');
+                const findModal = bootstrap.Modal.getInstance(findModalEl);
+                if (findModal) findModal.hide();
+
+                if (map && item.lat && item.lng) {
+                    map.flyTo([item.lat, item.lng], 16);
+                    if (pharmacyMarkers[item.pharmacyName]) {
+                        pharmacyMarkers[item.pharmacyName].openPopup();
+                    }
+                    showToast(`Centered map on ${item.pharmacyName}`);
+                }
+            };
+
+            document.getElementById('detailGetDirectionsBtn').onclick = () => {
+                document.getElementById('detailViewMapBtn').click();
+                calculateRoute(item.lat, item.lng, item.pharmacyName);
+            };
+
+            const detailModal = new bootstrap.Modal(document.getElementById('pharmacyDetailModal'));
+            detailModal.show();
+        }
+
+        function renderPharmacies(filterText = "", filterType = "all") {
+            const container = document.getElementById('pharmacyListContainer');
+            if (!container) return;
+
+            const filtered = PHARMACIES.filter(p => {
+                const matchText = p.name.toLowerCase().includes(filterText.toLowerCase()) || p.details.toLowerCase().includes(filterText.toLowerCase());
+                const matchType = filterType === 'all' || p.type === filterType;
+                return matchText && matchType;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-muted p-3 text-center">No pharmacies found matching your search.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(p => `
+                <div class="pharmacy-card p-3 mb-3 d-flex gap-3 align-items-center" data-name="${p.name}" data-type="${p.type}" data-lat="${p.lat}" data-lng="${p.lng}">
+                    <img src="${p.image}" alt="${p.name}" style="width: 90px; height: 70px; object-fit: contain; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid var(--card-border); padding: 2px;" />
+                    <div class="flex-grow-1">
+                        <h5 class="text-white mb-1">${p.name}</h5>
+                        <p class="text-muted small mb-2"><i class="fa fa-map-marker-alt text-primary me-1"></i>${p.area} • ${p.details.split('•')[0].trim()}</p>
+                        <span class="badge bg-success me-1">Open Now</span>
+                        <span class="badge bg-secondary">${p.details.split('•')[1] ? p.details.split('•')[1].trim() : 'General Medical'}</span>
+                    </div>
+                    <div class="d-flex flex-column gap-2">
+                        <button class="btn btn-sm btn-outline-success check-stock-btn" data-id="${p.id}" data-name="${p.name}" data-address="${p.area}" data-image="${p.image}"><i class="fa fa-clipboard-check me-1"></i> Check Availability</button>
+                        <button class="btn btn-sm btn-outline-primary route-btn" data-lat="${p.lat}" data-lng="${p.lng}" data-name="${p.name}"><i class="fa fa-directions"></i> Get Route</button>
+                    </div>
+                </div>
+            `).join('');
+
+            bindRouteButtons();
+            bindCheckStockButtons();
+        }
+
+        function initPharmacyMap() {
+            map = L.map('pharmacyMap', { center: userLatLng, zoom: 14, zoomControl: false });
+            L.control.zoom({ position: 'bottomright' }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
+
+            userMarker = L.marker(userLatLng, { icon: L.divIcon({ className: '', html: '<div class="ml-user-pin"></div>', iconSize: [16,16], iconAnchor: [8,8] }) })
+                .addTo(map)
+                .bindPopup('<b>Your Location</b>');
+
+            PHARMACIES.forEach(p => {
+                const marker = L.marker([p.lat, p.lng], {
+                    icon: L.divIcon({ className: '', html: '<div class="ml-pharmacy-pin"><i class="fa fa-clinic-medical"></i></div>', iconSize: [34,34], iconAnchor: [17,17] })
+                }).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.area}<br><small>${p.details}</small>`);
+                
+                pharmacyMarkers[p.name] = marker;
+            });
+        }
+
+        function calculateRoute(destLat, destLng, destName) {
+            if (!destLat || !destLng) {
+                showToast("Please select a pharmacy destination first.");
+                return;
+            }
+
+            if (routingControl) {
+                map.removeControl(routingControl);
+            }
+
+            let waypoints = [
+                L.latLng(userLatLng[0], userLatLng[1]),
+                L.latLng(destLat, destLng)
+            ];
+
+            routingControl = L.Routing.control({
+                waypoints: waypoints,
+                routeWhileDragging: false,
+                addWaypoints: false,
+                show: false,
+                createMarker: function(i, wp, nWps) {
+                    if (i === 0) return L.marker(wp.latLng).bindPopup("Start Location");
+                    if (i === nWps - 1) return L.marker(wp.latLng).bindPopup(destName || "Destination");
+                    return L.marker(wp.latLng).bindPopup("Waypoint");
+                }
+            }).addTo(map);
+
+            showToast(`Route calculated to ${destName || 'Pharmacy'}`);
+        }
+
+        function bindRouteButtons() {
+            document.querySelectorAll('.route-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lat = parseFloat(btn.getAttribute('data-lat'));
+                    const lng = parseFloat(btn.getAttribute('data-lng'));
+                    const name = btn.getAttribute('data-name');
+                    
+                    calculateRoute(lat, lng, name);
+                    
+                    if (pharmacyMarkers[name]) {
+                        map.flyTo([lat, lng], 16);
+                        pharmacyMarkers[name].openPopup();
+                    }
+                });
+            });
+        }
+
+        function bindCheckStockButtons() {
+            document.querySelectorAll('.check-stock-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectedPharmacyForStock = {
+                        name: btn.getAttribute('data-name'),
+                        address: btn.getAttribute('data-address'),
+                        image: btn.getAttribute('data-image')
+                    };
+
+                    document.getElementById('modalPharmacyName').textContent = selectedPharmacyForStock.name;
+                    document.getElementById('modalPharmacyAddress').innerHTML = `<i class="fa fa-map-marker-alt text-danger me-1"></i>${selectedPharmacyForStock.address}`;
+                    document.getElementById('modalPharmacyImg').src = selectedPharmacyForStock.image;
+                    document.getElementById('prescriptionFileInput').value = '';
+                    
+                    const statusResult = document.getElementById('availabilityStatusResult');
+                    statusResult.className = 'alert alert-secondary d-none py-2 px-3 small text-center mb-0';
+                    statusResult.textContent = '';
+
+                    const modal = new bootstrap.Modal(document.getElementById('availabilityModal'));
+                    modal.show();
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const locationElem = document.getElementById('current-location');
+            const dotElem = document.getElementById('location-dot');
+            if (locationElem) locationElem.innerText = 'Panvel, Maharashtra';
+            if (dotElem) dotElem.style.backgroundColor = '#eb1616';
+
+            renderPharmacies();
+            renderSuggestedChips();
+            renderRecentSearches();
+
+            setTimeout(() => {
+                document.getElementById('spinner').classList.remove('show');
+                initPharmacyMap();
+            }, 500);
+
+            // Sidebar toggle mechanism script
+            const sidebarToggler = document.getElementById('sidebarTogglerBtn');
+            const mainContainer = document.getElementById('mainContainer');
+            if (sidebarToggler && mainContainer) {
+                sidebarToggler.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    mainContainer.classList.toggle('open');
+                });
+            }
+
+            // Open Find Medicine Modal
+            document.getElementById('openFindMedicineBtn').addEventListener('click', () => {
+                const modal = new bootstrap.Modal(document.getElementById('findMedicineModal'));
+                modal.show();
+            });
+
+            // Medicine Search Inputs & Trigger Bindings
+            const searchInput = document.getElementById('medSearchInput');
+            const searchBtn = document.getElementById('medSearchBtn');
+
+            searchBtn.addEventListener('click', () => {
+                hideLiveSuggestions();
+                performMedicineSearch();
+            });
+
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    hideLiveSuggestions();
+                    performMedicineSearch();
+                }
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                handleLiveTyping(e.target.value);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#medSearchInput') && !e.target.closest('#liveSuggestionsBox')) {
+                    hideLiveSuggestions();
+                }
+            });
+
+            // Prescription Scanner Connection
+            document.getElementById('scanPrescriptionBtn').addEventListener('click', () => {
+                window.location.href = 'prescription.html';
+            });
+
+            // Recent searches clear
+            document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+                localStorage.removeItem('medway-recent-medicines');
+                renderRecentSearches();
+            });
+
+            document.getElementById('medicineFilterInput').addEventListener('input', (e) => {
+                const text = e.target.value;
+                const type = document.getElementById('pharmacyFilterSelect').value;
+                renderPharmacies(text, type);
+            });
+
+            document.getElementById('pharmacyFilterSelect').addEventListener('change', (e) => {
+                const type = e.target.value;
+                const text = document.getElementById('medicineFilterInput').value;
+                renderPharmacies(text, type);
+            });
+
+            document.getElementById('sendPrescriptionBtn').addEventListener('click', () => {
+                const statusResult = document.getElementById('availabilityStatusResult');
+
+                statusResult.classList.remove('d-none', 'alert-secondary', 'alert-danger');
+                statusResult.classList.add('alert-info');
+                statusResult.textContent = `Analyzing prescription & querying ${selectedPharmacyForStock?.name || 'medical store'} stock...`;
+
+                setTimeout(() => {
+                    statusResult.classList.remove('alert-info');
+                    statusResult.classList.add('alert-success');
+                    statusResult.innerHTML = `<i class="fa fa-check-circle me-1"></i><strong>Stock Available!</strong> All requested medicines are currently in stock at this location.`;
+                    showToast("Prescription sent and availability verified successfully!");
+                }, 1500);
+            });
+
+            document.getElementById('gpsBtn').addEventListener('click', () => {
+                showToast("Precise GPS locked to current location.");
+                if (map) map.setView(userLatLng, 15);
+            });
+
+            document.getElementById('locateBtn').addEventListener('click', () => {
+                if (map) map.setView(userLatLng, 15);
+            });
+
+            document.getElementById('fitAllBtn').addEventListener('click', () => {
+                if (!map) return;
+                const group = new L.featureGroup([userMarker, ...Object.values(pharmacyMarkers)]);
+                map.fitBounds(group.getBounds().pad(0.2));
+            });
+        });
+    </script>
+</body>
+
+</html>
