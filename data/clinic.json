@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Purohit Clinic",
+    "type": "CLINIC",
+    "lat": 18.98590,
+    "lon": 73.11350,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Patel Clinic",
+    "type": "CLINIC",
+    "lat": 18.98680,
+    "lon": 73.10500,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Shree Clinic",
+    "type": "CLINIC",
+    "lat": 18.99700,
+    "lon": 73.11400,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Om Clinic",
+    "type": "CLINIC",
+    "lat": 19.00100,
+    "lon": 73.11850,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Sankalp Clinic",
+    "type": "CLINIC",
+    "lat": 18.99700,
+    "lon": 73.11900,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "More's Healthcare",
+    "type": "CLINIC",
+    "lat": 19.00400,
+    "lon": 73.11750,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Shree's ENT Clinic",
+    "type": "CLINIC",
+    "lat": 19.00000,
+    "lon": 73.11500,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Dental Essential",
+    "type": "CLINIC",
+    "lat": 19.00100,
+    "lon": 73.11600,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Shah Smile And Glow Clinic",
+    "type": "CLINIC",
+    "lat": 19.00050,
+    "lon": 73.11650,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Palnit Clinic",
+    "type": "CLINIC",
+    "lat": 19.01900,
+    "lon": 73.10800,
+    "image": "img/user.jpg"
+  }
+]

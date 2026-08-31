@@ -1,0 +1,31 @@
+/* =========================================================
+   MEDWAY AI — Smooth page transitions
+   Fades the page in on load and fades it out before the
+   browser navigates to the next internal page, so switching
+   between pages feels like one continuous app instead of a
+   hard reload.
+   ========================================================= */
+
+body {
+    opacity: 0;
+}
+
+body.mw-ready {
+    opacity: 1;
+    transition: opacity 0.28s ease-out;
+}
+
+body.mw-exit {
+    opacity: 0 !important;
+    transition: opacity 0.2s ease-in;
+}
+
+/* Respect users who've asked for less motion */
+@media (prefers-reduced-motion: reduce) {
+    body,
+    body.mw-ready,
+    body.mw-exit {
+        opacity: 1 !important;
+        transition: none !important;
+    }
+}

@@ -1,0 +1,17 @@
+:root {
+  --text-muted: #475569;
+}
+
+/* Ensure modal overlays appear above map */
+.modal-overlay { z-index: 1200; }
+
+/* Improve muted text readability */
+.text-muted, .muted { color: var(--text-muted) !important; }
+
+/* Helpful defaults for images */
+.gallery-main-img, .thumbnail, .lightbox-img { will-change: transform; }
+
+/* Small responsive tweak */
+@media (max-width: 900px) {
+  .hero-row, .dashboard-grid { grid-template-columns: 1fr !important; }
+}

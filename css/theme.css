@@ -1,0 +1,625 @@
+/* ==========================================================================
+   MEDWAY AI — Theme System
+   Adds: light/dark mode variables, refined "premium" visual polish.
+   Loaded AFTER bootstrap.min.css, style.css and the page's inline <style>
+   block, so these rules win the cascade (later + !important beats earlier
+   + !important at equal specificity) without touching every page file.
+   ========================================================================== */
+
+:root,
+[data-theme="dark"] {
+    --bg-app: #0a0b0e;
+    --bg-app-gradient: radial-gradient(1200px 600px at 15% -10%, rgba(235, 22, 22, 0.10), transparent 60%),
+                       radial-gradient(1000px 500px at 100% 0%, rgba(60, 120, 255, 0.06), transparent 55%),
+                       #0a0b0e;
+    --bg-sidebar: rgba(10, 11, 14, 0.72);
+    --bg-panel: rgba(255, 255, 255, 0.045);
+    --bg-panel-solid: #15161a;
+    --bg-input: rgba(255, 255, 255, 0.06);
+    --border-soft: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --text-primary: #f5f6f7;
+    --text-secondary: #9a9ea5;
+    --text-muted: #6b6f76;
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.28);
+    --accent: #eb1616;
+    --accent-2: #ff5f5f;
+    --accent-glow: rgba(235, 22, 22, 0.35);
+    --scrollbar-track: rgba(255, 255, 255, 0.03);
+    --theme-icon-filter: invert(95%) sepia(6%) saturate(200%) hue-rotate(190deg) brightness(103%) contrast(92%);
+}
+
+[data-theme="light"] {
+    --bg-app: #eef0f3;
+    --bg-app-gradient: radial-gradient(1200px 600px at 15% -10%, rgba(235, 22, 22, 0.06), transparent 60%),
+                       radial-gradient(1000px 500px at 100% 0%, rgba(60, 120, 255, 0.05), transparent 55%),
+                       #eef0f3;
+    --bg-sidebar: rgba(255, 255, 255, 0.85);
+    --bg-panel: rgba(255, 255, 255, 0.9);
+    --bg-panel-solid: #ffffff;
+    --bg-input: rgba(15, 20, 30, 0.05);
+    --border-soft: rgba(15, 20, 30, 0.08);
+    --border-strong: rgba(15, 20, 30, 0.14);
+    --text-primary: #191b1f;
+    --text-secondary: #565b63;
+    --text-muted: #83878e;
+    --shadow-soft: 0 10px 30px rgba(30, 34, 44, 0.10);
+    --shadow-card: 0 4px 16px rgba(30, 34, 44, 0.08);
+    --accent: #d81414;
+    --accent-2: #ff5f5f;
+    --accent-glow: rgba(216, 20, 20, 0.22);
+    --scrollbar-track: rgba(15, 20, 30, 0.04);
+    --theme-icon-filter: invert(12%) sepia(10%) saturate(300%) hue-rotate(180deg) brightness(95%) contrast(92%);
+}
+
+/* Smooth theme transition, applied broadly — NOT on html itself to prevent page-load flash */
+body, .sidebar, .content .navbar, .dropdown-menu, .form-control,
+.location-info-box, .container-fluid, a, .btn, .nav-link {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+/* ---------- Page-load spinner overlay (theme-aware) ---------- */
+.bg-page-spinner {
+    background-color: var(--bg-app) !important;
+    transition: none !important;
+}
+/* Ensure spinner overlay matches theme immediately — no transition flash */
+#spinner.show {
+    background-color: var(--bg-app) !important;
+}
+
+/* ---------- Base ---------- */
+html, body {
+    background: var(--bg-app-gradient) !important;
+    color: var(--text-primary) !important;
+}
+.wrapper, .content, .container-fluid {
+    background-color: transparent !important;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+::selection { background: var(--accent-glow); color: var(--text-primary); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    background: var(--bg-sidebar) !important;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-right: 1px solid var(--border-soft);
+}
+
+.sidebar .navbar {
+    background: transparent !important;
+}
+
+.sidebar-section-title {
+    color: var(--text-muted) !important;
+}
+
+.sidebar .navbar-nav .nav-link {
+    color: var(--text-secondary) !important;
+    border-radius: 0 8px 8px 0;
+    margin: 1px 10px 1px 0;
+    border-left: 3px solid transparent !important;
+}
+
+.sidebar .navbar-nav .nav-link:hover,
+.sidebar .navbar-nav .nav-link.active,
+.sidebar-bottom-section .nav-link:hover,
+.sidebar-bottom-section .nav-link.active {
+    color: var(--accent) !important;
+    background: linear-gradient(90deg, var(--accent-glow), transparent) !important;
+    border-left: 3px solid var(--accent) !important;
+    box-shadow: inset 0 0 24px -12px var(--accent-glow);
+    padding-left: 24px !important; /* keep same padding as default — no shift, no wrap */
+}
+
+/* Prevent nav text from ever wrapping inside the sidebar */
+.sidebar .navbar-nav .nav-link,
+.sidebar-bottom-section .nav-link {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Bug fix: flex items don't shrink below their content's intrinsic width by
+   default (min-width defaults to "auto"), so a long label like "Prescription
+   Reader" or "Explore Healthcare" could force the whole nav-link row wider
+   than the sidebar, which then got hard-clipped by the sidebar's own
+   scroll container with no ellipsis ever appearing. min-width: 0 lets the
+   row actually shrink to the sidebar's width, and wrapping the label text in
+   its own flexible, truncatable span (nav-label) means only the *text*
+   truncates with a clean "…" while the icon never gets squished. */
+.sidebar .navbar-nav .nav-link,
+.sidebar-bottom-section .nav-link {
+    min-width: 0;
+}
+
+.nav-icon-img {
+    flex-shrink: 0;
+}
+
+.nav-label {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.sidebar-divider {
+    border-top: 1px solid var(--border-soft) !important;
+}
+
+.location-info-box {
+    color: var(--text-secondary) !important;
+}
+.location-text {
+    color: var(--text-primary) !important;
+}
+
+.sidebar-brand-logo {
+    filter: drop-shadow(0 0 10px var(--accent-glow))
+            invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%) !important;
+}
+
+/* ---------- Top navbar ---------- */
+.content .navbar {
+    background: var(--bg-sidebar) !important;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.content .navbar .nav-link,
+.content .navbar-brand {
+    color: var(--text-primary) !important;
+}
+
+/* ---------- Dropdowns ---------- */
+.dropdown-menu.bg-secondary,
+.dropdown-menu {
+    background: var(--bg-panel-solid) !important;
+    border: 1px solid var(--border-soft) !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+.dropdown-menu .dropdown-item {
+    color: var(--text-secondary) !important;
+}
+.dropdown-menu .dropdown-item:hover {
+    background: var(--bg-panel) !important;
+    color: var(--accent) !important;
+}
+.dropdown-divider {
+    border-color: var(--border-soft) !important;
+}
+
+/* ---------- Inputs ---------- */
+.form-control.bg-dark,
+.form-control {
+    background: var(--bg-input) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--text-primary) !important;
+}
+.form-control.bg-dark:focus,
+.form-control:focus {
+    background: var(--bg-input) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px var(--accent-glow) !important;
+}
+.form-control::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* ---------- Cards / panels used across pages ---------- */
+.explore-card,
+.pharmacy-card,
+.translator-card,
+.settings-card,
+.emergency-card,
+.error-card,
+.blank-canvas-card,
+.content-card,
+.chat-box,
+.card,
+[style*="background-color: #0b0b0bd0"] {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-soft) !important;
+    box-shadow: var(--shadow-card);
+}
+
+/* Chat bubbles (AI Assistant page) */
+.chat-bubble-ai {
+    background: var(--bg-input) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--text-primary) !important;
+}
+.chat-bubble-user {
+    color: #fff !important; /* stays on brand-red, keep white text in both themes */
+}
+.chat-input-container {
+    border-top: 1px solid var(--border-soft) !important;
+}
+
+/* Map placeholder (Pharmacy Finder) */
+.map-placeholder {
+    background: var(--bg-input) !important;
+    border: 1px dashed var(--border-strong) !important;
+    color: var(--text-muted) !important;
+}
+.map-placeholder i {
+    color: var(--text-muted) !important;
+}
+
+/* Upload dropzone (Prescription Reader) */
+.upload-dropzone {
+    border-color: var(--border-strong) !important;
+    color: var(--text-secondary);
+}
+
+/* Select inputs */
+.form-select,
+.form-select.bg-dark {
+    background-color: var(--bg-input) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--text-primary) !important;
+}
+.form-select:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px var(--accent-glow) !important;
+}
+
+/* Headings / text utilities used throughout as inline hardcoded white/muted */
+.text-white {
+    color: var(--text-primary) !important;
+}
+.text-muted {
+    color: var(--text-secondary) !important;
+}
+.text-secondary {
+    color: var(--text-muted) !important;
+}
+
+/* Badges */
+.badge.bg-secondary {
+    background-color: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-soft);
+}
+.badge.bg-success {
+    color: #fff !important;
+}
+
+/* Outline buttons */
+.btn-outline-primary {
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
+}
+.btn-outline-primary:hover {
+    background: var(--accent) !important;
+    color: #fff !important;
+}
+
+/* Horizontal rules / generic borders */
+hr,
+.border-secondary {
+    border-color: var(--border-soft) !important;
+    opacity: 1;
+}
+
+/* Form switches / checkboxes */
+.form-check-input {
+    background-color: var(--bg-input) !important;
+    border: 1px solid var(--border-strong) !important;
+}
+.form-check-input:checked {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2)) !important;
+    border: none !important;
+    box-shadow: 0 6px 18px -6px var(--accent-glow);
+}
+.btn-primary:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 8px 22px -6px var(--accent-glow);
+    transform: translateY(-1px);
+}
+
+/* ---------- Footer bar ---------- */
+.container-fluid.position-fixed.bottom-0 > .p-4,
+.container-fluid.position-fixed.bottom-0 div[style*="background-color: #0b0b0bd0"] {
+    background: var(--bg-sidebar) !important;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-top: 1px solid var(--border-soft);
+    color: var(--text-secondary);
+}
+.container-fluid.position-fixed.bottom-0 a { color: var(--accent) !important; }
+
+/* ---------- Nav icon tint ---------- */
+[data-theme="light"] .nav-icon-img {
+    filter: invert(38%) sepia(4%) saturate(200%) hue-rotate(185deg) brightness(95%) contrast(90%) !important;
+}
+
+/* ==========================================================================
+   Theme toggle switch
+   ========================================================================== */
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border-soft);
+    background: var(--bg-panel);
+    color: var(--text-primary);
+    cursor: pointer;
+    margin-right: 14px;
+    position: relative;
+    overflow: hidden;
+}
+.theme-toggle-btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+.theme-toggle-btn i {
+    font-size: 1rem;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+}
+.theme-toggle-btn .icon-sun { position: absolute; }
+.theme-toggle-btn .icon-moon { position: absolute; }
+
+[data-theme="dark"] .theme-toggle-btn .icon-sun { opacity: 0; transform: rotate(90deg) scale(0.4); }
+[data-theme="dark"] .theme-toggle-btn .icon-moon { opacity: 1; transform: rotate(0) scale(1); color: #cfd3ff; }
+[data-theme="light"] .theme-toggle-btn .icon-sun { opacity: 1; transform: rotate(0) scale(1); color: #f5a623; }
+[data-theme="light"] .theme-toggle-btn .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.4); }
+
+/* ---------- Sidebar toggler (hamburger) ---------- */
+.content .navbar .sidebar-toggler {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+.content .navbar .sidebar-toggler:hover {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 4px var(--accent-glow) !important;
+    color: var(--accent) !important;
+}
+.content .navbar .sidebar-toggler i {
+    color: var(--text-primary) !important;
+}
+.content .navbar .sidebar-toggler:hover i {
+    color: var(--accent) !important;
+}
+
+/* ---------- Notification bell & top-nav icon circles ---------- */
+.content .navbar .navbar-nav .nav-link i {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+.content .navbar .navbar-nav .nav-link:hover i,
+.content .navbar .navbar-nav .nav-link.active i {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 4px var(--accent-glow) !important;
+    color: var(--accent) !important;
+}
+
+/* ---------- Sidebar slide animation — GPU-accelerated via transform ---------- */
+.sidebar {
+    transform: translateX(0);
+    will-change: transform;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+.content {
+    transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                width      0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Desktop: sidebar slides left off-screen */
+@media (min-width: 992px) {
+    .sidebar.open {
+        transform: translateX(-270px) !important;
+        box-shadow: none !important;
+        margin-left: 0 !important; /* let transform do the work */
+    }
+    .content.open {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+}
+
+/* Mobile: sidebar slides in from left */
+@media (max-width: 991.98px) {
+    .sidebar {
+        transform: translateX(-270px);
+    }
+    .sidebar.open {
+        transform: translateX(0) !important;
+        box-shadow: 6px 0 30px rgba(0, 0, 0, 0.45) !important;
+    }
+}
+
+/* Hamburger icon rotates when toggler is active */
+.sidebar-toggler i {
+    transition: transform 0.28s ease !important;
+}
+.sidebar-toggler.active i {
+    transform: rotate(90deg) !important;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+    background: var(--bg-sidebar) !important;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-top: 1px solid var(--border-soft);
+    color: var(--text-secondary);
+    padding: 1rem 1.5rem;
+    margin-top: auto;
+    width: 100%;
+}
+.site-footer a {
+    color: var(--accent) !important;
+}
+
+
+
+/* ============================================================
+   SMOOTH HOVER ANIMATIONS
+   All effects use transform / opacity / box-shadow only
+   — these run on the GPU compositor with zero layout reflow.
+   ============================================================ */
+
+/* ------ Sidebar nav links ------ */
+.sidebar .navbar-nav .nav-link,
+.sidebar-bottom-section .nav-link {
+    transition:
+        color            0.22s ease,
+        background       0.22s ease,
+        border-color     0.22s ease,
+        box-shadow       0.22s ease,
+        transform        0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+        padding-left     0.22s ease !important;
+    will-change: transform;
+}
+
+/* Slight X nudge + glow on hover */
+.sidebar .navbar-nav .nav-link:hover,
+.sidebar-bottom-section .nav-link:hover {
+    transform: translateX(4px) !important;
+}
+
+/* Active stays put — no nudge */
+.sidebar .navbar-nav .nav-link.active,
+.sidebar-bottom-section .nav-link.active {
+    transform: translateX(0) !important;
+}
+
+/* Icon inside nav link scales up smoothly */
+.sidebar .navbar-nav .nav-link .nav-icon-img,
+.sidebar-bottom-section .nav-link .nav-icon-img {
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter    0.22s ease !important;
+    will-change: transform;
+}
+.sidebar .navbar-nav .nav-link:hover .nav-icon-img,
+.sidebar-bottom-section .nav-link:hover .nav-icon-img {
+    transform: scale(1.18) rotate(-4deg) !important;
+}
+
+/* ------ Top navbar: hamburger + bell + user ------ */
+.content .navbar .sidebar-toggler,
+.content .navbar .navbar-nav .nav-link i {
+    transition:
+        background-color 0.22s ease,
+        color            0.22s ease,
+        border-color     0.22s ease,
+        box-shadow       0.22s ease,
+        transform        0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    will-change: transform;
+}
+.content .navbar .sidebar-toggler:hover,
+.content .navbar .navbar-nav .nav-link:hover i {
+    transform: scale(1.1) !important;
+}
+
+/* User avatar in top navbar */
+.content .navbar .navbar-nav .nav-link img.rounded-circle {
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.22s ease !important;
+    will-change: transform;
+}
+.content .navbar .navbar-nav .nav-link:hover img.rounded-circle {
+    transform: scale(1.1) !important;
+    box-shadow: 0 0 0 3px var(--accent), 0 0 12px var(--accent-glow) !important;
+}
+
+/* ------ Dropdown items ------ */
+.dropdown-menu .dropdown-item {
+    transition: background-color 0.18s ease,
+                color            0.18s ease,
+                padding-left     0.18s ease !important;
+}
+.dropdown-menu .dropdown-item:hover {
+    padding-left: 1.4rem !important;
+}
+
+/* ------ Buttons ------ */
+.btn {
+    transition:
+        background-color 0.2s ease,
+        border-color     0.2s ease,
+        color            0.2s ease,
+        box-shadow       0.2s ease,
+        transform        0.18s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    will-change: transform;
+}
+.btn:hover {
+    transform: translateY(-2px) scale(1.03) !important;
+}
+.btn:active {
+    transform: translateY(0) scale(0.97) !important;
+    transition-duration: 0.08s !important;
+}
+
+/* ------ Cards ------ */
+.card {
+    transition: transform  0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.22s ease !important;
+    will-change: transform;
+}
+.card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 28px -8px var(--accent-glow) !important;
+}
+
+/* ------ Back-to-top button ------ */
+.back-to-top {
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.22s ease,
+                opacity    0.22s ease !important;
+    will-change: transform;
+}
+.back-to-top:hover {
+    transform: translateY(-4px) scale(1.1) !important;
+    box-shadow: 0 8px 20px -4px var(--accent-glow) !important;
+}
+
+/* ------ Theme toggle button ------ */
+.theme-toggle-btn {
+    transition: border-color 0.22s ease,
+                box-shadow   0.22s ease,
+                transform    0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    will-change: transform;
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.1) !important;
+}
+
+/* Fix heading colors to adapt to light/dark mode */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    color: var(--text-main) !important;
+}

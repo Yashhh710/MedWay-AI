@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Navaratan Medical",
+    "type": "MEDICAL",
+    "lat": 18.98350,
+    "lon": 73.10980,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Sanjeevani Medical And General Stores",
+    "type": "MEDICAL",
+    "lat": 18.98780,
+    "lon": 73.10800,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Welcome Medical",
+    "type": "MEDICAL",
+    "lat": 18.98850,
+    "lon": 73.10700,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Noble Medical",
+    "type": "MEDICAL",
+    "lat": 18.98700,
+    "lon": 73.10900,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "MAXWELL FOREVER & LIFESTYLE CHEMIST",
+    "type": "MEDICAL",
+    "lat": 18.98800,
+    "lon": 73.10850,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Apollo Pharmacy Panvel ST Stand",
+    "type": "MEDICAL",
+    "lat": 18.98880,
+    "lon": 73.11180,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "davaindia GENERIC PHARMACY",
+    "type": "MEDICAL",
+    "lat": 19.00200,
+    "lon": 73.11500,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Mihir Chemist",
+    "type": "MEDICAL",
+    "lat": 19.00600,
+    "lon": 73.11900,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "Care Plus Medical And General Store",
+    "type": "MEDICAL",
+    "lat": 19.00500,
+    "lon": 73.11800,
+    "image": "img/user.jpg"
+  },
+  {
+    "name": "New Patel Chemist & Druggist",
+    "type": "MEDICAL",
+    "lat": 19.00650,
+    "lon": 73.11650,
+    "image": "img/user.jpg"
+  }
+]

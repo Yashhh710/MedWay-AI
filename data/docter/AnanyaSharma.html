@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){try{var t=localStorage.getItem('medway-theme')||'light';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.backgroundColor=t==='dark'?'#000000':'#f8fafc';}catch(e){}})();</script>
+  <link href="../../css/page-transitions.css" rel="stylesheet">
+  <script src="../../js/page-transitions.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MEDWAY AI - Doctor Details</title>
+  <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=TLewNUJrWDl1&format=png&color=000000">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #1e293b;
+      font-size: 13px;
+    }
+
+    /* Top Navigation Bar */
+    .navbar {
+      background-color: #ffffff;
+      color: #1e293b;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .nav-btn {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .nav-btn:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-brand-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      color: #dc2626;
+    }
+
+    .brand-subtitle {
+      font-size: 10px;
+      color: #64748b;
+    }
+
+    /* Layout Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Common Card Styling */
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Header Profile Card */
+    .profile-card {
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+
+    @media (max-width: 600px) {
+      .profile-card {
+        flex-direction: column;
+      }
+    }
+
+    .profile-img-container {
+      position: relative;
+      width: 140px;
+      height: 160px;
+      flex-shrink: 0;
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .verified-badge {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #10b981;
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .profile-details {
+      flex: 1;
+    }
+
+    .doctor-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .doctor-title {
+      color: #dc2626;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 24px;
+      margin: 14px 0;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-val {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .stat-lbl {
+      color: #64748b;
+      font-size: 11px;
+    }
+
+    .location-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: #475569;
+      margin-bottom: 16px;
+    }
+
+    .loc-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #dc2626;
+    }
+
+    .btn-secondary {
+      background-color: #ffffff;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f8fafc;
+    }
+
+    .status-pill {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background-color: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #10b981;
+      border-radius: 50%;
+    }
+
+    /* Quick Grid */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .quick-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quick-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .quick-title {
+      font-size: 10px;
+      color: #64748b;
+    }
+
+    .quick-val {
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Sub Grids */
+    .sub-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .sub-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #1e293b;
+    }
+
+    .section-title i {
+      color: #ef4444;
+    }
+
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .pill-tag {
+      background-color: #f1f5f9;
+      color: #334155;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+    }
+
+    .pill-tag.red {
+      background-color: #fef2f2;
+      color: #dc2626;
+    }
+
+    .pill-tag.green {
+      background-color: #ecfdf5;
+      color: #047857;
+    }
+
+    /* List Items */
+    .info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .info-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #334155;
+    }
+
+    .dot-bullet {
+      width: 5px;
+      height: 5px;
+      background-color: #ef4444;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Schedule Table */
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .schedule-table td {
+      padding: 4px 0;
+      color: #475569;
+    }
+
+    .schedule-table td:last-child {
+      text-align: right;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* AI Compatibility */
+    .ai-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .score-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 4px solid #10b981;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .score-num {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .score-lbl {
+      font-size: 8px;
+      color: #059669;
+      font-weight: 600;
+    }
+
+    /* AI Summary Footer Card */
+    .ai-summary-card {
+      margin-top: 16px;
+      background-color: #fef2f2;
+      border: 1px solid #fee2e2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Map Box Container */
+    .map-box {
+      height: 180px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+      position: relative;
+      z-index: 1;
+    }
+
+    #facilityMap {
+      width: 100%;
+      height: 100%;
+    }
+
+    .custom-map-pin {
+      background: #ef4444;
+      color: white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      border: 2px solid white;
+    }
+
+    .booking-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .book-option {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .book-option.active {
+      border-color: #ef4444;
+      background-color: #fef2f2;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .contact-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sos-banner {
+      background-color: #fef2f2;
+      border: 1px solid #fee2e2;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+
+    .disclaimer-bar {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 11px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding-bottom: 20px;
+    }
+
+    /* Booking Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 440px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .modal-form-group {
+      margin-bottom: 12px;
+    }
+
+    .modal-form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .modal-form-group input, .modal-form-group select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .modal-error {
+      display: none;
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fee2e2;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+
+    .modal-success {
+      display: none;
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 12px;
+      margin-bottom: 10px;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Video & Audio Call Modal Interface */
+    .call-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #000; /* fully black background per request */
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10000;
+      padding: 30px 20px;
+      color: white;
+    }
+
+    .call-video-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    .call-overlay-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .pulse-ring {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 1.5s infinite;
+      margin-top: 40px;
+    }
+
+    .pulse-ring.ended {
+      background: rgba(239, 68, 68, 0.2);
+      animation: none;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .call-status-msg {
+      background: rgba(16, 185, 129, 0.9);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .call-error-msg {
+      background: rgba(185, 28, 28, 0.95);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .call-timer {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="main-grid">
+
+      <div>
+        <div class="card profile-card">
+          <div class="status-pill">
+            <span class="status-dot"></span> <span id="availabilityStatus">Available Today</span>
+          </div>
+
+          <div class="profile-img-container">
+            <img id="doctorImage" src="https://images.pexels.com/photos/8376318/pexels-photo-8376318.jpeg" alt="Doctor Profile" class="profile-img" />
+            <div class="verified-badge" id="verifiedBadge" style="display: none;">
+              <i data-lucide="check-circle-2" size="12"></i> VERIFIED DOCTOR
+            </div>
+          </div>
+
+          <div class="profile-details">
+            <div class="doctor-name">
+              <span id="doctorName">Dr. Ananya Sharma</span>
+              <i data-lucide="badge-check" size="18" style="color: #ef4444;"></i>
+            </div>
+            <div class="doctor-title" id="doctorSpecialty">General Physician</div>
+
+            <div class="stats-row">
+              <div class="stat-item">
+                <span class="stat-val" style="display: flex; align-items: center; gap: 4px;">
+                  <i data-lucide="star" size="14" style="fill: #f59e0b; color: #f59e0b;"></i> <span id="doctorRating">4.8</span>
+                </span>
+                <span class="stat-lbl">(<span id="doctorReviews">128</span> Reviews)</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-val" id="doctorExperience">12+ Years</span>
+                <span class="stat-lbl">Experience</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-val" id="doctorPatients">5,000+</span>
+                <span class="stat-lbl">Patients Treated</span>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <div class="loc-item">
+                <i data-lucide="building-2" size="14"></i> <span id="doctorHospitalName">Purohit Hospital</span>
+              </div>
+              <div class="loc-item" style="color: #ef4444;">
+                <i data-lucide="map-pin" size="14"></i> <span id="doctorDistance">2.4 km</span> away from you
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn-primary" onclick="openBookingModal()">
+                <i data-lucide="calendar" size="14"></i> Book Appointment
+              </button>
+              <button class="btn-secondary" onclick="startVideoCall()">
+                <i data-lucide="video" size="14"></i> Video Consultation
+              </button>
+              <button class="btn-secondary" onclick="startVoiceCall()">
+                <i data-lucide="phone-call" size="14"></i> Call
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-grid">
+          <div class="quick-card">
+            <div class="quick-icon" style="background: #fef2f2; color: #ef4444;"><i data-lucide="user" size="16"></i></div>
+            <div>
+              <div class="quick-title">Specialization</div>
+              <div class="quick-val" id="cardSpecialty">General Physician</div>
+            </div>
+          </div>
+          <div class="quick-card">
+            <div class="quick-icon" style="background: #f3e8ff; color: #9333ea;"><i data-lucide="clock" size="16"></i></div>
+            <div>
+              <div class="quick-title">Experience</div>
+              <div class="quick-val" id="cardExperience">12+ Years</div>
+            </div>
+          </div>
+          <div class="quick-card">
+            <div class="quick-icon" style="background: #ffedd5; color: #ea580c;"><i data-lucide="users" size="16"></i></div>
+            <div>
+              <div class="quick-title">Patients</div>
+              <div class="quick-val" id="cardPatients">5,000+</div>
+            </div>
+          </div>
+          <div class="quick-card">
+            <div class="quick-icon" style="background: #fef9c3; color: #ca8a04;"><i data-lucide="star" size="16"></i></div>
+            <div>
+              <div class="quick-title">Rating</div>
+              <div class="quick-val" id="cardRating">4.8 / 5</div>
+            </div>
+          </div>
+          <div class="quick-card">
+            <div class="quick-icon" style="background: #e0e7ff; color: #4f46e5;"><i data-lucide="languages" size="16"></i></div>
+            <div>
+              <div class="quick-title">Languages</div>
+              <div class="quick-val" id="cardLanguages" style="font-size: 10px;">English, Hindi, Marathi</div>
+            </div>
+          </div>
+          <div class="quick-card">
+            <div class="quick-icon" style="background: #dcfce7; color: #16a34a;"><i data-lucide="indian-rupee" size="16"></i></div>
+            <div>
+              <div class="quick-title">Consultation</div>
+              <div class="quick-val">₹<span id="cardConsultation">500</span> <span style="font-weight: normal; font-size: 9px; color: #64748b;">In-person</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-grid">
+          <div class="card">
+            <div class="section-title"><i data-lucide="file-text" size="16"></i> About Doctor</div>
+            <p id="aboutDoctorText" style="color: #475569; font-size: 11px; line-height: 1.5;"></p>
+            <div class="tag-container">
+              <span class="pill-tag green">Patient Friendly</span>
+              <span class="pill-tag red">Experienced</span>
+              <span class="pill-tag red">Trusted Care</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-title"><i data-lucide="award" size="16"></i> Medical Specialties</div>
+            <div class="tag-container" id="specialtiesContainer"></div>
+          </div>
+        </div>
+
+        <div class="sub-grid">
+          <div class="card">
+            <div class="section-title"><i data-lucide="graduation-cap" size="16"></i> Education</div>
+            <ul class="info-list" id="educationList"></ul>
+          </div>
+
+          <div class="card">
+            <div class="section-title"><i data-lucide="globe" size="16"></i> Languages Spoken</div>
+            <div class="tag-container" id="languagesContainer" style="margin-bottom: 12px;"></div>
+          </div>
+        </div>
+
+        <div class="sub-grid">
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div class="section-title" style="margin: 0;"><i data-lucide="clock" size="16"></i> Availability</div>
+              <span style="font-size: 10px; color: #10b981; font-weight: 600;">● LIVE STATUS</span>
+            </div>
+            <table class="schedule-table" id="scheduleTable"></table>
+          </div>
+
+          <div class="card">
+            <div class="section-title"><i data-lucide="plane" size="16"></i> Traveler Compatibility (AI)</div>
+            <div class="ai-box">
+              <div class="score-circle">
+                <span class="score-num" id="compatibilityScore">92%</span>
+                <span class="score-lbl">Great Match</span>
+              </div>
+              <ul class="info-list" id="compatibilityReasons"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card ai-summary-card">
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <i data-lucide="bot" size="20" style="color: #ef4444;"></i>
+            <div>
+              <div style="font-weight: 700; font-size: 12px; margin-bottom: 2px;">MedWay AI Summary</div>
+              <div id="aiSummaryText" style="font-size: 11px; color: #475569; max-width: 520px;"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="section-title"><i data-lucide="map-pin" size="16"></i> Practice Location</div>
+
+          <div class="map-box">
+            <div id="facilityMap"></div>
+          </div>
+
+          <div style="font-weight: 700; font-size: 13px;" id="practiceHospitalName">Purohit Hospital</div>
+          <div style="font-size: 11px; color: #64748b; margin-top: 2px;" id="practiceHospitalAddress">Purohit Hospital, Panvel, Navi Mumbai</div>
+          <div style="font-size: 11px; color: #ef4444; margin: 4px 0 12px 0; display: flex; align-items: center; gap: 4px;">
+            <i data-lucide="navigation" size="10"></i> <span id="practiceHospitalDistance">2.4 km</span> away from you
+          </div>
+
+          <a id="getDirectionsBtn" class="btn-primary" style="width: 100%; justify-content: center; font-size: 11px; text-decoration:none;" target="_blank" rel="noopener">
+            <i data-lucide="navigation-2" size="12"></i> Get Directions
+          </a>
+        </div>
+
+        <div class="card" style="margin-top: 16px;">
+          <div class="section-title"><i data-lucide="phone" size="16"></i> Contact Information</div>
+
+          <div class="contact-item" style="cursor: pointer;" onclick="startVoiceCall()">
+            <div>
+              <div style="font-weight: 700; font-size: 12px;" id="contactPhone">+91 98765 43210</div>
+              <div style="font-size: 10px; color: #64748b;">Call for Appointments</div>
+            </div>
+            <div class="contact-icon" style="background: #dcfce7; color: #15803d;"><i data-lucide="phone-call" size="14"></i></div>
+          </div>
+
+          <div class="contact-item" style="cursor: pointer;" onclick="openEmailClient()">
+            <div>
+              <div style="font-weight: 700; font-size: 11px;" id="contactEmail">dr.ananya.sharma@medway.demo</div>
+              <div style="font-size: 10px; color: #64748b;">Send us an email</div>
+            </div>
+            <div class="contact-icon" style="background: #e0f2fe; color: #0369a1;"><i data-lucide="mail" size="14"></i></div>
+          </div>
+
+          <div class="contact-item" style="border: none; cursor: pointer;" onclick="openDirections()">
+            <div>
+              <div style="font-weight: 700; font-size: 11px;" id="contactAddress">Purohit Hospital</div>
+              <div style="font-size: 10px; color: #64748b;">Panvel, Navi Mumbai</div>
+            </div>
+            <div class="contact-icon" style="background: #fee2e2; color: #b91c1c;"><i data-lucide="map-pin" size="14"></i></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 16px;">
+          <div class="section-title"><i data-lucide="calendar" size="16"></i> Book an Appointment</div>
+          <div style="font-size: 11px; color: #64748b; margin-bottom: 8px;">Choose consultation type</div>
+
+          <div class="booking-options">
+            <div class="book-option active" id="optionInPerson" onclick="selectConsultationOption('In-person')">
+              <i data-lucide="building" size="18" style="color: #ef4444;"></i>
+              <div style="font-size: 10px; color: #64748b; margin-top: 2px;">In-person</div>
+              <div style="font-size: 9px; color: #64748b;">Consultation</div>
+              <div style="font-weight: 700; font-size: 12px; margin-top: 4px;">₹<span id="priceInPerson">500</span></div>
+            </div>
+
+            <div class="book-option" id="optionVideo" onclick="selectConsultationOption('Video')">
+              <i data-lucide="video" size="18" style="color: #64748b;"></i>
+              <div style="font-size: 10px; color: #64748b; margin-top: 2px;">Video</div>
+              <div style="font-size: 9px; color: #64748b;">Consultation</div>
+              <div style="font-weight: 700; font-size: 12px; margin-top: 4px;">₹<span id="priceVideo">350</span></div>
+            </div>
+          </div>
+
+          <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="openBookingModal()">
+            <i data-lucide="calendar" size="14"></i> Book Appointment
+          </button>
+
+          <div style="display: flex; justify-content: center; gap: 8px; font-size: 10px; color: #64748b; margin-top: 8px;">
+            <i data-lucide="lock" size="12"></i> Secure • Fast • Easy
+          </div>
+        </div>
+
+        <div class="sos-banner">
+          <div>
+            <div style="font-weight: 700; font-size: 11px; color: #991b1b; display: flex; align-items: center; gap: 4px;">
+              <i data-lucide="alert-triangle" size="14"></i> Need immediate medical help?
+            </div>
+            <div style="font-size: 10px; color: #7f1d1d; margin-top: 2px;">Use MedWay AI SOS for emergency assistance.</div>
+          </div>
+          <a href="../../sos.html" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; text-decoration: none;">
+            <i data-lucide="siren" size="12"></i> Open SOS
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="disclaimer-bar">
+      <i data-lucide="info" size="12"></i> Information shown for demonstration purposes only. MedWay AI provides intelligent medical matching.
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Book Appointment</div>
+        <i data-lucide="x" size="18" style="cursor: pointer;" onclick="closeBookingModal()"></i>
+      </div>
+
+      <div class="modal-error" id="modalError"></div>
+      <div class="modal-success" id="modalSuccess">
+        <i data-lucide="check-circle-2" size="16"></i> <span id="modalSuccessText"></span>
+      </div>
+
+      <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+        <div class="modal-form-group">
+          <label>Doctor Name</label>
+          <input type="text" id="modalDoctorName" readonly style="background-color: #f1f5f9;">
+        </div>
+        <div class="modal-form-group">
+          <label>Hospital Location</label>
+          <input type="text" id="modalHospitalName" readonly style="background-color: #f1f5f9;">
+        </div>
+        <div class="modal-form-group">
+          <label>Patient Full Name</label>
+          <input type="text" placeholder="Enter patient name" required id="modalPatientName">
+        </div>
+        <div class="modal-form-group">
+          <label>Mobile Number</label>
+          <input type="tel" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" required id="modalMobileNo">
+        </div>
+        <div class="modal-form-group">
+          <label>Consultation Mode</label>
+          <select id="modalConsultationType" onchange="handleModalTypeChange()">
+            <option value="In-person">In-person Consultation (₹500)</option>
+            <option value="Video">Video Consultation (₹350)</option>
+          </select>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="modal-form-group">
+            <label>Select Date</label>
+            <input type="date" required id="modalDate">
+          </div>
+          <div class="modal-form-group">
+            <label>Select Time</label>
+            <input type="time" required id="modalTime">
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+          <i data-lucide="check-circle" size="14"></i> Confirm & Book Appointment
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="call-modal-overlay" id="callModal">
+    <video id="webcamVideo" class="call-video-bg" autoplay playsinline muted></video>
+
+    <div class="call-overlay-content">
+      <div style="font-size: 20px; font-weight: 700;" id="callDoctorTitle">Dr. Ananya Sharma</div>
+      <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;" id="callStatusText">Calling...</div>
+      <div class="call-timer" id="callTimerDisplay" style="display:none;">00:00</div>
+
+      <div class="pulse-ring" id="callAvatarContainer">
+        <i data-lucide="phone-call" size="36" id="callTypeIcon"></i>
+      </div>
+
+      <div class="call-status-msg" id="callConnectedMsg">
+        <i data-lucide="check-circle-2" size="18"></i><br>
+        Call connected
+      </div>
+      <div class="call-error-msg" id="callErrorMsg">
+        <i data-lucide="x-circle" size="18"></i><br>
+        Call failed — server error. Call not connected.
+      </div>
+    </div>
+
+    <div class="call-overlay-content" style="margin-bottom: 20px;">
+      <button class="btn-primary" style="background: #dc2626; border-radius: 50%; width: 56px; height: 56px; justify-content: center; padding: 0;" onclick="endCallImmediately()">
+        <i data-lucide="phone-off" size="24"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Embedded Data directly inside the HTML page
+    const DOCTORS_DATA = [
+      {
+        id: "doctor-001",
+        name: "Dr. Ananya Sharma",
+        specialty: "General Physician",
+        image: "https://images.pexels.com/photos/8376318/pexels-photo-8376318.jpeg",
+        verified: true,
+        rating: 4.8,
+        reviews: 128,
+        experience: "12+ Years",
+        patients: "5,000+",
+        languages: ["English", "Hindi", "Marathi"],
+        hospital: {
+          name: "Purohit Hospital",
+          lat: 18.98600,
+          lon: 73.11380
+        },
+        address: "Purohit Hospital, Panvel, Navi Mumbai",
+        distance: "2.4 km",
+        phone: "+91 98765 43210",
+        email: "dr.ananya.sharma@medway.demo",
+        consultation: {
+          inPerson: 500,
+          video: 350
+        },
+        availability: {
+          status: "Available Today",
+          hours: {
+            "Monday": "10:00 AM - 2:00 PM",
+            "Tuesday": "10:00 AM - 2:00 PM",
+            "Wednesday": "4:00 PM - 8:00 PM",
+            "Thursday": "10:00 AM - 2:00 PM",
+            "Friday": "10:00 AM - 2:00 PM",
+            "Saturday": "10:00 AM - 1:00 PM",
+            "Sunday": "Closed"
+          }
+        },
+        about: "Dr. Ananya Sharma is a dedicated general physician with 12+ years of experience in providing comprehensive primary healthcare. She specializes in diagnosing and treating a wide range of acute and chronic illnesses with a patient-first approach.",
+        specialties: [
+          "General Medicine",
+          "Fever & Infection",
+          "Travel Medicine",
+          "Preventive Care",
+          "Lifestyle Disorders",
+          "Emergency Care"
+        ],
+        education: [
+          "MBBS - Grant Medical College",
+          "MD (General Medicine) - KEM Hospital",
+          "Certified in Travel Medicine",
+          "Basic Life Support (BLS) Certified"
+        ],
+        travelerCompatibility: {
+          score: 92,
+          reasons: [
+            "Speaks your preferred languages",
+            "Close to your location",
+            "Matches your medical needs",
+            "Good availability today"
+          ]
+        }
+      }
+    ];
+
+    let currentDoctor = null;
+    let facilityMap = null;
+    let selectedType = 'In-person';
+    let callTimer = null;
+    let callSeconds = 0;
+    let callIntervalHandle = null;
+    let callAutoEndTimer = null;
+    let webcamStream = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      currentDoctor = DOCTORS_DATA[0];
+      renderDoctorDetails(currentDoctor);
+      initMap(currentDoctor.hospital);
+      lucide.createIcons();
+
+      // Default the date input's min to today so users can't pick the past
+      const dateInput = document.getElementById('modalDate');
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.min = today;
+    });
+
+    function renderDoctorDetails(doctor) {
+      document.getElementById('doctorName').innerText = doctor.name;
+      document.getElementById('doctorSpecialty').innerText = doctor.specialty;
+      document.getElementById('doctorImage').src = doctor.image;
+
+      if (doctor.verified) {
+        document.getElementById('verifiedBadge').style.display = 'flex';
+      }
+
+      document.getElementById('doctorRating').innerText = doctor.rating;
+      document.getElementById('doctorReviews').innerText = doctor.reviews;
+      document.getElementById('doctorExperience').innerText = doctor.experience;
+      document.getElementById('doctorPatients').innerText = doctor.patients;
+
+      document.getElementById('availabilityStatus').innerText = doctor.availability.status;
+
+      document.getElementById('doctorHospitalName').innerText = doctor.hospital.name;
+      document.getElementById('practiceHospitalName').innerText = doctor.hospital.name;
+      document.getElementById('contactAddress').innerText = doctor.hospital.name;
+
+      document.getElementById('doctorDistance').innerText = doctor.distance;
+      document.getElementById('practiceHospitalDistance').innerText = doctor.distance;
+      document.getElementById('practiceHospitalAddress').innerText = doctor.address;
+
+      // Set directions link for the Get Directions button
+      try {
+        const dir = document.getElementById('getDirectionsBtn');
+        if (dir && doctor.hospital && doctor.hospital.lat && doctor.hospital.lon) {
+          // Open the map centered on the hospital location (no directions)
+          dir.href = `https://www.google.com/maps/search/?api=1&query=${doctor.hospital.lat},${doctor.hospital.lon}`;
+        }
+      } catch (e) {}
+
+      document.getElementById('cardSpecialty').innerText = doctor.specialty;
+      document.getElementById('cardExperience').innerText = doctor.experience;
+      document.getElementById('cardPatients').innerText = doctor.patients;
+      document.getElementById('cardRating').innerText = `${doctor.rating} / 5`;
+      document.getElementById('cardLanguages').innerText = doctor.languages.join(', ');
+      document.getElementById('cardConsultation').innerText = doctor.consultation.inPerson;
+
+      document.getElementById('aboutDoctorText').innerText = doctor.about;
+
+      const specContainer = document.getElementById('specialtiesContainer');
+      specContainer.innerHTML = doctor.specialties.map(s => `<span class="pill-tag red">${escapeHtml(s)}</span>`).join('');
+
+      const eduList = document.getElementById('educationList');
+      eduList.innerHTML = doctor.education.map(e => `<li><span class="dot-bullet"></span> ${escapeHtml(e)}</li>`).join('');
+
+      const langContainer = document.getElementById('languagesContainer');
+      langContainer.innerHTML = doctor.languages.map(l => `<span class="pill-tag red">${escapeHtml(l)}</span>`).join('');
+
+      const schedTable = document.getElementById('scheduleTable');
+      let schedHtml = '';
+      for (const [day, time] of Object.entries(doctor.availability.hours)) {
+        const closedStyle = time === 'Closed' ? 'style="color: #ef4444;"' : '';
+        schedHtml += `<tr><td>${day}</td><td ${closedStyle}>${time}</td></tr>`;
+      }
+      schedTable.innerHTML = schedHtml;
+
+      document.getElementById('compatibilityScore').innerText = `${doctor.travelerCompatibility.score}%`;
+      const compatList = document.getElementById('compatibilityReasons');
+      compatList.innerHTML = doctor.travelerCompatibility.reasons.map(r => `
+        <li><i data-lucide="check" size="14" style="color: #10b981;"></i> ${escapeHtml(r)}</li>
+      `).join('');
+
+      document.getElementById('aiSummaryText').innerText =
+        `${doctor.name} is a highly rated ${doctor.specialty.toLowerCase()} with ${doctor.experience} of experience. She speaks ${doctor.languages.join(', ')}, which makes communication convenient for patients. She practices at ${doctor.hospital.name}.`;
+
+      document.getElementById('contactPhone').innerText = doctor.phone;
+      document.getElementById('contactEmail').innerText = doctor.email;
+
+      document.getElementById('priceInPerson').innerText = doctor.consultation.inPerson;
+      document.getElementById('priceVideo').innerText = doctor.consultation.video;
+
+      document.getElementById('callDoctorTitle').innerText = doctor.name;
+
+      lucide.createIcons();
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.innerText = str;
+      return div.innerHTML;
+    }
+
+    function initMap(hospital) {
+      if (facilityMap) return;
+
+      facilityMap = L.map('facilityMap', {
+        center: [hospital.lat, hospital.lon],
+        zoom: 15,
+        zoomControl: false
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(facilityMap);
+
+      // Use a plain unicode glyph inside the pin instead of a lucide <i>
+      // tag, since lucide only swaps icons that exist in the DOM at the
+      // time createIcons() runs, and Leaflet's marker HTML is injected later.
+      const customIcon = L.divIcon({
+        className: 'custom-map-pin',
+        html: '🏥',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+      });
+
+      L.marker([hospital.lat, hospital.lon], { icon: customIcon })
+        .addTo(facilityMap)
+        .bindPopup(`<b>${escapeHtml(hospital.name)}</b><br>Panvel, Navi Mumbai`)
+        .openPopup();
+
+      // Leaflet sizes its canvas based on the container at creation time;
+      // if the container was hidden/animating, force a recalculation.
+      setTimeout(() => { facilityMap.invalidateSize(); }, 200);
+    }
+
+    function openDirections() {
+      if (!currentDoctor) return;
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${currentDoctor.hospital.lat},${currentDoctor.hospital.lon}`;
+      window.open(url, '_blank', 'noopener');
+    }
+
+    function medwayGoBack(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.preventDefault) e.preventDefault();
+      try {
+        // If the page was opened by another window (via window.open), close it
+        if (window.opener && !window.opener.closed) {
+          window.close();
+          return;
+        }
+      } catch (err) {}
+
+      try {
+        // Otherwise, navigate back if there is history
+        if (window.history && window.history.length > 1) {
+          window.history.back();
+          return;
+        }
+      } catch (err) {}
+
+      try {
+        // As a last resort try to close (may fail on tabs not opened by script)
+        window.close();
+        return;
+      } catch (err) {}
+
+      // Final fallback: go to explore
+      window.location.href = 'explore.html';
+    }
+
+    function openEmailClient() {
+      if (!currentDoctor) return;
+      window.location.href = `mailto:${currentDoctor.email}?subject=${encodeURIComponent('Appointment Inquiry - ' + currentDoctor.name)}`;
+    }
+
+    function selectConsultationOption(type) {
+      selectedType = type;
+      const inPerson = document.getElementById('optionInPerson');
+      const video = document.getElementById('optionVideo');
+
+      if (type === 'In-person') {
+        inPerson.classList.add('active');
+        video.classList.remove('active');
+        inPerson.querySelector('i').style.color = '#ef4444';
+        video.querySelector('i').style.color = '#64748b';
+      } else {
+        video.classList.add('active');
+        inPerson.classList.remove('active');
+        video.querySelector('i').style.color = '#ef4444';
+        inPerson.querySelector('i').style.color = '#64748b';
+      }
+
+      // Keep the modal's dropdown in sync if it's open
+      const modalSelect = document.getElementById('modalConsultationType');
+      if (modalSelect) modalSelect.value = type;
+    }
+
+    function handleModalTypeChange() {
+      const modalSelect = document.getElementById('modalConsultationType');
+      selectConsultationOption(modalSelect.value);
+    }
+
+    /* Modal Booking Functions */
+    function openBookingModal(type) {
+      if (type) selectConsultationOption(type);
+
+      document.getElementById('modalDoctorName').value = currentDoctor.name;
+      document.getElementById('modalHospitalName').value = currentDoctor.hospital.name;
+      document.getElementById('modalConsultationType').value = selectedType;
+
+      // Reset form state each time it's opened
+      document.getElementById('bookingForm').reset();
+      document.getElementById('modalDoctorName').value = currentDoctor.name;
+      document.getElementById('modalHospitalName').value = currentDoctor.hospital.name;
+      document.getElementById('modalConsultationType').value = selectedType;
+
+      const errorBox = document.getElementById('modalError');
+      const successBox = document.getElementById('modalSuccess');
+      errorBox.style.display = 'none';
+      successBox.style.display = 'none';
+      document.getElementById('bookingForm').style.display = 'block';
+
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('modalDate').value = today;
+      document.getElementById('modalDate').min = today;
+
+      document.getElementById('bookingModal').style.display = 'flex';
+      lucide.createIcons();
+    }
+
+    function closeBookingModal() {
+      document.getElementById('bookingModal').style.display = 'none';
+    }
+
+    function handleBookingSubmit(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('modalPatientName').value.trim();
+      const mobile = document.getElementById('modalMobileNo').value.trim();
+      const date = document.getElementById('modalDate').value;
+      const time = document.getElementById('modalTime').value;
+      const type = document.getElementById('modalConsultationType').value;
+
+      const errorBox = document.getElementById('modalError');
+      errorBox.style.display = 'none';
+
+      if (!name) {
+        errorBox.innerText = 'Please enter the patient\'s full name.';
+        errorBox.style.display = 'block';
+        return;
+      }
+      if (!/^[0-9]{10}$/.test(mobile)) {
+        errorBox.innerText = 'Please enter a valid 10-digit mobile number.';
+        errorBox.style.display = 'block';
+        return;
+      }
+      if (!date || !time) {
+        errorBox.innerText = 'Please select both a date and a time.';
+        errorBox.style.display = 'block';
+        return;
+      }
+      const chosen = new Date(`${date}T${time}`);
+      if (chosen < new Date()) {
+        errorBox.innerText = 'Please choose a date and time in the future.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      const price = type === 'In-person' ? currentDoctor.consultation.inPerson : currentDoctor.consultation.video;
+      const prettyDate = new Date(`${date}T00:00:00`).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      const prettyTime = new Date(`${date}T${time}`).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+
+      document.getElementById('bookingForm').style.display = 'none';
+      const successBox = document.getElementById('modalSuccess');
+      document.getElementById('modalSuccessText').innerText =
+        `Booked ${type} consultation with ${currentDoctor.name} on ${prettyDate} at ${prettyTime} (₹${price}). A confirmation SMS will be sent to +91 ${mobile}.`;
+      successBox.style.display = 'flex';
+      lucide.createIcons();
+
+      setTimeout(() => {
+        closeBookingModal();
+      }, 3500);
+    }
+
+    /* Camera & Calling Features */
+    async function startVideoCall() {
+      const modal = document.getElementById('callModal');
+      const videoEl = document.getElementById('webcamVideo');
+      const statusText = document.getElementById('callStatusText');
+      const connectedMsg = document.getElementById('callConnectedMsg');
+      const iconEl = document.getElementById('callTypeIcon');
+      const ring = document.getElementById('callAvatarContainer');
+
+      resetCallUI();
+      modal.style.display = 'flex';
+      videoEl.style.display = 'block';
+      connectedMsg.style.display = 'none';
+      ring.classList.remove('ended');
+      iconEl.setAttribute('data-lucide', 'video');
+      lucide.createIcons();
+      statusText.innerText = "Requesting camera access...";
+
+      try {
+        webcamStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        videoEl.srcObject = webcamStream;
+        statusText.innerText = "Ringing " + currentDoctor.name + "...";
+      } catch (err) {
+        videoEl.style.display = 'none';
+        statusText.innerText = "Ringing " + currentDoctor.name + " (camera unavailable)...";
+      }
+
+      triggerCallConnect();
+    }
+
+    function startVoiceCall() {
+      const modal = document.getElementById('callModal');
+      const videoEl = document.getElementById('webcamVideo');
+      const statusText = document.getElementById('callStatusText');
+      const connectedMsg = document.getElementById('callConnectedMsg');
+      const iconEl = document.getElementById('callTypeIcon');
+      const ring = document.getElementById('callAvatarContainer');
+
+      resetCallUI();
+      modal.style.display = 'flex';
+      videoEl.style.display = 'none';
+      connectedMsg.style.display = 'none';
+      ring.classList.remove('ended');
+      iconEl.setAttribute('data-lucide', 'phone-call');
+      lucide.createIcons();
+      statusText.innerText = "Dialing " + currentDoctor.name + "...";
+
+      triggerCallConnect();
+    }
+
+    function resetCallUI() {
+      if (callTimer) clearTimeout(callTimer);
+      if (callAutoEndTimer) { clearTimeout(callAutoEndTimer); callAutoEndTimer = null; }
+      if (callIntervalHandle) clearInterval(callIntervalHandle);
+      callSeconds = 0;
+      const timerDisplay = document.getElementById('callTimerDisplay');
+      timerDisplay.style.display = 'none';
+      timerDisplay.innerText = '00:00';
+      const err = document.getElementById('callErrorMsg');
+      if (err) err.style.display = 'none';
+      const connected = document.getElementById('callConnectedMsg');
+      if (connected) connected.style.display = 'none';
+    }
+
+    function triggerCallConnect() {
+      if (callTimer) clearTimeout(callTimer);
+
+      // Simulate the call being answered after a short ring, then start
+      // a live duration timer — instead of always failing.
+      // For this build show a server error instead of 'connected'
+      callTimer = setTimeout(() => {
+        const statusText = document.getElementById('callStatusText');
+        statusText.innerText = 'Call failed — server error. Call not connected.';
+        const err = document.getElementById('callErrorMsg');
+        if (err) {
+          err.style.display = 'block';
+          try { lucide.createIcons(); } catch (e) {}
+        }
+        // hide connected indicator if present
+        const connectedMsg = document.getElementById('callConnectedMsg');
+        if (connectedMsg) connectedMsg.style.display = 'none';
+        // do not start timer
+        // auto-hide error after a short time
+        setTimeout(() => { if (err) err.style.display = 'none'; }, 3500);
+      }, 2000);
+
+      // Auto-end the call after 5 seconds to cut the attempt
+      if (callAutoEndTimer) { clearTimeout(callAutoEndTimer); callAutoEndTimer = null; }
+      callAutoEndTimer = setTimeout(() => {
+        endCallImmediately();
+      }, 5000);
+    }
+
+    function endCallImmediately() {
+      if (callTimer) clearTimeout(callTimer);
+      if (callIntervalHandle) clearInterval(callIntervalHandle);
+
+      if (webcamStream) {
+        webcamStream.getTracks().forEach(track => track.stop());
+        webcamStream = null;
+      }
+
+      document.getElementById('callModal').style.display = 'none';
+      const connected = document.getElementById('callConnectedMsg');
+      if (connected) connected.style.display = 'none';
+      const err = document.getElementById('callErrorMsg');
+      if (err) err.style.display = 'none';
+    }
+  </script>
+  <script src="../../js/theme.js"></script>
+    <script src="../../js/common-layout.js"></script>
+</body>
+</html>

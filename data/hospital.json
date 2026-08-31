@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Lifeline Hospital",
+    "type": "HOSPITAL",
+    "lat": 18.98920,
+    "lon": 73.10950,
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn0C8rv3sE_Og1hlIgiGVHkkOMgja77un6VMO8oi3nhvM8hkrlT_HhzCED10p1T7BGCJY6AUGgUz_tX2ITcgBDc-pmBxpkNrvx9HM16TCDnjJOXAPtr7peRX0M7LsMNhsQaHf3q=w423-h240-k-no"
+  },
+  {
+    "name": "Aadhar Multispeciality Hospital And ICU",
+    "type": "HOSPITAL",
+    "lat": 18.98085,
+    "lon": 73.11197,
+    "image": "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670558749928_HospitalProfileImage_Profile.png"
+  },
+  {
+    "name": "Max Life Hospital",
+    "type": "HOSPITAL",
+    "lat": 18.98535,
+    "lon": 73.10718,
+    "image": "https://www.livemint.com/lm-img/img/2023/08/07/1600x900/22140288-e856-11ea-af11-a5e2948179f8_1598573757061_1598573944745_1691407742603.jpg"
+  },
+  {
+    "name": "Gune Hospital",
+    "type": "HOSPITAL",
+    "lat": 18.98850,
+    "lon": 73.10780,
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWm4Icez2PdcfdEnvCfCuvJLIpMCj-adqJuKnIjzfyGadnVKE2I-CB5EM6rVg_KzxLN6k28q4XYYWVAEq40P8Icm_D0PnauFkMaqW2OT1N76cxi8Yyaqc3n-KemiS6TWY_1F8PR4ug=w408-h665-k-no"
+  },
+  {
+    "name": "Mhatre Accident Hospital",
+    "type": "HOSPITAL",
+    "lat": 18.98750,
+    "lon": 73.10650,
+    "image": "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670558714390_HospitalProfileImage_MHATRE%20W.png"
+  },
+  {
+    "name": "Gandhi Hospital",
+    "type": "HOSPITAL",
+    "lat": 18.98650,
+    "lon": 73.11450,
+    "image": "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670557651432_HospitalProfileImage_GANDHI%20W.png"
+  },
+  {
+    "name": "Purohit Hospital",
+    "type": "HOSPITAL",
+    "lat": 18.98600,
+    "lon": 73.11380,
+    "image": "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1663302856793_HospitalProfileImage_ef902e15-9374-4e6d-b5b1-ef071dec3a54.png"
+  },
+  {
+    "name": "Panacea Hospital Panvel",
+    "type": "HOSPITAL",
+    "lat": 19.00350,
+    "lon": 73.11800,
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnO9vsHBhnXbrXyo79-TUzdKkqcu_GM0HlCOwPCTAGbXcHUSihuT7_G-4o4jQA7B-w4THzWiCmTShMZebBbMQxQ-TPUMnD4AqwsSq_ClZqSlpUkp6dTWRaO2kXegp7JsIK0GRjCZcYynqPz=w408-h302-k-no"
+  },
+  {
+    "name": "Panvel Hospital",
+    "type": "HOSPITAL",
+    "lat": 18.98297,
+    "lon": 73.10829,
+    "image": "https://www.myhospitalnow.com/blog/wp-content/uploads/2024/02/image-1319-1024x459.png"
+  },
+  {
+    "name": "Ashtvinayak Hospital Panvel",
+    "type": "HOSPITAL",
+    "lat": 19.00450,
+    "lon": 73.10150,
+    "image": "https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1638794180766_HospitalFacilityImages_1.png"
+  }
+]

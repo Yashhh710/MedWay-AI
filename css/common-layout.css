@@ -1,0 +1,385 @@
+/* MEDWAY AI — Common Layout chrome CSS
+   Mirrors the sidebar/topbar styling defined inline in explore.html so that
+   pages using js/common-layout.js (doctor & hospital detail pages) get the
+   exact same look. Also adds [data-theme="dark"] overrides so the global
+   theme toggle re-colors these standalone pages too. */
+
+/* Base body styles managed by theme */
+
+/* Sidebar & Top Navbar Theme Definitions */
+.sidebar,
+.sidebar .navbar,
+.content .navbar,
+.dropdown-menu.bg-secondary {
+    background-color: var(--sidebar-bg, #0b0b0bd0) !important;
+    border-color: var(--border, rgba(255, 255, 255, 0.15)) !important;
+    transition: background-color 0.25s ease, border-color 0.25s ease !important;
+}
+
+[data-theme="light"] {
+    --sidebar-bg: #ffffff;
+    --navbar-bg: #ffffff;
+    --footer-bg: #f1f5f9;
+}
+
+[data-theme="dark"] {
+    --sidebar-bg: #0b0b0bd0;
+    --navbar-bg: #0b0b0bd0;
+    --footer-bg: #111827;
+}
+
+/* Light Theme Sidebar, Top Header & Text Overrides */
+[data-theme="light"] .sidebar,
+[data-theme="light"] .content .navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    border-right: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .sidebar .navbar-nav .nav-link {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .sidebar .navbar-nav .nav-link:hover,
+[data-theme="light"] .sidebar .navbar-nav .nav-link.active {
+    color: #eb1616 !important;
+    background-color: rgba(235, 22, 22, 0.08) !important;
+}
+
+[data-theme="light"] .sidebar-section-title,
+[data-theme="light"] .location-info-box {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .location-text {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .location-info-box {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .sidebar-divider {
+    border-top: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .nav-icon-img {
+    filter: invert(30%) sepia(10%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(90%) !important;
+}
+
+[data-theme="light"] .sidebar .navbar-nav .nav-link:hover .nav-icon-img,
+[data-theme="light"] .sidebar .navbar-nav .nav-link.active .nav-icon-img,
+[data-theme="light"] .sidebar-bottom-section .nav-link:hover .nav-icon-img,
+[data-theme="light"] .sidebar-bottom-section .nav-link.active .nav-icon-img {
+    filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%) !important;
+}
+
+[data-theme="light"] .dropdown-menu.bg-secondary {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .dropdown-menu.bg-secondary .dropdown-item {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .dropdown-menu.bg-secondary .dropdown-item:hover {
+    background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] footer,
+[data-theme="light"] .footer,
+[data-theme="light"] .site-footer {
+    background-color: #ffffff !important;
+    color: #475569 !important;
+    border-top: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] footer a,
+[data-theme="light"] .footer a {
+    color: #0f172a !important;
+}
+
+/* Sidebar Flex Layout */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Custom Main Header Logo Style */
+.sidebar-brand-logo {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+}
+
+/* Navigation Links Default Styles */
+.sidebar .navbar-nav .nav-link {
+    transition: all 0.3s ease-in-out;
+    border-left: 3px solid transparent !important;
+    padding-left: 24px;
+    display: flex;
+    align-items: center;
+    color: #888888 !important;
+}
+
+/* Visible Light Gray Icons for Unselected State */
+.nav-icon-img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    filter: invert(58%) sepia(0%) saturate(0%) hue-rotate(185deg) brightness(95%) contrast(87%);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Section header titles in sidebar */
+.sidebar-section-title {
+    color: #666;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 12px 24px 4px 24px;
+}
+
+/* Selected (Active) & Hover States: Red Theme */
+.sidebar .navbar-nav .nav-link:hover,
+.sidebar .navbar-nav .nav-link.active,
+.sidebar-bottom-section .nav-link:hover,
+.sidebar-bottom-section .nav-link.active {
+    color: #eb1616 !important;
+    background-color: rgba(235, 22, 22, 0.1) !important;
+    border-left: 3px solid #eb1616;
+    padding-left: 28px;
+}
+
+.sidebar .navbar-nav .nav-link:hover .nav-icon-img,
+.sidebar .navbar-nav .nav-link.active .nav-icon-img,
+.sidebar-bottom-section .nav-link:hover .nav-icon-img,
+.sidebar-bottom-section .nav-link.active .nav-icon-img {
+    filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+}
+
+/* Bottom Sidebar Divider Line */
+.sidebar-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 15px 20px 10px 20px;
+}
+
+/* Sidebar Bottom Container */
+.sidebar-bottom-section {
+    margin-top: auto;
+    width: 100%;
+}
+
+/* Pulsing Dot for Live Location Status (use site accent instead of green) */
+.pulse-dot {
+    height: 8px;
+    width: 8px;
+    background-color: #eb1616;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    box-shadow: 0 0 8px #eb1616;
+    animation: medway-pulse-animation 1.5s infinite;
+}
+
+@keyframes medway-pulse-animation {
+    0% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(235, 22, 22, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0); }
+}
+
+/* Inline Location Info Card */
+.location-info-box {
+    padding: 8px 24px;
+    color: #aaa;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+}
+.location-text {
+    color: #fff;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* The page's own original content, now nested inside .content */
+.medway-page-content {
+    width: 100%;
+}
+
+/* Back button in the injected topbar */
+#medwayBackBtn {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* ---------- Theme Variables & Overrides for Doctor & Hospital Pages ---------- */
+:root {
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --card-sec: #f1f5f9;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --primary: #ef4444;
+}
+
+[data-theme="dark"] {
+    --bg: #000000;
+    --card: #191c24;
+    --card-sec: #000000;
+    --text: #ffffff;
+    --muted: #6c7293;
+    --border: #2c2e33;
+    --primary: #eb1616;
+
+    /* Hospital page variable mappings */
+    --bg-color: #000000;
+    --card-bg: #191c24;
+    --text-main: #ffffff;
+    --text-muted: #6c7293;
+    --border-color: #2c2e33;
+}
+
+/* Base Body background & text smooth transition */
+body {
+    background-color: var(--bg-color, var(--bg)) !important;
+    color: var(--text-main, var(--text)) !important;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
+}
+
+/* Light theme explicit component overrides */
+[data-theme="light"] .medway-page-content {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .card,
+[data-theme="light"] .quick-card,
+[data-theme="light"] .dept-card,
+[data-theme="light"] .doctor-card,
+[data-theme="light"] .info-item,
+[data-theme="light"] .facility-item,
+[data-theme="light"] .nav-btn {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Dark theme explicit component overrides */
+[data-theme="dark"] .medway-page-content {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .quick-card,
+[data-theme="dark"] .dept-card,
+[data-theme="dark"] .doctor-card,
+[data-theme="dark"] .info-item,
+[data-theme="dark"] .facility-item,
+[data-theme="dark"] .nav-btn {
+    background-color: #191c24 !important;
+    color: #ffffff !important;
+    border-color: #2c2e33 !important;
+}
+
+[data-theme="dark"] .doctor-name,
+[data-theme="dark"] .modal-title,
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .quick-val,
+[data-theme="dark"] .info-value,
+[data-theme="dark"] .stat-val {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .quick-title,
+[data-theme="dark"] .stat-lbl,
+[data-theme="dark"] .location-info,
+[data-theme="dark"] .schedule-table td,
+[data-theme="dark"] .modal-form-group label,
+[data-theme="dark"] .form-group label,
+[data-theme="dark"] .hero-subtitle,
+[data-theme="dark"] .hero-meta,
+[data-theme="dark"] .info-label,
+[data-theme="dark"] .disclaimer-bar {
+    color: #6c7293 !important;
+}
+
+[data-theme="dark"] .schedule-table td:last-child {
+    color: #ffffff !important;
+}
+
+/* Buttons in Dark Mode */
+[data-theme="dark"] .btn-secondary,
+[data-theme="dark"] .nav-btn {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: #2c2e33 !important;
+}
+
+[data-theme="dark"] .btn-secondary:hover,
+[data-theme="dark"] .nav-btn:hover {
+    background-color: #191c24 !important;
+    color: #ffffff !important;
+    border-color: #eb1616 !important;
+}
+
+/* Form Inputs, Selects, Textareas in Dark Mode */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea,
+[data-theme="dark"] .form-control {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: #2c2e33 !important;
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] .form-control:focus {
+    border-color: #eb1616 !important;
+    background-color: #191c24 !important;
+}
+
+/* Modals in Dark Mode */
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .form-modal-body {
+    background-color: #191c24 !important;
+    color: #ffffff !important;
+    border: 1px solid #2c2e33 !important;
+}
+
+/* Cards with custom light tint backgrounds in dark mode */
+[data-theme="dark"] .ai-summary-card,
+[data-theme="dark"] .sos-banner,
+[data-theme="dark"] .sos-card {
+    background-color: rgba(239, 68, 68, 0.12) !important;
+    border-color: rgba(239, 68, 68, 0.25) !important;
+}
+
+[data-theme="dark"] .highlight-card {
+    background-color: rgba(2, 132, 199, 0.12) !important;
+    border-color: rgba(2, 132, 199, 0.25) !important;
+}
+
+[data-theme="dark"] .book-option {
+    border-color: #263244 !important;
+    color: #f8fafc !important;
+}
+[data-theme="dark"] .book-option.active {
+    border-color: #f87171 !important;
+    background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+/* Contact items border in dark mode */
+[data-theme="dark"] .contact-item {
+    border-bottom-color: #263244 !important;
+}
+
