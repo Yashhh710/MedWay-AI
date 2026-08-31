@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>(function(){try{var t=localStorage.getItem('medway-theme')||'light';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.backgroundColor=t==='light'?'#eef0f3':'#0a0b0e';}catch(e){}})();</script>
+    <meta charset="utf-8">
+    <title>MEDWAY AI - 404 Page Not Found</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=AUJJYtxUKEeP&format=png&color=000000>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <link href="css/page-transitions.css" rel="stylesheet">
+    <script src="js/page-transitions.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #0d0f12 !important;
+        }
+
+        /* Flex layout for sidebar */
+        .sidebar {
+            background-color: #0b0b0bd0 !important;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .sidebar .navbar {
+            background-color: transparent !important;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        /* Top navbar background styling */
+        .content .navbar {
+            background-color: #0b0b0bd0 !important;
+        }
+
+        /* Dropdown Menus */
+        .dropdown-menu.bg-secondary {
+            background: #0b0b0bd0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* Inputs & Form Controls */
+        .form-control.bg-dark {
+            background: rgba(255, 255, 255, 0.07) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+        }
+
+        .form-control.bg-dark:focus {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Main Header Logo Style */
+        .sidebar-brand-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+        }
+
+        /* Navigation Links Default Styles */
+        .sidebar .navbar-nav .nav-link,
+        .sidebar-bottom-section .nav-link {
+            transition: all 0.3s ease-in-out;
+            border-left: 3px solid transparent;
+            padding-left: 24px;
+            display: flex;
+            align-items: center;
+            color: #888888 !important; /* Default unselected gray text */
+        }
+
+        /* Visible Light Gray Icons for Unselected State */
+        .nav-icon-img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            filter: invert(58%) sepia(0%) saturate(0%) hue-rotate(185deg) brightness(95%) contrast(87%); /* Light Gray (#888888) */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Section header titles in sidebar */
+        .sidebar-section-title {
+            color: #666;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 12px 24px 4px 24px;
+        }
+
+        /* Selected (Active) & Hover States: Red Theme */
+        .sidebar .navbar-nav .nav-link:hover,
+        .sidebar .navbar-nav .nav-link.active,
+        .sidebar-bottom-section .nav-link:hover,
+        .sidebar-bottom-section .nav-link.active {
+            color: #eb1616 !important; /* Red text on hover/active */
+            background-color: rgba(235, 22, 22, 0.1) !important;
+            border-left: 3px solid #eb1616;
+            padding-left: 28px;
+        }
+
+        .sidebar .navbar-nav .nav-link:hover .nav-icon-img,
+        .sidebar .navbar-nav .nav-link.active .nav-icon-img,
+        .sidebar-bottom-section .nav-link:hover .nav-icon-img,
+        .sidebar-bottom-section .nav-link.active .nav-icon-img {
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%); /* Turns Icon Red */
+        }
+
+        /* Bottom Sidebar Divider Line */
+        .sidebar-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 15px 20px 10px 20px;
+        }
+
+        /* Sidebar Bottom Container */
+        .sidebar-bottom-section {
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* Pulsing Dot for Live Location Status */
+        .pulse-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #eb1616;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 8px #eb1616;
+            animation: pulse-animation 1.5s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(235, 22, 22, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0); }
+        }
+
+        /* Inline Location Info Card */
+        .location-info-box {
+            padding: 8px 24px;
+            color: #aaa;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+        }
+        .location-text {
+            color: #fff;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* 404 Custom Box */
+        .error-card {
+            background-color: #0b0b0bd0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+        }
+    </style>
+    <link href="css/theme.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <div id="spinner" class="show bg-page-spinner position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="sidebar pe-3 pb-3">
+            <nav class="navbar navbar-dark">
+                <div class="w-100">
+                    <a href="index.html" class="navbar-brand mx-4 mb-1 d-flex align-items-center">
+                        <img src="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=000000" alt="MEDWAY AI Logo" class="sidebar-brand-logo">
+                        <h3 class="text-primary mb-0">MEDWAY AI</h3>
+                    </a>
+                    <p class="text-muted small mx-4 mb-3" style="font-size: 0.75rem;">Healthcare, wherever you travel.</p>
+
+                    <div class="d-flex align-items-center ms-4 mb-4">
+                        <div class="position-relative">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 text-white">Jhon Doe</h6>
+                            <span class="text-muted">Admin</span>
+                        </div>
+                    </div>
+
+                    <div class="navbar-nav w-100">
+                        <div class="sidebar-section-title">MAIN</div>
+                        <a href="index.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=1iF9PyJ2Thzo&format=png&color=000000" alt="Home Icon" class="nav-icon-img"><span class="nav-label">Home</span>
+                        </a>
+                        <a href="explore.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=85961&format=png&color=000000" alt="Explore Icon" class="nav-icon-img"><span class="nav-label">Explore Healthcare</span>
+                        </a>
+                        <a href="assistant.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=FSHNDH2JxIqv&format=png&color=000000" alt="AI Icon" class="nav-icon-img"><span class="nav-label">AI Assistant</span>
+                        </a>
+
+                        <div class="sidebar-section-title">TOOLS</div>
+                        <a href="prescription.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=112400&format=png&color=000000" alt="Prescription Icon" class="nav-icon-img"><span class="nav-label">Prescription Reader</span>
+                        </a>
+                        <a href="translator.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=OsD06LrQr6NQ&format=png&color=000000" alt="Translator Icon" class="nav-icon-img"><span class="nav-label">Live Translator</span>
+                        </a>
+                        <a href="pharmacy.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=M7wxHhzIYL1S&format=png&color=000000" alt="Pharmacy Icon" class="nav-icon-img"><span class="nav-label">Pharmacy Finder</span>
+                        </a>
+
+                        <div class="sidebar-section-title">EMERGENCY</div>
+                        <a href="emergency.html" class="nav-item nav-link fw-bold">
+                            <img src="https://img.icons8.com/?size=100&id=kRmlY0QWDXDB&format=png&color=000000" alt="Emergency Icon" class="nav-icon-img"><span class="nav-label">Emergency Help</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-bottom-section">
+                    <div class="sidebar-divider"></div>
+
+                    <div class="location-info-box">
+                        <span class="pulse-dot" id="location-dot"></span>
+                        <span id="current-location" class="location-text">Detecting Location...</span>
+                    </div>
+
+                    <a href="settings.html" class="nav-item nav-link">
+                        <img src="https://img.icons8.com/?size=100&id=2969&format=png&color=000000" alt="Settings Icon" class="nav-icon-img"><span class="nav-label">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <div class="content">
+            <nav class="navbar navbar-expand navbar-dark sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4">
+                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle light / dark theme" aria-pressed="false">
+                        <i class="fa fa-sun icon-sun"></i>
+                        <i class="fa fa-moon icon-moon"></i>
+                    </button>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Profile updated</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">New user added</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item text-center">See all notifications</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <a href="#" class="dropdown-item">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="container-fluid pt-4 px-4 pb-5">
+                <div class="row vh-100 align-items-center justify-content-center mx-0">
+                    <div class="col-md-6 text-center p-5 error-card">
+                        <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
+                        <h1 class="display-1 fw-bold text-white">404</h1>
+                        <h1 class="mb-4 text-white">Page Not Found</h1>
+                        <p class="mb-4 text-muted">We’re sorry, the page you are looking for does not exist in MEDWAY AI! Return to your health hub dashboard or explore medical services nearby.</p>
+                        <a class="btn btn-primary rounded-pill py-3 px-5" href="index.html">Go Back To Home</a>
+                    </div>
+                </div>
+            </div>
+            <footer class="site-footer">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="#" class="text-primary">MEDWAY AI</a>, All Rights Reserved.
+                    </div>
+                    <div class="col-12 col-sm-6 text-center text-sm-end">
+                        Designed By <a href="https://myprojects-yash.vercel.app/" class="text-primary">Yash</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // Show default current location; geolocation removed
+        const DEFAULT_LAT = 18.985178375836586;
+        const DEFAULT_LON = 73.10990836680176;
+        document.addEventListener('DOMContentLoaded', () => {
+            const locationElem = document.getElementById('current-location');
+            const dotElem = document.getElementById('location-dot');
+            if (locationElem) locationElem.innerText = 'Default Location';
+            if (dotElem) dotElem.style.backgroundColor = '#eb1616';
+        });
+    </script>
+</body>
+
+</html>

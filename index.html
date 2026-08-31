@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>(function(){try{var t=localStorage.getItem('medway-theme')||'light';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.backgroundColor=t==='light'?'#eef0f3':'#0a0b0e';}catch(e){}})();</script>
+    <meta charset="utf-8">
+    <title>MEDWAY AI - Home</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=FA5252">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <script>
+        // Only show loading screen on first visit this session, not on internal navigation
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.has('loaded') && !sessionStorage.getItem('medway-loaded')) {
+            window.location.href = "loadingscreen.html";
+        }
+        sessionStorage.setItem('medway-loaded', '1');
+    </script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <link href="css/page-transitions.css" rel="stylesheet">
+    <script src="js/page-transitions.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #0d0f12 !important;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Flex layout for sidebar */
+        .sidebar {
+            background-color: #0b0b0bd0 !important;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .sidebar .navbar {
+            background-color: transparent !important;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        /* Top navbar background styling */
+        .content .navbar {
+            background-color: #0b0b0bd0 !important;
+        }
+
+        /* Dropdown Menus */
+        .dropdown-menu.bg-secondary {
+            background: #0b0b0bd0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* Inputs & Form Controls */
+        .form-control.bg-dark {
+            background: rgba(255, 255, 255, 0.07) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+        }
+
+        .form-control.bg-dark:focus {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Main Header Logo Style */
+        .sidebar-brand-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+        }
+
+        /* Navigation Links Default Styles */
+        .sidebar .navbar-nav .nav-link {
+            transition: all 0.3s ease-in-out;
+            border-left: 3px solid transparent;
+            padding-left: 24px;
+            display: flex;
+            align-items: center;
+            color: #888888 !important;
+        }
+
+        /* Visible Light Gray Icons for Unselected State */
+        .nav-icon-img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            filter: invert(58%) sepia(0%) saturate(0%) hue-rotate(185deg) brightness(95%) contrast(87%);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Section header titles in sidebar */
+        .sidebar-section-title {
+            color: #666;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 12px 24px 4px 24px;
+        }
+
+        /* Selected (Active) & Hover States: Red Theme */
+        .sidebar .navbar-nav .nav-link:hover,
+        .sidebar .navbar-nav .nav-link.active,
+        .sidebar-bottom-section .nav-link:hover,
+        .sidebar-bottom-section .nav-link.active {
+            color: #eb1616 !important;
+            background-color: rgba(235, 22, 22, 0.1) !important;
+            border-left: 3px solid #eb1616;
+            padding-left: 28px;
+        }
+
+        .sidebar .navbar-nav .nav-link:hover .nav-icon-img,
+        .sidebar .navbar-nav .nav-link.active .nav-icon-img,
+        .sidebar-bottom-section .nav-link:hover .nav-icon-img,
+        .sidebar-bottom-section .nav-link.active .nav-icon-img {
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+        }
+
+        /* Bottom Sidebar Divider Line */
+        .sidebar-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 15px 20px 10px 20px;
+        }
+
+        /* Sidebar Bottom Container */
+        .sidebar-bottom-section {
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* Pulsing Dot for Live Location Status */
+        .pulse-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #eb1616;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 8px #eb1616;
+            animation: pulse-animation 1.5s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(235, 22, 22, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0); }
+        }
+
+        /* Inline Location Info Card */
+        .location-info-box {
+            padding: 8px 24px;
+            color: #aaa;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+        }
+        .location-text {
+            color: #fff;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* Theme variables for the home page content area */
+        :root, [data-theme="dark"] {
+            --card-bg: #0b0b0bd0;
+            --card-bg-solid: #101216;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --panel-text: #ffffff;
+            --panel-muted: #9a9a9a;
+            --input-bg: rgba(255, 255, 255, 0.06);
+            --accent: #eb1616;
+            --accent-2: #ff5f5f;
+            --hero-glow-1: rgba(235, 22, 22, 0.30);
+            --hero-glow-2: rgba(255, 95, 95, 0.14);
+        }
+
+        [data-theme="light"] {
+            --card-bg: #ffffff;
+            --card-bg-solid: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.08);
+            --panel-text: #101418;
+            --panel-muted: #5b6572;
+            --input-bg: rgba(0, 0, 0, 0.04);
+            --accent: #eb1616;
+            --accent-2: #ff5f5f;
+            --hero-glow-1: rgba(235, 22, 22, 0.14);
+            --hero-glow-2: rgba(255, 95, 95, 0.08);
+        }
+
+        /* Fade-up entrance animation */
+        @keyframes homeFadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .home-animate { animation: homeFadeUp 0.6s ease both; }
+        .home-animate.delay-1 { animation-delay: .05s; }
+        .home-animate.delay-2 { animation-delay: .12s; }
+        .home-animate.delay-3 { animation-delay: .19s; }
+        .home-animate.delay-4 { animation-delay: .26s; }
+        .home-animate.delay-5 { animation-delay: .33s; }
+        .home-animate.delay-6 { animation-delay: .40s; }
+
+        /* Hero / Welcome Banner */
+        .home-hero {
+            background:
+                radial-gradient(500px 260px at 88% -10%, var(--hero-glow-1), transparent 70%),
+                radial-gradient(400px 240px at 100% 100%, var(--hero-glow-2), transparent 70%),
+                var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 36px 40px;
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 18px 40px -22px rgba(0,0,0,0.55);
+        }
+        .home-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(235,22,22,0.10) 1px, transparent 1px);
+            background-size: 22px 22px;
+            -webkit-mask-image: linear-gradient(120deg, #000 0%, transparent 55%);
+            mask-image: linear-gradient(120deg, #000 0%, transparent 55%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(235, 22, 22, 0.12);
+            border: 1px solid rgba(235, 22, 22, 0.3);
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 50px;
+            margin-bottom: 14px;
+        }
+        .home-hero h1 {
+            color: var(--panel-text);
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .home-hero h1 span.grad-text {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .home-hero p.hero-lead { color: var(--panel-muted); max-width: 480px; font-size: 0.95rem; }
+        .home-hero .home-search-wrap { position: relative; z-index: 1; max-width: 460px; }
+        .home-hero .home-search {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--panel-text);
+            padding: 12px 14px;
+        }
+        .home-hero .input-group-text.home-search {
+            background: var(--input-bg);
+            color: var(--panel-muted);
+        }
+        .home-hero .home-search::placeholder { color: var(--panel-muted); }
+        .home-hero .home-search:focus {
+            background: var(--input-bg);
+            color: var(--panel-text);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(235,22,22,0.15);
+        }
+        .home-hero .input-group { border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px -10px rgba(0,0,0,0.4); }
+        
+        /* Hero Image Panel - Soft fades applied on left, right, and bottom edges */
+        .hero-image-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 50%;
+            min-height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .hero-image-panel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            -webkit-mask-image: 
+                linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 20%, #000 65%),
+                linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.4) 15%, #000 45%);
+            mask-image: 
+                linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 20%, #000 65%),
+                linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.4) 15%, #000 45%);
+            -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+        }
+
+        /* Light / Dark Mode Hero Image Switching Rules */
+        .hero-image-panel .hero-img-dark {
+            display: none !important;
+        }
+        .hero-image-panel .hero-img-light {
+            display: block !important;
+        }
+
+        [data-theme="dark"] .hero-image-panel .hero-img-light {
+            display: none !important;
+        }
+        [data-theme="dark"] .hero-image-panel .hero-img-dark {
+            display: block !important;
+        }
+
+        [data-theme="light"] .hero-image-panel .hero-img-light {
+            display: block !important;
+        }
+        [data-theme="light"] .hero-image-panel .hero-img-dark {
+            display: none !important;
+        }
+
+        .hero-image-panel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--card-bg) 0%, transparent 25%);
+            pointer-events: none;
+        }
+        .hero-image-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 24px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--card-bg-solid);
+            box-shadow: 0 4px 14px -2px rgba(235,22,22,0.65);
+            z-index: 2;
+        }
+        .hero-image-badge i { font-size: 1.05rem; color: #fff; }
+
+        /* Section headings */
+        .home-section-title {
+            color: var(--panel-text);
+            font-weight: 700;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .home-section-title i { color: var(--accent); font-size: 0.95rem; }
+        .home-section-sub { color: var(--panel-muted); font-size: 0.83rem; }
+        .home-see-all {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.83rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.2s ease, color 0.2s ease;
+        }
+        .home-see-all:hover { color: var(--accent-2); gap: 8px; }
+
+        /* Quick action tiles */
+        .quick-tile {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 22px 14px;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            height: 100%;
+        }
+        .quick-tile::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(235,22,22,0.08), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .quick-tile:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 16px 30px -14px rgba(235,22,22,0.45);
+        }
+        .quick-tile:hover::after { opacity: 1; }
+        .quick-tile .quick-tile-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px auto;
+            font-size: 1.3rem;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 18px -6px rgba(235,22,22,0.55);
+            transition: transform 0.25s ease;
+        }
+        .quick-tile:hover .quick-tile-icon { transform: scale(1.08) rotate(-4deg); }
+        .quick-tile h6 { color: var(--panel-text); margin-bottom: 2px; font-weight: 600; position: relative; z-index: 1; }
+        .quick-tile span { color: var(--panel-muted); font-size: 0.75rem; position: relative; z-index: 1; }
+
+        /* Stat mini cards */
+        .home-stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            height: 100%;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+        .home-stat-card:hover { transform: translateY(-3px); border-color: rgba(235,22,22,0.35); }
+        .home-stat-card .home-stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: rgba(235,22,22,0.12);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.05rem;
+        }
+        .home-stat-card h5 { color: var(--panel-text); margin-bottom: 0; font-weight: 700; letter-spacing: -0.3px; }
+        .home-stat-card span { color: var(--panel-muted); font-size: 0.76rem; }
+
+        /* SOS mini banner on home */
+        .home-sos-banner {
+            background:
+                radial-gradient(420px 200px at 90% 0%, rgba(235,22,22,0.25), transparent 70%),
+                var(--card-bg);
+            border: 1px solid rgba(235, 22, 22, 0.35);
+            border-radius: 18px;
+            padding: 26px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        .home-sos-banner h5 { color: var(--panel-text); font-weight: 700; margin-bottom: 3px; font-size: 1.15rem; }
+        .home-sos-banner p { color: var(--panel-muted); margin-bottom: 0; font-size: 0.85rem; }
+        .home-sos-btn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff !important;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            white-space: nowrap;
+            box-shadow: 0 8px 24px -6px rgba(235, 22, 22, 0.55);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .home-sos-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px -6px rgba(235, 22, 22, 0.75); color: #fff !important; }
+
+        /* Doctor / Hospital preview cards */
+        .preview-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            height: 100%;
+            text-decoration: none;
+            display: block;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .preview-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 18px 34px -18px rgba(235,22,22,0.5);
+        }
+        .preview-card .preview-img-wrap { position: relative; overflow: hidden; height: 140px; }
+        .preview-card .preview-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .preview-card:hover .preview-img { transform: scale(1.08); }
+        .preview-card .verified-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(11,11,11,0.75);
+            backdrop-filter: blur(4px);
+            color: #22c55e;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid rgba(34,197,94,0.4);
+        }
+        .preview-card .dist-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(11,11,11,0.75);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .preview-card .preview-body { padding: 16px 18px; }
+        .preview-card h6 { color: var(--panel-text); margin-bottom: 3px; font-weight: 700; }
+        .preview-card .preview-sub { color: var(--panel-muted); font-size: 0.78rem; margin-bottom: 8px; }
+        .preview-card .preview-rating { color: var(--accent); font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        .preview-card .preview-rating .fa-star { color: #f5a623; }
+
+        /* Partner logos strip */
+        .partner-strip {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 22px 28px;
+        }
+        .partner-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 48px;
+        }
+        .partner-strip img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.65;
+            transition: filter 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
+        }
+        .partner-strip img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        /* Testimonials */
+        .testimonial-carousel { position: relative; z-index: 1; }
+        .testimonial-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 32px 28px;
+            margin: 10px 6px 40px 6px;
+            position: relative;
+        }
+        .testimonial-item .quote-icon {
+            font-size: 1.6rem;
+            color: var(--accent);
+            opacity: 0.35;
+            margin-bottom: 10px;
+        }
+        .testimonial-item .stars { color: #f5a623; font-size: 0.8rem; margin-top: 10px; margin-bottom: 4px; }
+        .testimonial-item p.review-text { color: var(--panel-muted); font-size: 0.95rem; font-style: italic; }
+        .testimonial-item h6 { color: var(--panel-text); margin-bottom: 0; font-weight: 700; }
+        .testimonial-item span.role { color: var(--accent); font-size: 0.75rem; font-weight: 600; }
+    </style>
+    <link href="css/theme.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <div id="spinner" class="show bg-page-spinner position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="sidebar pe-3 pb-3">
+            <nav class="navbar navbar-dark">
+                <div class="w-100">
+                    <a href="index.html" class="navbar-brand mx-4 mb-1 d-flex align-items-center">
+                        <img src="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=000000" alt="MEDWAY AI Logo" class="sidebar-brand-logo">
+                        <h3 class="text-primary mb-0">MEDWAY AI</h3>
+                    </a>
+                    <p class="text-muted small mx-4 mb-3" style="font-size: 0.75rem;">Healthcare, wherever you travel.</p>
+
+                    <div class="d-flex align-items-center ms-4 mb-4">
+                        <div class="position-relative">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 text-white">Jhon Doe</h6>
+                            <span class="text-muted">Admin</span>
+                        </div>
+                    </div>
+
+                    <div class="navbar-nav w-100">
+                        <div class="sidebar-section-title">MAIN</div>
+                        <a href="index.html" class="nav-item nav-link active">
+                            <img src="https://img.icons8.com/?size=100&id=1iF9PyJ2Thzo&format=png&color=000000" alt="Home Icon" class="nav-icon-img"><span class="nav-label">Home</span>
+                        </a>
+                        <a href="explore.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=85961&format=png&color=000000" alt="Explore Icon" class="nav-icon-img"><span class="nav-label">Explore Healthcare</span>
+                        </a>
+                        <a href="assistant.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=FSHNDH2JxIqv&format=png&color=000000" alt="AI Icon" class="nav-icon-img"><span class="nav-label">AI Assistant</span>
+                        </a>
+
+                        <div class="sidebar-section-title">TOOLS</div>
+                        <a href="prescription.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=112400&format=png&color=000000" alt="Prescription Icon" class="nav-icon-img"><span class="nav-label">Prescription Reader</span>
+                        </a>
+                        <a href="translator.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=OsD06LrQr6NQ&format=png&color=000000" alt="Translator Icon" class="nav-icon-img"><span class="nav-label">Live Translator</span>
+                        </a>
+                        <a href="pharmacy.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=M7wxHhzIYL1S&format=png&color=000000" alt="Pharmacy Icon" class="nav-icon-img"><span class="nav-label">Pharmacy Finder</span>
+                        </a>
+
+                        <div class="sidebar-section-title">EMERGENCY</div>
+                        <a href="emergency.html" class="nav-item nav-link fw-bold">
+                            <img src="https://img.icons8.com/?size=100&id=kRmlY0QWDXDB&format=png&color=000000" alt="Emergency Icon" class="nav-icon-img"><span class="nav-label">Emergency Help</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-bottom-section">
+                    <div class="sidebar-divider"></div>
+
+                    <div class="location-info-box">
+                        <span class="pulse-dot" id="location-dot"></span>
+                        <span id="current-location" class="location-text">Detecting Location...</span>
+                    </div>
+
+                    <a href="settings.html" class="nav-item nav-link">
+                        <img src="https://img.icons8.com/?size=100&id=2969&format=png&color=000000" alt="Settings Icon" class="nav-icon-img"><span class="nav-label">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <div class="content">
+            <nav class="navbar navbar-expand navbar-dark sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4">
+                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle light / dark theme" aria-pressed="false">
+                        <i class="fa fa-sun icon-sun"></i>
+                        <i class="fa fa-moon icon-moon"></i>
+                    </button>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Profile updated</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">New user added</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Password changed</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item text-center">See all notifications</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <a href="#" class="dropdown-item">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid pt-4 px-4 pb-5">
+
+                <!-- Welcome Hero -->
+                <div class="home-hero mb-4 home-animate">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 hero-text-col" style="position: relative; z-index: 2;">
+                            <span class="hero-badge"><span class="pulse-dot" style="margin-right:2px;"></span>AI Assistant Online</span>
+                            <h1 class="mb-2" id="heroGreeting">Welcome back, <span class="grad-text" id="heroUserName">John</span> 👋</h1>
+                            <p class="hero-lead mb-4">Your healthcare companion for wherever you travel. Find hospitals, talk to our AI Assistant, or get emergency help in one tap.</p>
+                            <form class="home-search-wrap" onclick="window.location.href='explore.html'">
+                                <div class="input-group">
+                                    <span class="input-group-text home-search border-end-0"><i class="fa fa-search"></i></span>
+                                    <input type="search" class="form-control home-search border-start-0" placeholder="Search hospitals, doctors, medicines...">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="hero-image-panel d-none d-lg-block">
+                        <img src="img/main1.png" class="hero-img-light" alt="Hero Light Banner">
+                        <img src="img/main2.png" class="hero-img-dark" alt="Hero Dark Banner">
+                        <div class="hero-image-badge"><i class="fa fa-notes-medical"></i></div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-3">
+                        <div class="home-stat-card home-animate delay-1">
+                            <div class="home-stat-icon"><i class="fa fa-hospital"></i></div>
+                            <div>
+                                <h5>10+</h5>
+                                <span>Nearby Hospitals</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="home-stat-card home-animate delay-2">
+                            <div class="home-stat-icon"><i class="fa fa-user-md"></i></div>
+                            <div>
+                                <h5>10+</h5>
+                                <span>Verified Doctors</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="home-stat-card home-animate delay-3">
+                            <div class="home-stat-icon"><i class="fa fa-clinic-medical"></i></div>
+                            <div>
+                                <h5>10+</h5>
+                                <span>Clinics &amp; Medicals</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="home-stat-card home-animate delay-4">
+                            <div class="home-stat-icon"><i class="fa fa-language"></i></div>
+                            <div>
+                                <h5>24/7</h5>
+                                <span>AI &amp; Translator</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                        <h5 class="home-section-title mb-0"><i class="fa fa-bolt"></i>Quick Actions</h5>
+                        <span class="home-section-sub">Everything you need, one tap away</span>
+                    </div>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <a href="explore.html" class="quick-tile home-animate delay-1">
+                            <div class="quick-tile-icon"><i class="fa fa-map-marked-alt"></i></div>
+                            <h6>Explore</h6>
+                            <span>Find healthcare nearby</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <a href="assistant.html" class="quick-tile home-animate delay-2">
+                            <div class="quick-tile-icon"><i class="fa fa-robot"></i></div>
+                            <h6>AI Assistant</h6>
+                            <span>Ask health questions</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <a href="prescription.html" class="quick-tile home-animate delay-3">
+                            <div class="quick-tile-icon"><i class="fa fa-file-prescription"></i></div>
+                            <h6>Prescription</h6>
+                            <span>Read &amp; understand Rx</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <a href="translator.html" class="quick-tile home-animate delay-4">
+                            <div class="quick-tile-icon"><i class="fa fa-language"></i></div>
+                            <h6>Translator</h6>
+                            <span>Speak with doctors</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <a href="pharmacy.html" class="quick-tile home-animate delay-5">
+                            <div class="quick-tile-icon"><i class="fa fa-pills"></i></div>
+                            <h6>Pharmacy</h6>
+                            <span>Find nearby medicals</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <a href="emergency.html" class="quick-tile home-animate delay-6">
+                            <div class="quick-tile-icon"><i class="fa fa-ambulance"></i></div>
+                            <h6>Emergency</h6>
+                            <span>Immediate help</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SOS Banner -->
+                <div class="home-sos-banner mb-4 home-animate">
+                    <div>
+                        <h5><i class="fa fa-shield-alt me-2"></i>In an emergency?</h5>
+                        <p>Send your live location and medical profile to the nearest emergency services instantly.</p>
+                    </div>
+                    <a href="sos.html" class="home-sos-btn"><i class="fa fa-paper-plane me-2"></i>Send SOS Alert</a>
+                </div>
+
+                <!-- Doctors Near You -->
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                        <h5 class="home-section-title mb-0"><i class="fa fa-user-md"></i>Top Doctors Near You</h5>
+                        <span class="home-section-sub">Verified specialists ready to help</span>
+                    </div>
+                    <a href="explore.html" class="home-see-all">See All <i class="fa fa-angle-right"></i></a>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="data/docter/AnanyaSharma.html" class="preview-card home-animate delay-1">
+                            <div class="preview-img-wrap">
+                                <img src="https://images.pexels.com/photos/8376318/pexels-photo-8376318.jpeg" class="preview-img" alt="Dr. Ananya Sharma">
+                                <span class="verified-badge"><i class="fa fa-check-circle"></i> Verified</span>
+                            </div>
+                            <div class="preview-body">
+                                <h6>Dr. Ananya Sharma</h6>
+                                <div class="preview-sub">General Physician &middot; 12+ Years</div>
+                                <div class="preview-rating"><i class="fa fa-star"></i> 4.8 <span class="text-muted fw-normal">(128 reviews)</span></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="data/docter/VikramShah.html" class="preview-card home-animate delay-3">
+                            <div class="preview-img-wrap">
+                                <img src="https://images.pexels.com/photos/8376142/pexels-photo-8376142.jpeg" class="preview-img" alt="Dr. Vikram Shah">
+                                <span class="verified-badge"><i class="fa fa-check-circle"></i> Verified</span>
+                            </div>
+                            <div class="preview-body">
+                                <h6>Dr. Vikram Shah</h6>
+                                <div class="preview-sub">ENT Specialist &middot; 29+ Years</div>
+                                <div class="preview-rating"><i class="fa fa-star"></i> 4.6 <span class="text-muted fw-normal">(76 reviews)</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="data/docter/MeeraIyer.html" class="preview-card home-animate delay-2">
+                            <div class="preview-img-wrap">
+                                <img src="https://images.pexels.com/photos/7653137/pexels-photo-7653137.jpeg" class="preview-img" alt="Dr. Meera Iyer">
+                                <span class="verified-badge"><i class="fa fa-check-circle"></i> Verified</span>
+                            </div>
+                            <div class="preview-body">
+                                <h6>Dr. Meera Iyer</h6>
+                                <div class="preview-sub">Neurologist &middot; 14+ Years</div>
+                                <div class="preview-rating"><i class="fa fa-star"></i> 4.9 <span class="text-muted fw-normal">(151 reviews)</span></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="data/docter/ArjunKulkarni.html" class="preview-card home-animate delay-4">
+                            <div class="preview-img-wrap">
+                                <img src="https://images.pexels.com/photos/39192410/pexels-photo-39192410.jpeg" class="preview-img" alt="Dr. Arjun Kulkarni">
+                                <span class="verified-badge"><i class="fa fa-check-circle"></i> Verified</span>
+                            </div>
+                            <div class="preview-body">
+                                <h6>Dr. Arjun Kulkarni</h6>
+                                <div class="preview-sub">Orthopedic Specialist &middot; 9+ Years</div>
+                                <div class="preview-rating"><i class="fa fa-star"></i> 4.6 <span class="text-muted fw-normal">(84 reviews)</span></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hospitals Near You -->
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                        <h5 class="home-section-title mb-0"><i class="fa fa-hospital"></i>Hospitals Near You</h5>
+                        <span class="home-section-sub">Trusted multi-speciality care</span>
+                    </div>
+                    <a href="explore.html" class="home-see-all">See All <i class="fa fa-angle-right"></i></a>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="data/hospitals/LifelineHospital.html" class="preview-card home-animate delay-1">
+                            <div class="preview-img-wrap">
+                                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn0C8rv3sE_Og1hlIgiGVHkkOMgja77un6VMO8oi3nhvM8hkrlT_HhzCED10p1T7BGCJY6AUGgUz_tX2ITcgBDc-pmBxpkNrvx9HM16TCDnjJOXAPtr7peRX0M7LsMNhsQaHf3q=w423-h240-k-no" class="preview-img" alt="Lifeline Hospital">
+                                <span class="dist-badge"><i class="fa fa-map-marker-alt me-1"></i>2.1 km</span>
+                            </div>
+                            <div class="preview-body">
+                                <h6>Lifeline Hospital</h6>
+                                <div class="preview-sub"><i class="fa fa-clock me-1"></i>Open 24 Hours</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="data/hospitals/AadharMultispecialityHospital.html" class="preview-card home-animate delay-2">
+                            <div class="preview-img-wrap">
+                                <img src="https://doctorlistingingestionpr.blob.core.windows.net/doctorprofilepic/1670558749928_HospitalProfileImage_Profile.png" class="preview-img" alt="Aadhar Multispeciality Hospital">
+                                <span class="dist-badge"><i class="fa fa-map-marker-alt me-1"></i>3.4 km</span>
+                            </div>
+                            <div class="preview-body">
+                                <h6>Aadhar Multispeciality Hospital</h6>
+                                <div class="preview-sub"><i class="fa fa-clock me-1"></i>Open 24 Hours</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="data/hospitals/MaxLifeHospital.html" class="preview-card home-animate delay-3">
+                            <div class="preview-img-wrap">
+                                <img src="https://www.livemint.com/lm-img/img/2023/08/07/1600x900/22140288-e856-11ea-af11-a5e2948179f8_1598573757061_1598573944745_1691407742603.jpg" class="preview-img" alt="Max Life Hospital">
+                                <span class="dist-badge"><i class="fa fa-map-marker-alt me-1"></i>4.0 km</span>
+                            </div>
+                            <div class="preview-body">
+                                <h6>Max Life Hospital</h6>
+                                <div class="preview-sub"><i class="fa fa-clock me-1"></i>Open 24 Hours</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="data/hospitals/GuneHospital.html" class="preview-card home-animate delay-4">
+                            <div class="preview-img-wrap">
+                                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWm4Icez2PdcfdEnvCfCuvJLIpMCj-adqJuKnIjzfyGadnVKE2I-CB5EM6rVg_KzxLN6k28q4XYYWVAEq40P8Icm_D0PnauFkMaqW2OT1N76cxi8Yyaqc3n-KemiS6TWY_1F8PR4ug=w408-h665-k-no" class="preview-img" alt="Gune Hospital">
+                                <span class="dist-badge"><i class="fa fa-map-marker-alt me-1"></i>1.8 km</span>
+                            </div>
+                            <div class="preview-body">
+                                <h6>Gune Hospital</h6>
+                                <div class="preview-sub"><i class="fa fa-clock me-1"></i>Open 24 Hours</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Trusted Partner Medicals -->
+                <div class="mb-2">
+                    <h5 class="home-section-title mb-0"><i class="fa fa-handshake"></i>Trusted Pharmacy Partners</h5>
+                    <span class="home-section-sub">Verified medical stores in our network</span>
+                </div>
+                <div class="partner-strip d-flex flex-wrap align-items-center justify-content-between gap-4 mb-4 home-animate">
+                    <div class="partner-item">
+                        <img src="img/medicals/apollo-logo.png" alt="Apollo">
+                    </div>
+                    <div class="partner-item">
+                        <img src="img/medicals/carepluse-logo.png" alt="CarePulse">
+                    </div>
+                    <div class="partner-item">
+                        <img src="img/medicals/city-logo.png" alt="City Medical">
+                    </div>
+                    <div class="partner-item">
+                        <img src="img/medicals/lifecare-logo.png" alt="LifeCare">
+                    </div>
+                    <div class="partner-item">
+                        <img src="img/medicals/lifeline-logo.png" alt="LifeLine">
+                    </div>
+                    <div class="partner-item">
+                        <img src="img/medicals/ss-logo.png" alt="SS Medical">
+                    </div>
+                    <div class="partner-item">
+                        <img src="img/medicals/wellness-logo.png" alt="Wellness">
+                    </div>
+                </div>
+
+                <!-- Testimonials -->
+                <div class="mb-2">
+                    <h5 class="home-section-title mb-0"><i class="fa fa-comment-medical"></i>What Our Patients Say</h5>
+                    <span class="home-section-sub">Real experiences from travelers using MEDWAY AI</span>
+                </div>
+                <div class="owl-carousel testimonial-carousel home-animate">
+                    <div class="testimonial-item text-center">
+                        <i class="fa fa-quote-left quote-icon"></i>
+                        <p class="review-text mb-2">MEDWAY AI helped me find a doctor within minutes when I fell ill while travelling abroad. The translator feature was a lifesaver during my hospital visit.</p>
+                        <div class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                        <img class="rounded-circle mx-auto mb-2" src="img/testimonial-1.jpg" style="width: 54px; height: 54px; object-fit: cover;" alt="">
+                        <h6>Sarah Mitchell</h6>
+                        <span class="role">Traveler, Mumbai</span>
+                    </div>
+                    <div class="testimonial-item text-center">
+                        <i class="fa fa-quote-left quote-icon"></i>
+                        <p class="review-text mb-2">The Prescription Reader instantly explained my medication in plain language. The Emergency SOS also gave me real peace of mind on my trip.</p>
+                        <div class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                        <img class="rounded-circle mx-auto mb-2" src="img/testimonial-2.jpg" style="width: 54px; height: 54px; object-fit: cover;" alt="">
+                        <h6>David Chen</h6>
+                        <span class="role">Traveler, Pune</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer class="site-footer">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="#">MEDWAY AI</a>, All Rights Reserved.
+                    </div>
+                    <div class="col-12 col-sm-6 text-center text-sm-end">
+                        Designed By <a href="https://myprojects-yash.vercel.app/">Yash</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // Show default current location; geolocation removed
+        const DEFAULT_LAT = 18.985178375836586;
+        const DEFAULT_LON = 73.10990836680176;
+        document.addEventListener('DOMContentLoaded', () => {
+            const locationElem = document.getElementById('current-location');
+            const dotElem = document.getElementById('location-dot');
+            if (locationElem) locationElem.innerText = 'Default Location';
+            if (dotElem) dotElem.style.backgroundColor = '#eb1616';
+        });
+    </script>
+
+    <script>
+        // Sync the hero greeting name with the actual logged-in MEDWAY AI user.
+        (function () {
+            function applyHeroUser() {
+                const nameEl = document.getElementById('heroUserName');
+                if (!nameEl) return;
+
+                const user = window.medwayAuth ? window.medwayAuth.getUser() : null;
+
+                if (user && user.name) {
+                    nameEl.textContent = user.name.trim().split(' ')[0]; // first name only
+                } else {
+                    nameEl.textContent = 'Guest';
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', applyHeroUser);
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const sidebarNameEl = document.querySelector('.sidebar .d-flex.align-items-center.ms-4.mb-4 h6');
+                if (sidebarNameEl && window.MutationObserver) {
+                    const observer = new MutationObserver(applyHeroUser);
+                    observer.observe(sidebarNameEl, { childList: true, characterData: true, subtree: true });
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

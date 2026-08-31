@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>(function(){try{var t=localStorage.getItem('medway-theme')||'light';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.backgroundColor=t==='light'?'#eef0f3':'#0a0b0e';}catch(e){}})();</script>
+    <meta charset="utf-8">
+    <title>MEDWAY AI - AI Assistant</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=BU7Clwq5bV9D&format=png&color=000000">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <link href="css/page-transitions.css" rel="stylesheet">
+    <script src="js/page-transitions.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #0d0f12 !important;
+        }
+
+        /* Flex layout for sidebar */
+        .sidebar {
+            background-color: #0b0b0bd0 !important;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .sidebar .navbar {
+            background-color: transparent !important;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        /* Top navbar background styling */
+        .content .navbar {
+            background-color: #0b0b0bd0 !important;
+        }
+
+        /* Dropdown Menus */
+        .dropdown-menu.bg-secondary {
+            background: #0b0b0bd0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* Inputs & Form Controls */
+        .form-control.bg-dark {
+            background: rgba(255, 255, 255, 0.07) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+        }
+
+        .form-control.bg-dark:focus {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Main Header Logo Style */
+        .sidebar-brand-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%);
+        }
+
+        /* Navigation Links Default Styles */
+        .sidebar .navbar-nav .nav-link {
+            transition: all 0.3s ease-in-out;
+            border-left: 3px solid transparent;
+            padding-left: 24px;
+            display: flex;
+            align-items: center;
+            color: #888888 !important; /* Default unselected gray text */
+        }
+
+        /* Visible Light Gray Icons for Unselected State */
+        .nav-icon-img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            filter: invert(58%) sepia(0%) saturate(0%) hue-rotate(185deg) brightness(95%) contrast(87%); /* Light Gray (#888888) */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Section header titles in sidebar */
+        .sidebar-section-title {
+            color: #666;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 12px 24px 4px 24px;
+        }
+
+        /* Selected (Active) & Hover States: Red Theme */
+        .sidebar .navbar-nav .nav-link:hover,
+        .sidebar .navbar-nav .nav-link.active,
+        .sidebar-bottom-section .nav-link:hover,
+        .sidebar-bottom-section .nav-link.active {
+            color: #eb1616 !important; /* Red text on hover/active */
+            background-color: rgba(235, 22, 22, 0.1) !important;
+            border-left: 3px solid #eb1616;
+            padding-left: 28px;
+        }
+
+        .sidebar .navbar-nav .nav-link:hover .nav-icon-img,
+        .sidebar .navbar-nav .nav-link.active .nav-icon-img,
+        .sidebar-bottom-section .nav-link:hover .nav-icon-img,
+        .sidebar-bottom-section .nav-link.active .nav-icon-img {
+            filter: invert(18%) sepia(88%) saturate(6288%) hue-rotate(352deg) brightness(97%) contrast(97%); /* Turns Icon Red */
+        }
+
+        /* Bottom Sidebar Divider Line */
+        .sidebar-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 15px 20px 10px 20px;
+        }
+
+        /* Sidebar Bottom Container */
+        .sidebar-bottom-section {
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* Pulsing Dot for Live Location Status */
+        .pulse-dot {
+          height: 8px;
+          width: 8px;
+          background-color: #eb1616;
+          border-radius: 50%;
+          display: inline-block;
+          margin-right: 6px;
+          box-shadow: 0 0 8px #eb1616;
+          animation: pulse-animation 1.5s infinite;
+        }
+
+        @keyframes pulse-animation {
+          0% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0.7); }
+          70% { box-shadow: 0 0 0 6px rgba(235, 22, 22, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(235, 22, 22, 0); }
+        }
+
+        /* Inline Location Info Card */
+        .location-info-box {
+            padding: 8px 24px;
+            color: #aaa;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+        }
+        .location-text {
+            color: #fff;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* Chat Workspace Custom Styling */
+        .chat-box {
+            background-color: #0b0b0bd0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            height: calc(100vh - 180px);
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .chat-bubble-ai {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #e0e0e0;
+            border-radius: 12px 12px 12px 0px;
+            padding: 12px 16px;
+            max-width: 75%;
+        }
+        .chat-bubble-user {
+            background-color: #eb1616;
+            color: #fff;
+            border-radius: 12px 12px 0px 12px;
+            padding: 12px 16px;
+            max-width: 75%;
+            margin-left: auto;
+        }
+        .chat-input-container {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px;
+        }
+    </style>
+    <link href="css/theme.css" rel="stylesheet">
+
+    <style>
+        /* ===================== MedWay AI Assistant — chat feature styles ===================== */
+        :root{
+            --mw-accent:#eb1616;
+            --mw-accent-soft:rgba(235,22,22,0.12);
+            --mw-success:#eb1616;
+            --mw-warning:#e0a419;
+        }
+        [data-theme="dark"] , html:not([data-theme="light"]) {
+            --mw-panel:#0b0b0bd0;
+            --mw-card:#141414;
+            --mw-card-2:#1a1a1a;
+            --mw-border:rgba(255,255,255,0.08);
+            --mw-text:#f1f1f1;
+            --mw-text-muted:#a9a9a9;
+            --mw-text-dim:#767676;
+            --mw-input-bg:rgba(255,255,255,0.06);
+        }
+        [data-theme="light"]{
+            --mw-panel:#ffffff;
+            --mw-card:#ffffff;
+            --mw-card-2:#f6f7f9;
+            --mw-border:rgba(15,20,30,0.09);
+            --mw-text:#1a1d23;
+            --mw-text-muted:#5c6270;
+            --mw-text-dim:#8a8f99;
+            --mw-input-bg:#f0f1f4;
+        }
+
+        .mw-layout{ display:flex; gap:20px; align-items:flex-start; }
+        .mw-side{ width:280px; flex-shrink:0; display:flex; flex-direction:column; gap:16px; position:sticky; top:12px; }
+        .mw-card{ background:var(--mw-panel); border:1px solid var(--mw-border); border-radius:14px; padding:16px; color:var(--mw-text); }
+        .mw-ai-avatar{ width:48px;height:48px;border-radius:14px; background:linear-gradient(135deg,var(--mw-accent),#8f0d0d); display:flex;align-items:center;justify-content:center; animation:mwPulse 3s ease-in-out infinite; }
+        .mw-ai-avatar img { width: 28px; height: 28px; filter: brightness(0) invert(1); }
+        @keyframes mwPulse{0%,100%{box-shadow:0 0 0 0 rgba(235,22,22,.35);}50%{box-shadow:0 0 0 9px rgba(235,22,22,0);}}
+        .mw-profile-row{ display:flex; align-items:center; gap:12px; }
+        .mw-profile-row h3{ margin:0; font-size:1rem; color:var(--mw-text); }
+        .mw-profile-role{ font-size:.75rem; color:var(--mw-text-muted); font-weight:600; }
+        .mw-status{ display:flex; align-items:center; gap:6px; font-size:.75rem; color:var(--mw-success); font-weight:700; margin-top:8px; }
+        .mw-status-dot{ width:7px;height:7px;border-radius:50%;background:var(--mw-success); box-shadow:0 0 0 0 rgba(40,167,69,.6); animation:mwDot 1.6s infinite; }
+        @keyframes mwDot{0%{box-shadow:0 0 0 0 rgba(40,167,69,.6);}70%{box-shadow:0 0 0 7px rgba(40,167,69,0);}100%{box-shadow:0 0 0 0 rgba(40,167,69,0);}}
+        .mw-desc{ font-size:.8rem; color:var(--mw-text-muted); line-height:1.5; margin:10px 0 0; }
+        .mw-mini-badge{ display:inline-block; margin-top:10px; font-size:.62rem; font-weight:800; letter-spacing:.5px; color:var(--mw-text-dim); background:var(--mw-input-bg); padding:4px 9px; border-radius:999px; border:1px solid var(--mw-border); }
+        .mw-card h4{ margin:0 0 12px; font-size:.72rem; letter-spacing:.5px; color:var(--mw-text-muted); text-transform:uppercase; }
+        .mw-cap-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+        .mw-cap-list li{ font-size:.8rem; color:var(--mw-text); display:flex; align-items:center; gap:8px; }
+        .mw-cap-list .tick{ color:var(--mw-success); font-weight:800; }
+        .mw-recent-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+        .mw-recent-list li{ font-size:.78rem; color:var(--mw-text-muted); padding:8px 10px; border-radius:8px; background:var(--mw-input-bg); cursor:pointer; border:1px solid transparent; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; transition:.18s; }
+        .mw-recent-list li:hover{ color:var(--mw-text); border-color:var(--mw-accent); background:var(--mw-accent-soft); }
+        .mw-recent-empty{ font-size:.76rem; color:var(--mw-text-dim); font-style:italic; }
+
+        .chat-box{ flex:1; min-width:0; }
+        .chat-toolbar{ display:flex; align-items:center; justify-content:space-between; padding:12px 18px; border-bottom:1px solid var(--mw-border); }
+        .chat-toolbar-left{ display:flex; align-items:center; gap:8px; font-size:.82rem; font-weight:700; color:var(--mw-text); }
+        .chat-toolbar-left .dot{ width:7px;height:7px;border-radius:50%;background:var(--mw-success); }
+        .mw-clear-btn{ font-size:.75rem; font-weight:700; color:var(--mw-text-muted); background:var(--mw-input-bg); border:1px solid var(--mw-border); padding:7px 12px; border-radius:999px; cursor:pointer; transition:.18s; }
+        .mw-clear-btn:hover{ color:var(--mw-accent); border-color:var(--mw-accent); }
+
+        .msg-row{ display:flex; margin-bottom:14px; animation:mwFadeIn .35s ease; }
+        @keyframes mwFadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+        .msg-row.user{ justify-content:flex-end; }
+        .msg-row.ai{ justify-content:flex-start; }
+        .msg-meta{ font-size:.66rem; color:var(--mw-text-dim); margin-bottom:5px; font-weight:700; letter-spacing:.3px; }
+        .msg-row.user .msg-meta{ color:rgba(255,255,255,0.75); text-align:right; }
+
+        .typing-row{ display:flex; margin-bottom:14px; }
+        .typing-bubble{ background:rgba(255,255,255,0.05); border:1px solid var(--mw-border); padding:11px 16px; border-radius:12px 12px 12px 0; display:flex; align-items:center; gap:8px; font-size:.78rem; color:var(--mw-text-muted); font-weight:600; }
+        .typing-dots{ display:flex; gap:4px; }
+        .typing-dots span{ width:6px;height:6px;border-radius:50%; background:var(--mw-text-dim); animation:mwBlink 1.2s infinite ease-in-out; }
+        .typing-dots span:nth-child(2){ animation-delay:.2s; }
+        .typing-dots span:nth-child(3){ animation-delay:.4s; }
+        @keyframes mwBlink{ 0%,80%,100%{opacity:.25;} 40%{opacity:1;} }
+
+        .result-card{ background:var(--mw-card-2); border:1px solid var(--mw-border); border-radius:10px; padding:12px 14px; margin-top:10px; color:var(--mw-text); }
+        .result-card + .result-card{ margin-top:8px; }
+        .result-title{ font-weight:800; font-size:.88rem; margin-bottom:2px; }
+        .result-line{ font-size:.78rem; color:var(--mw-text-muted); margin-top:2px; }
+        .badge-row{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+        .mw-tag{ font-size:.66rem; font-weight:700; padding:3px 8px; border-radius:999px; background:var(--mw-input-bg); color:var(--mw-text-muted); }
+        .mw-tag.green{ color:var(--mw-success); background:rgba(40,167,69,0.14); }
+        .mw-tag.amber{ color:var(--mw-warning); background:rgba(224,164,25,0.16); }
+        .mw-tag.best{ color:var(--mw-accent); background:var(--mw-accent-soft); }
+        .mw-action-btn{ display:inline-flex; align-items:center; gap:6px; margin-top:12px; margin-right:8px; padding:9px 15px; border-radius:999px; font-size:.78rem; font-weight:700; cursor:pointer; background:var(--mw-accent); color:#fff !important; border:none; transition:.15s; text-decoration:none !important; }
+        .mw-action-btn:hover{ filter:brightness(1.1); transform:translateY(-1px); color:#fff; }
+        .mw-action-btn.secondary{ background:var(--mw-input-bg); color:var(--mw-text) !important; border:1px solid var(--mw-border); }
+        .mw-action-btn.secondary:hover{ border-color:var(--mw-accent); color:var(--mw-accent) !important; }
+        .mw-disclaimer{ font-size:.72rem; color:var(--mw-text-dim); margin-top:8px; font-style:italic; line-height:1.5; }
+        .mw-demo-inline{ font-size:.64rem; font-weight:800; letter-spacing:.4px; color:var(--mw-text-dim); }
+
+        .quick-row{ display:flex; gap:8px; overflow-x:auto; padding:4px 20px 14px; }
+        .quick-chip{ flex-shrink:0; display:flex; align-items:center; gap:6px; padding:9px 14px; border-radius:999px; font-size:.78rem; font-weight:600; background:var(--mw-input-bg); border:1px solid var(--mw-border); color:var(--mw-text); cursor:pointer; white-space:nowrap; transition:.18s; }
+        .quick-chip:hover{ border-color:var(--mw-accent); color:var(--mw-accent); background:var(--mw-accent-soft); transform:translateY(-1px); }
+
+        .suggest-wrap{ padding:6px 20px 16px; border-top:1px solid var(--mw-border); position:relative; }
+        .suggest-head{ display:flex; align-items:flex-start; justify-content:space-between; }
+        .suggest-head h4{ margin:0 0 2px; font-size:.95rem; color:var(--mw-text); text-transform:none; letter-spacing:0; }
+        .suggest-head span{ font-size:.76rem; color:var(--mw-text-muted); }
+        .suggest-close-btn{ background:transparent; border:none; color:var(--mw-text-muted); font-size:1.1rem; cursor:pointer; padding:0 4px; line-height:1; transition:.18s; }
+        .suggest-close-btn:hover{ color:var(--mw-accent); }
+        .suggest-cats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin-top:10px; }
+        .suggest-cat-title{ font-size:.68rem; font-weight:800; letter-spacing:.4px; color:var(--mw-text-dim); text-transform:uppercase; margin:2px 0 6px; }
+        .suggest-card{ display:flex; align-items:center; gap:10px; padding:10px 12px; margin-bottom:7px; border-radius:10px; background:var(--mw-card-2); border:1px solid var(--mw-border); cursor:pointer; font-size:.8rem; font-weight:600; color:var(--mw-text); transition:.18s; }
+        .suggest-card:hover{ border-color:var(--mw-accent); background:var(--mw-accent-soft); transform:translateY(-1px); }
+        .suggest-card:active{ transform:scale(.98); }
+
+        .followup-wrap{ padding:0 20px 14px; }
+        .followup-label{ font-size:.74rem; color:var(--mw-text-muted); font-weight:700; margin-bottom:8px; }
+        .followup-chips{ display:flex; gap:8px; flex-wrap:wrap; }
+        .followup-chip{ padding:8px 13px; border-radius:999px; font-size:.76rem; font-weight:600; background:var(--mw-card-2); border:1px dashed var(--mw-border); color:var(--mw-text-muted); cursor:pointer; transition:.18s; }
+        .followup-chip:hover{ border-color:var(--mw-accent); color:var(--mw-accent); border-style:solid; }
+
+        .med-chip-wrap{ display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+        .med-chip{ padding:6px 11px; border-radius:999px; font-size:.72rem; font-weight:600; background:var(--mw-input-bg); border:1px solid var(--mw-border); color:var(--mw-text); cursor:pointer; transition:.18s; }
+        .med-chip:hover{ border-color:var(--mw-accent); color:var(--mw-accent); }
+
+        .mw-input-row{ display:flex; align-items:flex-end; gap:10px; }
+        .mw-input-wrap{ flex:1; display:flex; align-items:flex-end; gap:8px; background:var(--mw-input-bg); border:1px solid var(--mw-border); border-radius:12px; padding:8px 10px 8px 14px; transition:.18s; }
+        .mw-input-wrap:focus-within{ border-color:var(--mw-accent); }
+        #chatInput{ flex:1; resize:none; border:none; outline:none; background:transparent; color:var(--mw-text); font-family:inherit; font-size:.88rem; max-height:110px; line-height:1.5; padding:6px 0; }
+        #chatInput::placeholder{ color:var(--mw-text-dim); }
+        .mw-send-btn{ width:44px;height:44px;border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:1.05rem; background:var(--mw-accent); color:#fff; border:none; cursor:pointer; transition:.18s; }
+        .mw-send-btn:disabled{ background:var(--mw-input-bg); color:var(--mw-text-dim); cursor:not-allowed; }
+        .mw-send-btn:not(:disabled):hover{ filter:brightness(1.1); transform:translateY(-1px); }
+        .mw-hint-box{ text-align:center; font-size:.72rem; color:var(--mw-text-dim); margin-top:10px; }
+        .mw-hint-box b{ color:var(--mw-accent); }
+
+        .mw-modal-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.55); display:none; align-items:center; justify-content:center; z-index:1080; }
+        .mw-modal-overlay.show{ display:flex; }
+        .mw-modal-box{ background:var(--mw-panel); border:1px solid var(--mw-border); border-radius:14px; padding:22px; max-width:320px; width:90%; text-align:center; }
+        .mw-modal-box p{ font-size:.9rem; margin:0 0 18px; color:var(--mw-text); }
+        .mw-modal-actions{ display:flex; gap:10px; justify-content:center; }
+        .mw-modal-actions button{ flex:1; padding:10px 14px; border-radius:999px; font-weight:700; font-size:.84rem; cursor:pointer; border:none; }
+        .mw-modal-cancel{ background:var(--mw-input-bg); color:var(--mw-text); border:1px solid var(--mw-border) !important; }
+        .mw-modal-confirm{ background:var(--mw-accent); color:#fff; }
+
+        .mw-toast{ position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--mw-panel); border:1px solid var(--mw-border); color:var(--mw-text); padding:11px 20px; border-radius:999px; font-size:.84rem; font-weight:600; opacity:0; pointer-events:none; transition:.25s; z-index:1090; }
+        .mw-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+        @media(max-width:992px){
+            .mw-layout{ flex-direction:column; }
+            .mw-side{ width:100%; flex-direction:row; overflow-x:auto; position:static; }
+            .mw-side .mw-card{ min-width:230px; flex-shrink:0; }
+            .suggest-cats{ grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <div id="spinner" class="show bg-page-spinner position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="sidebar pe-3 pb-3">
+            <nav class="navbar navbar-dark">
+                <div class="w-100">
+                    <a href="index.html" class="navbar-brand mx-4 mb-1 d-flex align-items-center">
+                        <img src="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=000000" alt="MEDWAY AI Logo" class="sidebar-brand-logo">
+                        <h3 class="text-primary mb-0">MEDWAY AI</h3>
+                    </a>
+                    <p class="text-muted small mx-4 mb-3" style="font-size: 0.75rem;">Healthcare, wherever you travel.</p>
+
+                    <div class="d-flex align-items-center ms-4 mb-4">
+                        <div class="position-relative">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 text-white">Jhon Doe</h6>
+                            <span class="text-muted">Admin</span>
+                        </div>
+                    </div>
+
+                    <div class="navbar-nav w-100">
+                        <div class="sidebar-section-title">MAIN</div>
+                        <a href="index.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=1iF9PyJ2Thzo&format=png&color=000000" alt="Home Icon" class="nav-icon-img"><span class="nav-label">Home</span>
+                        </a>
+                        <a href="explore.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=85961&format=png&color=000000" alt="Explore Icon" class="nav-icon-img"><span class="nav-label">Explore Healthcare</span>
+                        </a>
+                        <a href="assistant.html" class="nav-item nav-link active">
+                            <img src="https://img.icons8.com/?size=100&id=FSHNDH2JxIqv&format=png&color=000000" alt="AI Icon" class="nav-icon-img"><span class="nav-label">AI Assistant</span>
+                        </a>
+
+                        <div class="sidebar-section-title">TOOLS</div>
+                        <a href="prescription.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=112400&format=png&color=000000" alt="Prescription Icon" class="nav-icon-img"><span class="nav-label">Prescription Reader</span>
+                        </a>
+                        <a href="translator.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=OsD06LrQr6NQ&format=png&color=000000" alt="Translator Icon" class="nav-icon-img"><span class="nav-label">Live Translator</span>
+                        </a>
+                        <a href="pharmacy.html" class="nav-item nav-link">
+                            <img src="https://img.icons8.com/?size=100&id=M7wxHhzIYL1S&format=png&color=000000" alt="Pharmacy Icon" class="nav-icon-img"><span class="nav-label">Pharmacy Finder</span>
+                        </a>
+
+                        <div class="sidebar-section-title">EMERGENCY</div>
+                        <a href="emergency.html" class="nav-item nav-link fw-bold">
+                            <img src="https://img.icons8.com/?size=100&id=kRmlY0QWDXDB&format=png&color=000000" alt="Emergency Icon" class="nav-icon-img"><span class="nav-label">Emergency Help</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-bottom-section">
+                    <div class="sidebar-divider"></div>
+
+                    <div class="location-info-box">
+                        <span class="pulse-dot" id="location-dot"></span>
+                        <span id="current-location" class="location-text">Detecting Location...</span>
+                    </div>
+
+                    <a href="settings.html" class="nav-item nav-link">
+                        <img src="https://img.icons8.com/?size=100&id=2969&format=png&color=000000" alt="Settings Icon" class="nav-icon-img"><span class="nav-label">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <div class="content">
+            <nav class="navbar navbar-expand navbar-dark sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4">
+                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle light / dark theme" aria-pressed="false">
+                        <i class="fa fa-sun icon-sun"></i>
+                        <i class="fa fa-moon icon-moon"></i>
+                    </button>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notification</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Profile updated</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">New user added</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Password changed</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item text-center">See all notifications</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <a href="#" class="dropdown-item">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid pt-4 px-4 pb-4">
+                <div class="mw-layout">
+
+                    <!-- IN-PAGE AI SIDEBAR -->
+                    <div class="mw-side">
+                        <div class="mw-card">
+                            <div class="mw-profile-row">
+                                <div class="mw-ai-avatar">
+                                    <img src="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=000000" alt="MedWay AI Icon">
+                                </div>
+                                <div>
+                                    <h3>MedWay AI</h3>
+                                    <div class="mw-profile-role">Traveler Medical Assistant</div>
+                                </div>
+                            </div>
+                            <div class="mw-status"><span class="mw-status-dot"></span> Online</div>
+                            <p class="mw-desc">Ask me about hospitals, doctors, medicines, prescriptions and emergency assistance.</p>
+                            <span class="mw-mini-badge">AI DEMO</span>
+                        </div>
+
+                        <div class="mw-card">
+                            <h4><img src="https://img.icons8.com/?size=100&id=4aUvAATdDLe5&format=png&color=000000" alt="Icon" style="width: 16px; height: 16px; filter: brightness(0) invert(1); margin-right: 4px;"> MedWay AI — Capabilities</h4>
+                            <ul class="mw-cap-list">
+                                <li><span class="tick">✓</span> Hospital discovery</li>
+                                <li><span class="tick">✓</span> Doctor discovery</li>
+                                <li><span class="tick">✓</span> Medicine comparison</li>
+                                <li><span class="tick">✓</span> Prescription assistance</li>
+                                <li><span class="tick">✓</span> Voice translation</li>
+                                <li><span class="tick">✓</span> Emergency navigation</li>
+                                <li><span class="tick">✓</span> Healthcare maps</li>
+                            </ul>
+                        </div>
+
+                        <div class="mw-card">
+                            <h4>🕘 Recent Questions</h4>
+                            <ul class="mw-recent-list" id="recentList">
+                                <li class="mw-recent-empty">No recent questions yet.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- CHAT PANEL -->
+                    <div class="chat-box">
+                        <div class="chat-toolbar">
+                            <div class="chat-toolbar-left"><span class="dot"></span> MedWay AI is online</div>
+                            <button class="mw-clear-btn" id="clearChatBtn">🗑️ Clear Chat</button>
+                        </div>
+
+                        <div class="chat-messages" id="chatScroll">
+                            <div class="msg-row ai">
+                                <div class="chat-bubble-ai">
+                                    <div class="msg-meta">MEDWAY AI · Just now</div>
+                                    Hi! 👋 I'm MedWay AI.<br><br>
+                                    I can help you find healthcare options while traveling. You can ask me about nearby hospitals, doctors, medicines, prescriptions, translations and emergency assistance.<br><br>
+                                    <b>What can I help you with?</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- quick question chips (hidden until user types "hello") -->
+                        <div class="quick-row" id="quickRow" style="display:none;"></div>
+
+                        <!-- initial categorized suggestions (hidden until user types "hello") -->
+                        <div class="suggest-wrap" id="suggestWrap" style="display:none;">
+                            <div class="suggest-head">
+                                <div>
+                                    <h4>✨ Try asking MedWay AI</h4>
+                                    <span>Start with one of these questions</span>
+                                </div>
+                                <button class="suggest-close-btn" id="closeSuggestBtn" title="Close suggestions">✕</button>
+                            </div>
+                            <div class="suggest-cats" id="suggestCats"></div>
+                        </div>
+
+                        <!-- dynamic follow-up suggestions -->
+                        <div class="followup-wrap" id="followupWrap" style="display:none;">
+                            <div class="followup-label">💡 You can also ask:</div>
+                            <div class="followup-chips" id="followupChips"></div>
+                        </div>
+
+                        <div class="chat-input-container">
+                            <div class="mw-input-row">
+                                <div class="mw-input-wrap">
+                                    <textarea id="chatInput" rows="1" placeholder="Ask MedWay AI anything..."></textarea>
+                                </div>
+                                <button class="mw-send-btn" id="sendBtn" disabled>➤</button>
+                            </div>
+                            <div class="mw-hint-box" id="quickHint">💬 Type <b>"hello"</b> to open the quick question menu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- clear chat confirm modal -->
+            <div class="mw-modal-overlay" id="clearModal">
+                <div class="mw-modal-box">
+                    <p>Clear this conversation?</p>
+                    <div class="mw-modal-actions">
+                        <button class="mw-modal-cancel" id="cancelClear">Cancel</button>
+                        <button class="mw-modal-confirm" id="confirmClear">Clear</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mw-toast" id="mwToast"></div>
+            <footer class="site-footer">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="#">MEDWAY AI</a>, All Rights Reserved.
+                    </div>
+                    <div class="col-12 col-sm-6 text-center text-sm-end">
+                        Designed By <a href="https://myprojects-yash.vercel.app/">Yash</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // Show default current location; geolocation removed
+        const DEFAULT_LAT = 18.985178375836586;
+        const DEFAULT_LON = 73.10990836680176;
+        document.addEventListener('DOMContentLoaded', () => {
+            const locationElem = document.getElementById('current-location');
+            const dotElem = document.getElementById('location-dot');
+            if (locationElem) locationElem.innerText = 'Default Location';
+            if (dotElem) dotElem.style.backgroundColor = '#eb1616';
+        });
+    </script>
+
+    <script>
+    /* ============================================================
+       MEDWAY AI ASSISTANT — DEMO PROTOTYPE CHAT LOGIC
+       All data below is DEMO DATA. No real APIs, no real dispatch,
+       no real inventory, no real appointment booking.
+       Reuses DEFAULT_LAT / DEFAULT_LON already declared above.
+       Theme toggling stays owned by js/theme.js — this file only
+       reacts to the data-theme attribute via CSS.
+       ============================================================ */
+    (function(){
+
+    /* ---------------- DEMO DATA ---------------- */
+    const HOSPITALS = [
+      {name:"Panvel Hospital", lat:18.98297, lon:73.10829, rating:4.6, tag:"General + Emergency", link:"data/hospitals/PanvelHospital.html"},
+      {name:"Aadhar Multispeciality Hospital And ICU", lat:18.98085, lon:73.11197, rating:4.5, tag:"Multispeciality + ICU", link:"data/hospitals/AadharMultispecialityHospital.html"},
+      {name:"Max Life Hospital", lat:18.98535, lon:73.10718, rating:4.4, tag:"General", link:"data/hospitals/MaxLifeHospital.html"},
+      {name:"Lifeline Hospital", lat:18.98920, lon:73.10950, rating:4.7, tag:"Emergency", link:"data/hospitals/LifelineHospital.html"},
+      {name:"Gune Hospital", lat:18.98850, lon:73.10780, rating:4.3, tag:"General", link:"data/hospitals/GuneHospital.html"},
+      {name:"Mhatre Accident Hospital", lat:18.98750, lon:73.10650, rating:4.2, tag:"Trauma & Accident", link:"data/hospitals/MhatreAccidentHospital.html"},
+      {name:"Gandhi Hospital", lat:18.98650, lon:73.11450, rating:4.5, tag:"General", link:"data/hospitals/GandhiHospital.html"},
+      {name:"Purohit Hospital", lat:18.98600, lon:73.11380, rating:4.4, tag:"General", link:"data/hospitals/PurohitHospital.html"},
+      {name:"Panacea Hospital Panvel", lat:19.00350, lon:73.11800, rating:4.6, tag:"Multispeciality", link:"data/hospitals/PanaceaHospitalPanvel.html"},
+      {name:"Ashtvinayak Hospital Panvel", lat:19.00450, lon:73.10150, rating:4.3, tag:"General", link:"data/hospitals/AshtvinayakHospitalPanvel.html"}
+    ];
+
+    const DOCTORS = [
+      {name:"Dr. Ananya Sharma", specialty:"General Physician", rating:4.8, langs:["English","Hindi","Marathi"], hospital:"Panvel Hospital", link:"data/docter/AnanyaSharma.html", bookKey:"ananya"},
+      {name:"Dr. Rohan Mehta", specialty:"Internal Medicine", rating:4.7, langs:["English","Hindi"], hospital:"Lifeline Hospital", link:"data/docter/RohanMehta.html", bookKey:"rohan"}
+    ];
+
+    const MEDICINES = {
+      "paracetamol 500mg": [
+        {pharmacy:"CarePlus Pharmacy", price:25, distance:1.2, stock:"green", label:"In Stock"},
+        {pharmacy:"Apollo Chemist & Wellness", price:28, distance:2.1, stock:"green", label:"In Stock"},
+        {pharmacy:"Medico Pharmacy", price:24, distance:4.8, stock:"amber", label:"Limited Stock"}
+      ],
+      "paracetamol 650mg": [
+        {pharmacy:"CarePlus Pharmacy", price:32, distance:1.2, stock:"green", label:"In Stock"},
+        {pharmacy:"Medico Pharmacy", price:30, distance:4.8, stock:"green", label:"In Stock"},
+        {pharmacy:"Apollo Chemist & Wellness", price:35, distance:2.1, stock:"amber", label:"Limited Stock"}
+      ],
+      "ibuprofen 400mg": [
+        {pharmacy:"Apollo Chemist & Wellness", price:38, distance:2.1, stock:"green", label:"In Stock"},
+        {pharmacy:"CarePlus Pharmacy", price:42, distance:1.2, stock:"green", label:"In Stock"},
+        {pharmacy:"Medico Pharmacy", price:36, distance:4.8, stock:"amber", label:"Limited Stock"}
+      ],
+      "cetirizine 10mg": [
+        {pharmacy:"CarePlus Pharmacy", price:18, distance:1.2, stock:"green", label:"In Stock"},
+        {pharmacy:"Medico Pharmacy", price:16, distance:4.8, stock:"green", label:"In Stock"},
+        {pharmacy:"Apollo Chemist & Wellness", price:20, distance:2.1, stock:"green", label:"In Stock"}
+      ],
+      "pantoprazole 40mg": [
+        {pharmacy:"Apollo Chemist & Wellness", price:55, distance:2.1, stock:"green", label:"In Stock"},
+        {pharmacy:"CarePlus Pharmacy", price:60, distance:1.2, stock:"amber", label:"Limited Stock"},
+        {pharmacy:"Medico Pharmacy", price:52, distance:4.8, stock:"green", label:"In Stock"}
+      ],
+      "ors": [
+        {pharmacy:"CarePlus Pharmacy", price:20, distance:1.2, stock:"green", label:"In Stock"},
+        {pharmacy:"Apollo Chemist & Wellness", price:22, distance:2.1, stock:"green", label:"In Stock"},
+        {pharmacy:"Medico Pharmacy", price:18, distance:4.8, stock:"green", label:"In Stock"}
+      ],
+      "azithromycin 500mg": [
+        {pharmacy:"Apollo Chemist & Wellness", price:110, distance:2.1, stock:"amber", label:"Limited Stock"},
+        {pharmacy:"CarePlus Pharmacy", price:120, distance:1.2, stock:"green", label:"In Stock"},
+        {pharmacy:"Medico Pharmacy", price:105, distance:4.8, stock:"green", label:"In Stock"}
+      ],
+      "antacid": [
+        {pharmacy:"CarePlus Pharmacy", price:35, distance:1.2, stock:"green", label:"In Stock"},
+        {pharmacy:"Medico Pharmacy", price:32, distance:4.8, stock:"green", label:"In Stock"},
+        {pharmacy:"Apollo Chemist & Wellness", price:38, distance:2.1, stock:"green", label:"In Stock"}
+      ],
+      "cough syrup": [
+        {pharmacy:"Apollo Chemist & Wellness", price:65, distance:2.1, stock:"green", label:"In Stock"},
+        {pharmacy:"CarePlus Pharmacy", price:70, distance:1.2, stock:"green", label:"In Stock"},
+        {pharmacy:"Medico Pharmacy", price:62, distance:4.8, stock:"amber", label:"Limited Stock"}
+      ]
+    };
+    const MEDICINE_KEYS = Object.keys(MEDICINES);
+    const SUGGESTED_MEDICINES = ["Paracetamol 500mg","Paracetamol 650mg","Ibuprofen 400mg","Cetirizine 10mg","Pantoprazole 40mg","ORS","Azithromycin 500mg","Antacid","Cough Syrup"];
+
+    /* ---------------- INTENT KEYWORDS ---------------- */
+    const KEYWORDS = {
+      emergency: ["emergency","sos","ambulance","urgent","accident","help me now"],
+      prescription: ["prescription","read my prescription","prescription scan","medicine from prescription","read prescription"],
+      translation: ["translate","translation","language","doctor language","speak","communicat"],
+      appointment: ["appointment","book doctor","book a doctor","book ananya","book rohan","consultation booking","how can i book"],
+      map: ["map","location","directions","near me","nearby medical","healthcare map","where"],
+      price: ["price","cost","cheap","cheapest","compare"],
+      medicine: ["medicine","medicines","tablet","drug","pharmacy","medical store","medicine price","paracetamol","ibuprofen","cetirizine","pantoprazole","azithromycin","antacid","cough syrup","ors"],
+      doctor: ["doctor","doctors","physician","specialist","general physician","marathi"],
+      hospital: ["hospital","hospitals","clinic","clinics","medical center","nearby hospital","closest hospital"]
+    };
+    function containsAny(text, list){ return list.some(k => text.includes(k)); }
+    const GREETING_WORDS = ["hello","hii","hi","hey","hola","namaste"];
+    function isGreeting(t){ return GREETING_WORDS.some(w => new RegExp('\\b'+w+'\\b','i').test(t)); }
+    function findMedicineKeyLoose(t){
+      return MEDICINE_KEYS.find(key => t.includes(key)) ||
+             MEDICINE_KEYS.find(key => key.split(' ')[0] && t.includes(key.split(' ')[0]));
+    }
+    function detectIntent(t){
+      if (containsAny(t, KEYWORDS.emergency)) return "emergency";
+      if (containsAny(t, KEYWORDS.prescription)) return "prescription";
+      if (containsAny(t, KEYWORDS.translation)) return "translation";
+      if (containsAny(t, KEYWORDS.appointment)) return "appointment";
+      if (containsAny(t, KEYWORDS.map)) return "map";
+      if (containsAny(t, KEYWORDS.medicine) || (containsAny(t, KEYWORDS.price) && findMedicineKeyLoose(t))) return "medicine";
+      if (containsAny(t, KEYWORDS.price)) return "price_only";
+      if (containsAny(t, KEYWORDS.doctor)) return "doctor";
+      if (containsAny(t, KEYWORDS.hospital)) return "hospital";
+      return "unknown";
+    }
+
+    /* ---------------- DISTANCE HELPERS (uses page's DEFAULT_LAT/DEFAULT_LON) ---------------- */
+    function haversine(lat1,lon1,lat2,lon2){
+      const R=6371, dLat=(lat2-lat1)*Math.PI/180, dLon=(lon2-lon1)*Math.PI/180;
+      const a=Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+      return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    }
+    const hospitalsWithDist = HOSPITALS.map(h => Object.assign({}, h, { dist: haversine(DEFAULT_LAT, DEFAULT_LON, h.lat, h.lon) }));
+
+    /* ---------------- CONVERSATION STATE ---------------- */
+    let awaiting = null; // 'medicine' | 'doctorSpecialty' | null
+
+    /* ---------------- CHAT HISTORY (localStorage) ---------------- */
+    const HISTORY_KEY = 'medway-chat-history';
+    function getHistory(){ try{ return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }catch(e){ return []; } }
+    function pushHistory(question){
+      let h = getHistory();
+      h = h.filter(q => q.toLowerCase() !== question.toLowerCase());
+      h.unshift(question);
+      h = h.slice(0,5);
+      try{ localStorage.setItem(HISTORY_KEY, JSON.stringify(h)); }catch(e){}
+      renderRecent();
+    }
+    function renderRecent(){
+      const list = document.getElementById('recentList');
+      if (!list) return;
+      const h = getHistory();
+      if (!h.length){ list.innerHTML = '<li class="mw-recent-empty">No recent questions yet.</li>'; return; }
+      list.innerHTML = h.map(q => `<li data-resend="${escapeAttr(q)}">${escapeHtml(q)}</li>`).join('');
+    }
+
+    /* ---------------- DOM REFS ---------------- */
+    const chatScroll = document.getElementById('chatScroll');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const quickRow = document.getElementById('quickRow');
+    const suggestWrap = document.getElementById('suggestWrap');
+    const suggestCats = document.getElementById('suggestCats');
+    const closeSuggestBtn = document.getElementById('closeSuggestBtn');
+    const followupWrap = document.getElementById('followupWrap');
+    const followupChips = document.getElementById('followupChips');
+
+    if (!chatScroll || !chatInput || !sendBtn) return; // chat UI not present on this page load
+
+    /* ---------------- QUICK QUESTIONS ---------------- */
+    const QUICK_QUESTIONS = [
+      "🏥 Find nearby hospitals","👨‍⚕️ Find a doctor","💊 Find a medicine","📋 Read my prescription",
+      "🌐 Translate for me","🚨 Emergency help","📍 Find closest hospital","💰 Compare medicine prices",
+      "📅 Book a doctor","🗺️ Show healthcare map"
+    ];
+    quickRow.innerHTML = QUICK_QUESTIONS.map(q => `<div class="quick-chip" data-send="${escapeAttr(q)}">${escapeHtml(q)}</div>`).join('');
+
+    /* ---------------- SUGGESTED QUESTIONS (categorized) ---------------- */
+    const SUGGESTED_CATEGORIES = [
+      {title:"🏥 Hospitals", items:["Which hospital is closest to me?","Show hospitals within 10 km","Which hospital has the best rating?"]},
+      {title:"👨‍⚕️ Doctors", items:["Find a general physician","Which doctors speak Marathi?","How can I book a doctor?"]},
+      {title:"💊 Medicines", items:["Where can I find Paracetamol?","Which pharmacy has the cheapest Paracetamol?","Is Ibuprofen available nearby?"]},
+      {title:"📋 Healthcare Tools", items:["Can you read my prescription?","Translate this for a doctor","Find nearby medical stores"]},
+      {title:"🚨 Emergency", items:["What should I do in an emergency?","Open emergency assistance"]}
+    ];
+    suggestCats.innerHTML = SUGGESTED_CATEGORIES.map(cat => `
+      <div class="suggest-col">
+        <div class="suggest-cat-title">${cat.title}</div>
+        ${cat.items.map(q => `<div class="suggest-card" data-send="${escapeAttr(q)}">${escapeHtml(q)}</div>`).join('')}
+      </div>
+    `).join('');
+
+    if (closeSuggestBtn && suggestWrap) {
+        closeSuggestBtn.addEventListener('click', () => {
+            suggestWrap.style.display = 'none';
+        });
+    }
+
+    /* ---------------- FOLLOW-UP SUGGESTIONS BY INTENT ---------------- */
+    const FOLLOWUPS = {
+      hospital: ["Which hospital is closest?","Show hospitals within 10 km","Which hospital has emergency care?"],
+      doctor: ["Find a general physician","Which doctors speak Marathi?","Book an appointment"],
+      medicine: ["Which pharmacy has the lowest price?","Show me nearby pharmacies","Search another medicine"],
+      prescription: ["Find a medicine","Find nearby pharmacies","Talk to a doctor"],
+      translation: ["Translate for a doctor","Find a doctor","Emergency help"],
+      emergency: ["Find nearby hospitals","Find closest hospital","Show healthcare map"],
+      map: ["Find nearby hospitals","Find a medicine","Find a doctor"],
+      appointment: ["Find a general physician","Which doctors speak Marathi?","Show nearby hospitals"],
+      unknown: ["Find nearby hospitals","Find a doctor","Find a medicine"]
+    };
+    function showFollowups(intentKey){
+      const list = FOLLOWUPS[intentKey] || FOLLOWUPS.unknown;
+      followupChips.innerHTML = list.map(q => `<div class="followup-chip" data-send="${escapeAttr(q)}">${escapeHtml(q)}</div>`).join('');
+      followupWrap.style.display = 'block';
+    }
+
+    /* ---------------- UTIL ---------------- */
+    function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function escapeAttr(s){ return escapeHtml(s).replace(/`/g,'&#96;'); }
+    function scrollToBottom(){ chatScroll.scrollTop = chatScroll.scrollHeight; }
+    function showToast(msg){
+      const toast = document.getElementById('mwToast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), 2200);
+    }
+
+    /* ---------------- MESSAGE RENDERING ---------------- */
+    function addUserMessage(text){
+      const row = document.createElement('div');
+      row.className = 'msg-row user';
+      row.innerHTML = `<div class="chat-bubble-user"><div class="msg-meta">YOU · Just now</div>${escapeHtml(text)}</div>`;
+      chatScroll.appendChild(row);
+      scrollToBottom();
+    }
+    function addAIMessage(html){
+      const row = document.createElement('div');
+      row.className = 'msg-row ai';
+      row.innerHTML = `<div class="chat-bubble-ai"><div class="msg-meta">MEDWAY AI · Just now</div>${html}</div>`;
+      chatScroll.appendChild(row);
+      scrollToBottom();
+    }
+    let typingEl = null;
+    function showTyping(){
+      typingEl = document.createElement('div');
+      typingEl.className = 'typing-row';
+      typingEl.innerHTML = `<div class="typing-bubble">MedWay AI is thinking <span class="typing-dots"><span></span><span></span><span></span></span></div>`;
+      chatScroll.appendChild(typingEl);
+      scrollToBottom();
+    }
+    function hideTyping(){ if (typingEl){ typingEl.remove(); typingEl = null; } }
+
+    /* ---------------- RESPONSE BUILDERS ---------------- */
+    function mapButton(){ return `<div><a href="explore.html" class="mw-action-btn">🗺️ Open Map</a></div>`; }
+
+    function respondHospital(t){
+      const sorted = hospitalsWithDist.slice().sort((a,b)=>a.dist-b.dist);
+      if (t.includes('best rating') || t.includes('rating')){
+        const top = hospitalsWithDist.slice().sort((a,b)=>b.rating-a.rating).slice(0,3);
+        let html = `⭐ Here are the top-rated demo hospitals nearby:`;
+        top.forEach(h => { 
+          html += `<div class="result-card">
+            <div class="result-title">${h.name}</div>
+            <div class="result-line">⭐ ${h.rating} · ${h.tag}</div>
+            <div class="result-line">📍 ${h.dist.toFixed(1)} km away</div>
+            <a href="${h.link}" class="mw-action-btn secondary">View Hospital Page</a>
+          </div>`; 
+        });
+        return html + mapButton();
+      }
+      if (t.includes('within 10') || t.includes('10 km')){
+        const within = sorted.filter(h => h.dist <= 10);
+        let html = `📍 Found <b>${within.length}</b> demo hospitals within 10 km:`;
+        within.forEach(h => { 
+          html += `<div class="result-card">
+            <div class="result-title">${h.name}</div>
+            <div class="result-line">⭐ ${h.rating} · ${h.tag}</div>
+            <div class="result-line">📍 ${h.dist.toFixed(1)} km away</div>
+            <a href="${h.link}" class="mw-action-btn secondary">View Hospital Page</a>
+          </div>`; 
+        });
+        return html + mapButton();
+      }
+      if (t.includes('closest') || t.includes('nearest') || t.includes('near me')){
+        const h = sorted[0];
+        let html = `🏥 The closest available demo option is:
+          <div class="result-card">
+            <div class="result-title">${h.name}</div>
+            <div class="result-line">📍 ${h.dist.toFixed(1)} km away</div>
+            <div class="badge-row"><span class="mw-tag">⭐ ${h.rating}</span><span class="mw-tag">🚨 ${h.tag}</span></div>
+            <a href="${h.link}" class="mw-action-btn secondary" style="margin-top:10px;">View Hospital Page</a>
+          </div>
+          Would you like to explore hospitals on the map?`;
+        return html + mapButton();
+      }
+      const h = sorted[0];
+      let html = `🏥 I found several hospitals in the current demo database.<br><br>The closest available demo option is:
+        <div class="result-card">
+          <div class="result-title">${h.name}</div>
+          <div class="result-line">📍 Panvel · ${h.dist.toFixed(1)} km away</div>
+          <div class="badge-row"><span class="mw-tag">⭐ ${h.rating}</span><span class="mw-tag">🚨 ${h.tag}</span></div>
+          <a href="${h.link}" class="mw-action-btn secondary" style="margin-top:10px;">View Hospital Page</a>
+        </div>
+        Would you like to explore hospitals on the map?`;
+      return html + mapButton();
+    }
+
+    function doctorCards(list, intro){
+      let html = `${intro} <span class="mw-demo-inline">(DEMO DOCTOR DATA)</span>`;
+      list.forEach(d => { 
+        html += `<div class="result-card">
+          <div class="result-title">${d.name}</div>
+          <div class="result-line">${d.specialty} · ⭐ ${d.rating}</div>
+          <div class="result-line">Languages: ${d.langs.join(', ')}</div>
+          <div class="result-line">🏥 ${d.hospital}</div>
+          <a href="${d.link}" class="mw-action-btn secondary">View Doctor Page</a>
+        </div>`; 
+      });
+      return html;
+    }
+    function respondDoctor(t){
+      if (t.includes('marathi')){
+        return doctorCards(DOCTORS.filter(d => d.langs.includes('Marathi')), `Here are demo doctors who speak Marathi:`);
+      }
+      if (t.includes('general') || t.includes('physician')){
+        const matches = DOCTORS.filter(d => /general/i.test(d.specialty));
+        return doctorCards(matches.length ? matches : DOCTORS, `Here's a matching demo general physician:`);
+      }
+      return doctorCards(DOCTORS, `👨‍⚕️ Here are available demo doctors:`);
+    }
+
+    function toTitleCase(s){ return s.replace(/\w\S*/g, w => w.charAt(0).toUpperCase()+w.slice(1)); }
+    function medicineChipsHtml(){
+      return `<div class="med-chip-wrap">${SUGGESTED_MEDICINES.map(m=>`<span class="med-chip" data-send="${escapeAttr(m)}">${escapeHtml(m)}</span>`).join('')}</div>`;
+    }
+    function respondMedicineSearch(medKey){
+      const rows = MEDICINES[medKey];
+      const lowest = Math.min.apply(null, rows.map(r=>r.price));
+      const sorted = rows.slice().sort((a,b)=>a.price-b.price);
+      const label = toTitleCase(medKey);
+      let html = `💊 <b>${label}</b><br>I found ${rows.length} demo pharmacies carrying this medicine.`;
+      sorted.forEach(r => {
+        const isLowest = r.price === lowest;
+        html += `<div class="result-card">
+          <div class="result-title">🏪 ${r.pharmacy} ${isLowest ? '<span class="mw-tag best">🏆 Best Price</span>' : ''}</div>
+          <div class="badge-row">
+            <span class="mw-tag">₹${r.price}</span>
+            <span class="mw-tag ${r.stock==='green'?'green':'amber'}">${r.stock==='green'?'🟢':'🟡'} ${r.label}</span>
+            <span class="mw-tag">📍 ${r.distance} km</span>
+          </div>
+        </div>`;
+      });
+      html += `<div class="mw-disclaimer">🏆 Lowest Demo Price: ₹${lowest}</div>`;
+      html += `<div><a href="pharmacy.html" class="mw-action-btn">💊 Find Medicine</a></div>`;
+      html += medicineChipsHtml();
+      return html;
+    }
+
+    function respondPrescription(){
+      return `📋 I can help you use the MedWay AI prescription reader.<br><br>
+        Upload or scan a prescription to identify medicine names from the demo prescription reader.
+        <div><a href="prescription.html" class="mw-action-btn">📷 Open Prescription Reader</a></div>
+        <div class="mw-disclaimer">MedWay AI does not medically interpret prescriptions — it only identifies medicine names in this demo.</div>`;
+    }
+    function respondTranslation(){
+      const langs = ["English","Hindi","Marathi","Spanish","French","German","Arabic","Japanese"];
+      return `🌐 MedWay AI can help with traveler-to-doctor communication.<br><br>
+        Choose the languages you want to translate between:
+        <div class="badge-row" style="margin-top:8px;">${langs.map(l=>`<span class="mw-tag">${l}</span>`).join('')}</div>
+        <div><a href="translator.html" class="mw-action-btn">🎤 Start Voice Translator</a></div>
+        <div class="mw-disclaimer">This is a DEMO translation flow — full real-time translation is available in the Live Translator tool.</div>`;
+    }
+    function respondEmergency(){
+      return `<div style="color:var(--mw-accent);font-weight:800;font-size:1rem;">🚨 EMERGENCY</div>
+        If this is a real emergency, contact your local emergency services immediately.
+        <div><a href="emergency.html" class="mw-action-btn">🚨 Open SOS</a></div>
+        <div class="mw-disclaimer">MedWay AI's SOS screen is a DEMO interface and does not actually dispatch an ambulance, police vehicle, or hospital response.</div>`;
+    }
+    function respondMap(){
+      const nearest = hospitalsWithDist.slice().sort((a,b)=>a.dist-b.dist).slice(0,3);
+      let html = `📍 I can help you explore nearby healthcare facilities.
+        <div><a href="explore.html" class="mw-action-btn">🗺️ Open Healthcare Map</a></div>
+        <div class="result-card"><div class="result-title">Nearest demo hospitals</div>`;
+      nearest.forEach(h => { html += `<div class="result-line">• ${h.name} — ${h.dist.toFixed(1)} km</div>`; });
+      return html + `</div>`;
+    }
+    function respondAppointment(){
+      let html = `📅 You can book a DEMO consultation with one of the available doctors.`;
+      DOCTORS.forEach(d => { html += `<div class="result-card">
+          <div class="result-title">${d.name}</div>
+          <div class="result-line">${d.specialty}</div>
+          <button class="mw-action-btn" data-book="${d.bookKey}">Book ${d.name.split(' ')[1]}</button>
+          <a href="${d.link}" class="mw-action-btn secondary">View Page</a>
+        </div>`; });
+      return html;
+    }
+    function respondUnknown(){
+      return `I'm currently focused on traveler healthcare assistance. I can help you with:<br><br>
+        🏥 Hospitals · 👨‍⚕️ Doctors · 💊 Medicines · 📋 Prescriptions<br>
+        🌐 Translation · 🚨 Emergency assistance · 📍 Maps · 📅 Appointments<br><br>
+        Try asking me one of these.`;
+    }
+    function respondSafetyBoundary(){
+      return `MedWay AI is a healthcare discovery prototype and cannot provide a medical diagnosis. Please consult a qualified healthcare professional.`;
+    }
+    const DIAGNOSIS_HINTS = ["diagnose","what disease","dosage","how much should i take","is it safe to take","prescribe me","what's wrong with me"];
+
+    function respondGreeting(){
+      return `Hi there! 👋 Here's the quick question menu — tap anything below to get started.`;
+    }
+    function showQuickMenu(){
+      quickRow.style.display = 'flex';
+      suggestWrap.style.display = 'block';
+      const hint = document.getElementById('quickHint');
+      if (hint) hint.style.display = 'none';
+    }
+    function hideQuickMenu(){
+      quickRow.style.display = 'none';
+      suggestWrap.style.display = 'none';
+    }
+
+    /* ---------------- MAIN HANDLER ---------------- */
+    function handleUserMessage(rawText){
+      const text = rawText.trim();
+      if (!text) return;
+
+      pushHistory(text);
+      addUserMessage(text);
+      chatInput.value = '';
+      autoResize();
+      updateSendState();
+      hideQuickMenu();
+
+      const lower = text.toLowerCase();
+      showTyping();
+      const delay = 600 + Math.random()*400;
+      setTimeout(() => {
+        hideTyping();
+        let intentKey = 'unknown';
+        let html;
+
+        if (isGreeting(lower)){
+          html = respondGreeting();
+          intentKey = 'greeting';
+        } else if (containsAny(lower, DIAGNOSIS_HINTS)){
+          html = respondSafetyBoundary();
+        } else if (awaiting === 'medicine'){
+          const key = findMedicineKeyLoose(lower);
+          if (key){ html = respondMedicineSearch(key); intentKey = 'medicine'; }
+          else { html = `I couldn't find that in the demo medicine database. Try one of these:` + medicineChipsHtml(); intentKey = 'medicine'; }
+          awaiting = null;
+        } else if (awaiting === 'doctorSpecialty'){
+          html = respondDoctor(lower);
+          intentKey = 'doctor';
+          awaiting = null;
+        } else {
+          intentKey = detectIntent(lower);
+          switch(intentKey){
+            case 'emergency': html = respondEmergency(); break;
+            case 'prescription': html = respondPrescription(); break;
+            case 'translation': html = respondTranslation(); break;
+            case 'appointment': html = respondAppointment(); break;
+            case 'map': html = respondMap(); break;
+            case 'medicine': {
+              const key = findMedicineKeyLoose(lower);
+              if (key){ html = respondMedicineSearch(key); }
+              else { html = `Sure! 💊 What medicine are you looking for?` + medicineChipsHtml(); awaiting = 'medicine'; }
+              break;
+            }
+            case 'price_only':
+              html = `Sure! 💊 What medicine would you like a price comparison for?` + medicineChipsHtml();
+              awaiting = 'medicine'; intentKey = 'medicine';
+              break;
+            case 'doctor':
+              if (lower.includes('find a doctor')){ html = `What specialty are you looking for?`; awaiting = 'doctorSpecialty'; }
+              else { html = respondDoctor(lower); }
+              break;
+            case 'hospital': html = respondHospital(lower); break;
+            default: html = respondUnknown();
+          }
+        }
+
+        addAIMessage(html);
+        showFollowups(intentKey);
+        if (intentKey === 'unknown'){ suggestWrap.style.display = 'block'; }
+      }, delay);
+    }
+
+    /* ---------------- INPUT HANDLING ---------------- */
+    function autoResize(){ chatInput.style.height = 'auto'; chatInput.style.height = Math.min(chatInput.scrollHeight, 110) + 'px'; }
+    function updateSendState(){ sendBtn.disabled = chatInput.value.trim().length === 0; }
+    chatInput.addEventListener('input', () => { autoResize(); updateSendState(); });
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey){
+        e.preventDefault();
+        if (chatInput.value.trim().length){ handleUserMessage(chatInput.value); }
+      }
+    });
+    sendBtn.addEventListener('click', () => { if (chatInput.value.trim().length){ handleUserMessage(chatInput.value); } });
+
+    /* ---------------- DELEGATED CLICKS ---------------- */
+    document.addEventListener('click', (e) => {
+      const sendTarget = e.target.closest('[data-send]');
+      if (sendTarget){ handleUserMessage(sendTarget.getAttribute('data-send')); return; }
+      const resendTarget = e.target.closest('[data-resend]');
+      if (resendTarget){ handleUserMessage(resendTarget.getAttribute('data-resend')); return; }
+      const bookTarget = e.target.closest('[data-book]');
+      if (bookTarget){
+        const key = bookTarget.getAttribute('data-book');
+        const doc = DOCTORS.find(d => d.bookKey === key);
+        showToast(`📅 Demo booking requested with ${doc ? doc.name : 'doctor'} — no real appointment created.`);
+      }
+    });
+
+    /* ---------------- CLEAR CHAT ---------------- */
+    const clearModal = document.getElementById('clearModal');
+    const clearChatBtn = document.getElementById('clearChatBtn');
+    if (clearChatBtn) clearChatBtn.addEventListener('click', () => clearModal.classList.add('show'));
+    const cancelClear = document.getElementById('cancelClear');
+    if (cancelClear) cancelClear.addEventListener('click', () => clearModal.classList.remove('show'));
+    const confirmClear = document.getElementById('confirmClear');
+    if (confirmClear) confirmClear.addEventListener('click', () => {
+      chatScroll.innerHTML = '';
+      addAIMessage(`Hi! 👋 I'm MedWay AI.<br><br>I can help you find healthcare options while traveling. You can ask me about nearby hospitals, doctors, medicines, prescriptions, translations and emergency assistance.<br><br><b>What can I help you with?</b>`);
+      suggestWrap.style.display = 'block';
+      followupWrap.style.display = 'none';
+      awaiting = null;
+      clearModal.classList.remove('show');
+    });
+    if (clearModal) clearModal.addEventListener('click', (e) => { if (e.target === clearModal) clearModal.classList.remove('show'); });
+
+    /* ---------------- INIT ---------------- */
+    renderRecent();
+    updateSendState();
+
+    })();
+    </script>
+</body>
+
+</html>
