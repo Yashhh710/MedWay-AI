@@ -56,7 +56,7 @@ MedWay AI brings these experiences together in **one simple platform**.
 ## 🖼️ Project Preview
 
 <p align="center">
-  <img src="img/medway-preview.png" width="900" alt="MedWay AI Dashboard Preview">
+  <img width="1470" height="956" alt="Image" src="https://github.com/user-attachments/assets/2410d3a7-58da-4104-9fdb-c91a86429833" />
 </p>
 
 ---
@@ -478,10 +478,8 @@ Depending on the implementation, MedWay AI can integrate with:
 The map system is designed to support:
 
 ```text
-📍 User Location
-
-      ↓
-
+     📍 User Location
+             ↓
 ┌───────────────────────────┐
 │        MAP                │
 │                           │
@@ -489,13 +487,11 @@ The map system is designed to support:
 │ 🩺 Doctor                 │
 │ 🏥 Clinic                 │
 │ 💊 Pharmacy               │
-│ 🚑 Emergency              │
+│ 🚑 Emergency              |
 │                           │
 └───────────────────────────┘
-
-      ↓
-
-Distance + Directions
+            ↓
+    Distance + Directions
 ```
 
 For the hackathon prototype, healthcare locations can be powered by predefined/demo coordinates.
