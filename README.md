@@ -41,9 +41,9 @@ MedWay AI brings these experiences together in **one simple platform**.
 
 ### 🔗 Try MedWay AI
 
-**[Open MedWay AI →](med-way-ai.vercel.app)**
+**[Open MedWay AI →](https://med-way-ai.vercel.app/)**
 <br/>
-**[Open video preview →](https://med-way-ai.vercel.app/Documents/video.html)**
+**[Open video preview →](https://med-way-ai.vercel.app/Documents/video.html/)**
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f2ab2889-0dae-4ca6-9219-8330109cca82" width="620" alt="MedWay AI Live Demo QR Code">
 </p>
